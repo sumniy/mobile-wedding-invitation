@@ -5,6 +5,7 @@ const contacts = {
 
 const contactDialog = document.querySelector("#contactDialog");
 const accountDialog = document.querySelector("#accountDialog");
+const photoDialog = document.querySelector("#photoDialog");
 const contactTitle = document.querySelector("#contactTitle");
 const callLink = document.querySelector("#callLink");
 const smsLink = document.querySelector("#smsLink");
@@ -18,6 +19,12 @@ document.querySelectorAll("[data-call]").forEach((button) => {
     callLink.href = `tel:${contact.phone}`;
     smsLink.href = `sms:${contact.phone}`;
     contactDialog.showModal();
+  });
+});
+
+document.querySelectorAll("[data-scroll]").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelector(button.dataset.scroll).scrollIntoView({ behavior: "smooth" });
   });
 });
 
@@ -39,6 +46,10 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   });
 });
 
+document.querySelectorAll("[data-photo]").forEach((button) => {
+  button.addEventListener("click", () => photoDialog.showModal());
+});
+
 document.querySelector("#rsvpForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
@@ -47,10 +58,16 @@ document.querySelector("#rsvpForm").addEventListener("submit", (event) => {
   event.currentTarget.reset();
 });
 
+const defaultMessages = [
+  { writer: "지현", message: "두 분의 시작을 진심으로 축하해요. 오래오래 행복하세요." },
+  { writer: "민석", message: "아름다운 날에 함께 축하할 수 있어 기쁩니다." },
+];
+
 const renderMessages = () => {
   const saved = JSON.parse(localStorage.getItem("wedding-messages") || "[]");
+  const list = saved.length ? saved : defaultMessages;
   messages.innerHTML = "";
-  saved.slice(-3).reverse().forEach((item) => {
+  list.slice(-3).reverse().forEach((item) => {
     const li = document.createElement("li");
     const strong = document.createElement("strong");
     const p = document.createElement("p");

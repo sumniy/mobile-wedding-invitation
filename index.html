@@ -3,26 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f3ee" />
+    <meta name="theme-color" content="#f5f1ea" />
     <meta property="og:title" content="민준 그리고 서연의 결혼식" />
     <meta property="og:description" content="2026년 10월 17일 토요일 오후 1시, 라움 아트센터" />
     <meta property="og:image" content="assets/wedding-hero.png" />
     <title>민준 그리고 서연의 모바일 청첩장</title>
+    <link rel="icon" href="assets/wedding-hero.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Serif+KR:wght@300;400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="phone-shell">
       <section class="hero" aria-label="초대 표지">
         <img src="assets/wedding-hero.png" alt="손을 잡고 걷는 신랑 신부" />
+        <div class="hero-top">
+          <span>10.17</span>
+          <span>Saturday</span>
+        </div>
         <div class="hero-overlay">
           <p class="eyebrow">Wedding Invitation</p>
-          <h1>민준 &amp; 서연</h1>
-          <p class="date">2026. 10. 17. SAT 1:00 PM</p>
+          <h1>민준 <span>&amp;</span> 서연</h1>
+          <p class="date">2026년 10월 17일 토요일 오후 1시</p>
           <p class="venue">라움 아트센터 3F 그레이스홀</p>
         </div>
+        <a class="scroll-cue" href="#invitation" aria-label="청첩장 내용 보기">아래로</a>
       </section>
 
-      <section class="intro section">
+      <nav class="sticky-actions" aria-label="빠른 메뉴">
+        <button type="button" data-call="groom">전화</button>
+        <button type="button" data-scroll="#location">지도</button>
+        <button type="button" data-scroll="#rsvp">RSVP</button>
+      </nav>
+
+      <section id="invitation" class="intro section">
         <p class="section-kicker">Invite You</p>
         <h2>서로의 계절이 되어<br />하나의 길을 걷습니다.</h2>
         <p>
@@ -31,25 +46,27 @@
         </p>
       </section>
 
-      <section class="parents section compact">
-        <div>
+      <section class="couple-card section compact" aria-label="신랑 신부 소개">
+        <div class="name-block">
           <span>김영호 · 박은정의 장남</span>
           <strong>김민준</strong>
+          <button type="button" data-call="groom">신랑에게 연락</button>
         </div>
-        <div>
+        <i aria-hidden="true"></i>
+        <div class="name-block">
           <span>이성재 · 최윤희의 장녀</span>
           <strong>이서연</strong>
+          <button type="button" data-call="bride">신부에게 연락</button>
         </div>
-      </section>
-
-      <section class="quick-actions" aria-label="빠른 연락">
-        <button type="button" data-call="groom">신랑에게 연락</button>
-        <button type="button" data-call="bride">신부에게 연락</button>
       </section>
 
       <section class="calendar section">
         <p class="section-kicker">Wedding Day</p>
-        <h2>2026년 10월</h2>
+        <h2>2026년 10월 17일</h2>
+        <div class="day-summary">
+          <strong>토요일 오후 1시</strong>
+          <span>예식 30분 전부터 입장이 가능합니다.</span>
+        </div>
         <div class="calendar-card" aria-label="결혼식 달력">
           <div class="weekdays">
             <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
@@ -62,27 +79,34 @@
             <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
           </div>
         </div>
-        <p class="time-note">토요일 오후 1시, 예식 30분 전부터 입장이 가능합니다.</p>
       </section>
 
       <section class="gallery section">
         <p class="section-kicker">Gallery</p>
         <h2>우리의 순간</h2>
         <div class="photo-grid" aria-label="사진 갤러리">
-          <button type="button" style="--tone: #d8cec4">01</button>
-          <button type="button" style="--tone: #b8afa4">02</button>
-          <button type="button" style="--tone: #eadfd3">03</button>
-          <button type="button" style="--tone: #c7b8a8">04</button>
+          <button type="button" class="photo-card large" data-photo="1">
+            <img src="assets/wedding-hero.png" alt="웨딩 갤러리 첫 번째 사진" />
+            <span>Preview</span>
+          </button>
+          <button type="button" class="photo-card" data-photo="2">
+            <img src="assets/wedding-hero.png" alt="웨딩 갤러리 두 번째 사진" />
+          </button>
+          <button type="button" class="photo-card" data-photo="3">
+            <img src="assets/wedding-hero.png" alt="웨딩 갤러리 세 번째 사진" />
+          </button>
         </div>
       </section>
 
-      <section class="location section">
+      <section id="location" class="location section">
         <p class="section-kicker">Location</p>
         <h2>라움 아트센터</h2>
         <p class="address">서울 강남구 언주로 564, 3층 그레이스홀</p>
         <div class="map-preview" role="img" aria-label="예식장 위치 지도 미리보기">
+          <div class="road road-a"></div>
+          <div class="road road-b"></div>
+          <div class="road road-c"></div>
           <span>RAUM</span>
-          <i></i>
         </div>
         <div class="button-row">
           <a href="https://map.naver.com/p/search/%EB%9D%BC%EC%9B%80%20%EC%95%84%ED%8A%B8%EC%84%BC%ED%84%B0" target="_blank" rel="noreferrer">네이버 지도</a>
@@ -103,30 +127,34 @@
       <section class="section account">
         <p class="section-kicker">For Your Heart</p>
         <h2>마음 전하실 곳</h2>
+        <p>축하의 마음을 조심히 전하고 싶으신 분들을 위해 계좌를 안내드립니다.</p>
         <button type="button" class="wide-button" data-open="account">계좌번호 보기</button>
       </section>
 
-      <section class="section rsvp">
+      <section id="rsvp" class="section rsvp">
         <p class="section-kicker">RSVP</p>
         <h2>참석 의사를 알려주세요</h2>
         <form id="rsvpForm">
           <label>
             <span>성함</span>
-            <input name="name" autocomplete="name" required />
+            <input name="name" autocomplete="name" placeholder="이름을 입력해 주세요" required />
           </label>
+          <fieldset>
+            <legend>참석 여부</legend>
+            <label class="choice">
+              <input type="radio" name="attendance" value="참석합니다" required />
+              <span>참석합니다</span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="attendance" value="아쉽지만 참석이 어렵습니다" />
+              <span>참석이 어렵습니다</span>
+            </label>
+          </fieldset>
           <label>
-            <span>참석 여부</span>
-            <select name="attendance" required>
-              <option value="">선택해 주세요</option>
-              <option>참석합니다</option>
-              <option>아쉽지만 참석이 어렵습니다</option>
-            </select>
-          </label>
-          <label>
-            <span>인원</span>
+            <span>참석 인원</span>
             <input name="count" type="number" min="1" max="10" value="1" required />
           </label>
-          <button type="submit" class="wide-button">전송하기</button>
+          <button type="submit" class="wide-button dark">응답 저장하기</button>
         </form>
         <p id="rsvpResult" class="result" aria-live="polite"></p>
       </section>
@@ -137,18 +165,19 @@
         <form id="messageForm">
           <label>
             <span>이름</span>
-            <input name="writer" required />
+            <input name="writer" placeholder="보내는 분" required />
           </label>
           <label>
             <span>메시지</span>
-            <textarea name="message" rows="3" required></textarea>
+            <textarea name="message" rows="3" placeholder="따뜻한 한마디를 남겨주세요" required></textarea>
           </label>
-          <button type="submit" class="wide-button">남기기</button>
+          <button type="submit" class="wide-button">메시지 남기기</button>
         </form>
         <ul id="messages" class="messages"></ul>
       </section>
 
       <section class="share section">
+        <p class="section-kicker">Share</p>
         <button type="button" class="wide-button dark" id="shareButton">청첩장 공유하기</button>
         <p>민준 그리고 서연 드림</p>
       </section>
@@ -170,10 +199,23 @@
         <button class="close" type="button" data-close aria-label="닫기">×</button>
         <h3>마음 전하실 곳</h3>
         <div class="account-list">
-          <button type="button" data-copy="국민 123456-78-901234 김민준">국민 123456-78-901234 김민준</button>
-          <button type="button" data-copy="신한 110-123-456789 이서연">신한 110-123-456789 이서연</button>
+          <button type="button" data-copy="국민 123456-78-901234 김민준">
+            <span>신랑측</span>
+            국민 123456-78-901234 김민준
+          </button>
+          <button type="button" data-copy="신한 110-123-456789 이서연">
+            <span>신부측</span>
+            신한 110-123-456789 이서연
+          </button>
         </div>
         <p class="result" id="copyResult"></p>
+      </div>
+    </dialog>
+
+    <dialog id="photoDialog">
+      <div class="modal photo-modal">
+        <button class="close" type="button" data-close aria-label="닫기">×</button>
+        <img src="assets/wedding-hero.png" alt="확대된 웨딩 사진" />
       </div>
     </dialog>
 
