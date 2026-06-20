@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f3ee" />
+    <meta property="og:title" content="민준 그리고 서연의 결혼식" />
+    <meta property="og:description" content="2026년 10월 17일 토요일 오후 1시, 라움 아트센터" />
+    <meta property="og:image" content="assets/wedding-hero.png" />
+    <title>민준 그리고 서연의 모바일 청첩장</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="phone-shell">
+      <section class="hero" aria-label="초대 표지">
+        <img src="assets/wedding-hero.png" alt="손을 잡고 걷는 신랑 신부" />
+        <div class="hero-overlay">
+          <p class="eyebrow">Wedding Invitation</p>
+          <h1>민준 &amp; 서연</h1>
+          <p class="date">2026. 10. 17. SAT 1:00 PM</p>
+          <p class="venue">라움 아트센터 3F 그레이스홀</p>
+        </div>
+      </section>
+
+      <section class="intro section">
+        <p class="section-kicker">Invite You</p>
+        <h2>서로의 계절이 되어<br />하나의 길을 걷습니다.</h2>
+        <p>
+          오래도록 같은 방향을 바라보며 함께 걸어가려 합니다.
+          귀한 걸음으로 저희의 시작을 축복해 주세요.
+        </p>
+      </section>
+
+      <section class="parents section compact">
+        <div>
+          <span>김영호 · 박은정의 장남</span>
+          <strong>김민준</strong>
+        </div>
+        <div>
+          <span>이성재 · 최윤희의 장녀</span>
+          <strong>이서연</strong>
+        </div>
+      </section>
+
+      <section class="quick-actions" aria-label="빠른 연락">
+        <button type="button" data-call="groom">신랑에게 연락</button>
+        <button type="button" data-call="bride">신부에게 연락</button>
+      </section>
+
+      <section class="calendar section">
+        <p class="section-kicker">Wedding Day</p>
+        <h2>2026년 10월</h2>
+        <div class="calendar-card" aria-label="결혼식 달력">
+          <div class="weekdays">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="days">
+            <span></span><span></span><span></span><span></span><span>1</span><span>2</span><span>3</span>
+            <span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+            <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><strong>17</strong>
+            <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span>
+            <span>25</span><span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+          </div>
+        </div>
+        <p class="time-note">토요일 오후 1시, 예식 30분 전부터 입장이 가능합니다.</p>
+      </section>
+
+      <section class="gallery section">
+        <p class="section-kicker">Gallery</p>
+        <h2>우리의 순간</h2>
+        <div class="photo-grid" aria-label="사진 갤러리">
+          <button type="button" style="--tone: #d8cec4">01</button>
+          <button type="button" style="--tone: #b8afa4">02</button>
+          <button type="button" style="--tone: #eadfd3">03</button>
+          <button type="button" style="--tone: #c7b8a8">04</button>
+        </div>
+      </section>
+
+      <section class="location section">
+        <p class="section-kicker">Location</p>
+        <h2>라움 아트센터</h2>
+        <p class="address">서울 강남구 언주로 564, 3층 그레이스홀</p>
+        <div class="map-preview" role="img" aria-label="예식장 위치 지도 미리보기">
+          <span>RAUM</span>
+          <i></i>
+        </div>
+        <div class="button-row">
+          <a href="https://map.naver.com/p/search/%EB%9D%BC%EC%9B%80%20%EC%95%84%ED%8A%B8%EC%84%BC%ED%84%B0" target="_blank" rel="noreferrer">네이버 지도</a>
+          <a href="https://map.kakao.com/?q=%EB%9D%BC%EC%9B%80%20%EC%95%84%ED%8A%B8%EC%84%BC%ED%84%B0" target="_blank" rel="noreferrer">카카오맵</a>
+        </div>
+        <dl class="traffic">
+          <div>
+            <dt>지하철</dt>
+            <dd>9호선 언주역 3번 출구 도보 7분</dd>
+          </div>
+          <div>
+            <dt>주차</dt>
+            <dd>건물 지하 주차장 2시간 무료</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="section account">
+        <p class="section-kicker">For Your Heart</p>
+        <h2>마음 전하실 곳</h2>
+        <button type="button" class="wide-button" data-open="account">계좌번호 보기</button>
+      </section>
+
+      <section class="section rsvp">
+        <p class="section-kicker">RSVP</p>
+        <h2>참석 의사를 알려주세요</h2>
+        <form id="rsvpForm">
+          <label>
+            <span>성함</span>
+            <input name="name" autocomplete="name" required />
+          </label>
+          <label>
+            <span>참석 여부</span>
+            <select name="attendance" required>
+              <option value="">선택해 주세요</option>
+              <option>참석합니다</option>
+              <option>아쉽지만 참석이 어렵습니다</option>
+            </select>
+          </label>
+          <label>
+            <span>인원</span>
+            <input name="count" type="number" min="1" max="10" value="1" required />
+          </label>
+          <button type="submit" class="wide-button">전송하기</button>
+        </form>
+        <p id="rsvpResult" class="result" aria-live="polite"></p>
+      </section>
+
+      <section class="section guestbook">
+        <p class="section-kicker">Guestbook</p>
+        <h2>축하 메시지</h2>
+        <form id="messageForm">
+          <label>
+            <span>이름</span>
+            <input name="writer" required />
+          </label>
+          <label>
+            <span>메시지</span>
+            <textarea name="message" rows="3" required></textarea>
+          </label>
+          <button type="submit" class="wide-button">남기기</button>
+        </form>
+        <ul id="messages" class="messages"></ul>
+      </section>
+
+      <section class="share section">
+        <button type="button" class="wide-button dark" id="shareButton">청첩장 공유하기</button>
+        <p>민준 그리고 서연 드림</p>
+      </section>
+    </main>
+
+    <dialog id="contactDialog">
+      <div class="modal">
+        <button class="close" type="button" data-close aria-label="닫기">×</button>
+        <h3 id="contactTitle">연락하기</h3>
+        <div class="button-row">
+          <a id="callLink" href="#">전화</a>
+          <a id="smsLink" href="#">문자</a>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog id="accountDialog">
+      <div class="modal">
+        <button class="close" type="button" data-close aria-label="닫기">×</button>
+        <h3>마음 전하실 곳</h3>
+        <div class="account-list">
+          <button type="button" data-copy="국민 123456-78-901234 김민준">국민 123456-78-901234 김민준</button>
+          <button type="button" data-copy="신한 110-123-456789 이서연">신한 110-123-456789 이서연</button>
+        </div>
+        <p class="result" id="copyResult"></p>
+      </div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
