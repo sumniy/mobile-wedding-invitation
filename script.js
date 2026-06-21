@@ -1,18 +1,16 @@
-const contacts = {
-  groom: { label: "신랑 김민준", phone: "01012345678" },
-  bride: { label: "신부 이서연", phone: "01098765432" },
-};
+const weddingDate = new Date("2026-06-28T11:00:00+09:00");
 
-const weddingDate = new Date("2027-02-14T11:00:00+09:00");
+const defaultMessages = [
+  { writer: "호호", message: "두 분의 결혼을 진심으로 축하해요. 오래오래 행복만 하기!" },
+  { writer: "라몽", message: "선남선녀 너무 축하해요. 서로의 가장 좋은 편이 되어주세요." },
+  { writer: "맂이", message: "너무 예쁜 두 사람, 새로운 시작을 응원합니다." },
+];
 
-const contactDialog = document.querySelector("#contactDialog");
+const copyResult = document.querySelector("#copyResult");
+const messageList = document.querySelector("#messageList");
+const guestbookDialog = document.querySelector("#guestbookDialog");
 const rsvpDialog = document.querySelector("#rsvpDialog");
 const photoDialog = document.querySelector("#photoDialog");
-const contactTitle = document.querySelector("#contactTitle");
-const callLink = document.querySelector("#callLink");
-const smsLink = document.querySelector("#smsLink");
-const copyResult = document.querySelector("#copyResult");
-const rsvpResult = document.querySelector("#rsvpResult");
 const photoDialogImage = document.querySelector("#photoDialog img");
 
 const setCountdown = () => {
@@ -31,19 +29,41 @@ const setCountdown = () => {
   document.querySelector("#dateMessage").textContent = diff > 0 ? `${days + 1}일 남았습니다.` : "오늘입니다.";
 };
 
-document.querySelectorAll("[data-call]").forEach((button) => {
-  button.addEventListener("click", () => {
-    const contact = contacts[button.dataset.call] || contacts.groom;
-    contactTitle.textContent = `${contact.label}에게 연락하기`;
-    callLink.href = `tel:${contact.phone}`;
-    smsLink.href = `sms:${contact.phone}`;
-    contactDialog.showModal();
+const getMessages = () => {
+  const saved = JSON.parse(localStorage.getItem("wedding-messages") || "[]");
+  return saved.length ? saved : defaultMessages;
+};
+
+const renderMessages = (showAll = false) => {
+  const messages = getMessages();
+  const visibleMessages = showAll ? messages : messages.slice(-3);
+  messageList.innerHTML = "";
+
+  visibleMessages.forEach((item) => {
+    const li = document.createElement("li");
+    const strong = document.createElement("strong");
+    const p = document.createElement("p");
+    strong.textContent = `from. ${item.writer}`;
+    p.textContent = item.message;
+    li.append(strong, p);
+    messageList.append(li);
   });
+};
+
+document.querySelector("#musicToggle").addEventListener("click", (event) => {
+  const button = event.currentTarget;
+  const isOn = button.classList.toggle("is-on");
+  button.setAttribute("aria-pressed", String(isOn));
+  button.setAttribute("aria-label", isOn ? "배경음악 끄기" : "배경음악 켜기");
+});
+
+document.querySelectorAll("[data-open='guestbook']").forEach((button) => {
+  button.addEventListener("click", () => guestbookDialog.showModal());
 });
 
 document.querySelectorAll("[data-open='rsvp']").forEach((button) => {
   button.addEventListener("click", () => {
-    rsvpResult.textContent = "";
+    document.querySelector("#rsvpResult").textContent = "";
     rsvpDialog.showModal();
   });
 });
@@ -64,7 +84,7 @@ document.querySelectorAll("[data-copy]").forEach((button) => {
   button.addEventListener("click", async () => {
     try {
       await navigator.clipboard.writeText(button.dataset.copy);
-      copyResult.textContent = "복사되었습니다.";
+      copyResult.textContent = "계좌번호가 복사되었습니다.";
     } catch {
       copyResult.textContent = button.dataset.copy;
     }
@@ -80,29 +100,38 @@ document.querySelectorAll("[data-photo]").forEach((button) => {
   });
 });
 
+document.querySelector("#messageForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const data = Object.fromEntries(new FormData(event.currentTarget));
+  const saved = JSON.parse(localStorage.getItem("wedding-messages") || "[]");
+  saved.push(data);
+  localStorage.setItem("wedding-messages", JSON.stringify(saved));
+  event.currentTarget.reset();
+  guestbookDialog.close();
+  renderMessages();
+});
+
+document.querySelector("#showAllMessages").addEventListener("click", () => {
+  renderMessages(true);
+});
+
 document.querySelector("#rsvpForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   localStorage.setItem("wedding-rsvp", JSON.stringify(data));
-  rsvpResult.textContent = `${data.name}님의 참석 의사가 저장되었습니다.`;
+  document.querySelector("#rsvpResult").textContent = `${data.name}님의 참석 의사가 저장되었습니다.`;
   event.currentTarget.reset();
 });
 
-document.querySelector("#soundButton").addEventListener("click", (event) => {
-  const button = event.currentTarget;
-  const isOn = button.classList.toggle("is-on");
-  button.setAttribute("aria-pressed", String(isOn));
-  button.setAttribute("aria-label", isOn ? "배경음악 끄기" : "배경음악 켜기");
-});
-
-document.querySelector("#albumButton").addEventListener("click", () => {
-  document.querySelector("#albumNotice").textContent = "샘플 페이지에서는 업로드 기능이 비활성화되어 있습니다.";
+document.querySelector("#copyLink").addEventListener("click", async () => {
+  await navigator.clipboard.writeText(location.href);
+  alert("링크가 복사되었습니다.");
 });
 
 document.querySelector("#shareButton").addEventListener("click", async () => {
   const shareData = {
-    title: "민준 그리고 서연 결혼합니다.",
-    text: "2027년 2월 14일 일요일 오전 11시, 비비드예식장",
+    title: "민준♥서연 결혼합니다",
+    text: "2026년 6월 28일 일요일 오전 11시, 아펠가모 반포점",
     url: location.href,
   };
 
@@ -112,8 +141,9 @@ document.querySelector("#shareButton").addEventListener("click", async () => {
   }
 
   await navigator.clipboard.writeText(location.href);
-  alert("청첩장 주소가 복사되었습니다.");
+  alert("청첩장 링크가 복사되었습니다.");
 });
 
 setCountdown();
 setInterval(setCountdown, 1000);
+renderMessages();

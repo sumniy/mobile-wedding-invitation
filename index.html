@@ -3,258 +3,239 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#edeae6" />
-    <meta property="og:title" content="민준 그리고 서연 결혼합니다." />
-    <meta property="og:description" content="2027년 2월 14일 일요일 오전 11시, 비비드예식장" />
+    <meta name="theme-color" content="#f6f6f8" />
+    <meta property="og:title" content="민준♥서연 결혼합니다" />
+    <meta property="og:description" content="2026년 6월 28일 일요일 오전 11시, 아펠가모 반포점" />
     <meta property="og:image" content="assets/wedding-hero.png" />
-    <title>민준 그리고 서연 결혼합니다.</title>
+    <title>민준♥서연 결혼합니다</title>
     <link rel="icon" href="assets/wedding-hero.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+KR:wght@400;500;600&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="invitation-shell">
-      <button class="sound-button" type="button" id="soundButton" aria-pressed="false" aria-label="배경음악 켜기">
-        <span></span>
-      </button>
+    <main class="invite-shell">
+      <button class="music-toggle" id="musicToggle" type="button" aria-label="배경음악 켜기" aria-pressed="false">♪</button>
 
-      <section class="cover" aria-label="초대 표지">
-        <img src="assets/wedding-hero.png" alt="손을 잡고 걷는 신랑 신부" />
-        <div class="cover-shade"></div>
-        <div class="cover-center">
-          <p>민준 <span>♥</span> 서연</p>
-          <h1>Our Wedding Day!</h1>
+      <section class="cover" aria-label="모바일 청첩장 표지">
+        <img src="assets/wedding-hero.png" alt="웨딩 커버 사진" />
+        <div class="cover-tint"></div>
+        <div class="cover-names" aria-label="신랑 신부 이름">
+          <span>민준</span>
+          <span>서연</span>
         </div>
-        <p class="cover-date">2027. 02. 14. 일요일 오전 11시</p>
+        <div class="cover-script">Happily<br />Ever<br />After</div>
+        <div class="cover-meta">
+          <p>2026.06.28 SUN 11:00</p>
+          <p>아펠가모 반포점</p>
+        </div>
       </section>
 
-      <section class="opening section-block">
-        <p class="script-word">Invitation</p>
-        <h2>소중한 분들을 초대합니다</h2>
-        <div class="invitation-copy">
-          <p>저희 두 사람의 작은 만남이</p>
-          <p>진실한 사랑으로 꽃피어</p>
-          <p>오늘 이 자리를 빛내는 결혼식으로 이어졌습니다.</p>
+      <section class="greeting section">
+        <h1>우리, 결혼합니다</h1>
+        <figure class="wide-photo">
+          <img src="assets/wedding-hero.png" alt="흑백 웨딩 사진" />
+        </figure>
+        <div class="poem">
+          <p>함께한 다섯 해의 시간을 지나</p>
+          <p>초여름의 푸른 날,</p>
+          <p>두 사람이 한 길을 걸어가고자 합니다.</p>
           <br />
-          <p>평생 서로를 귀히 여기며</p>
-          <p>처음의 설렘과 순수함을 잃지 않고</p>
-          <p>존중하고 아껴 나가겠습니다.</p>
-          <br />
-          <p>여러분의 따뜻한 축복이 함께 한다면</p>
-          <p>더할 나위 없는 기쁨으로 간직하겠습니다.</p>
+          <p>늘 아껴주신 소중한 분들과</p>
+          <p>이 기쁜 순간을 함께하고 싶습니다.</p>
+          <span aria-hidden="true">-</span>
+          <p>김영호 · 박은정의 장남 김민준</p>
+          <p>이성재 · 최윤희의 장녀 이서연</p>
         </div>
-        <div class="parents">
-          <p><span>김영호 · 박은정</span>의 아들 <strong>김민준</strong></p>
-          <p><span>이성재 · 최윤희</span>의 딸 <strong>이서연</strong></p>
-        </div>
-        <button class="solid-button small" type="button" data-call="groom">연락하기</button>
       </section>
 
-      <section class="profile section-block soft">
-        <p class="script-word">About Us</p>
-        <h2>저희를 소개합니다</h2>
-        <article class="profile-card">
-          <img src="assets/wedding-hero.png" alt="신랑 김민준 사진" />
-          <div>
-            <span>신랑</span>
-            <h3>김민준</h3>
-            <p>김영호 · 박은정의 아들</p>
-            <p>1990년 12월 10일</p>
-            <p>ISTP</p>
-            <p class="tagline">#캠핑 #러닝</p>
-          </div>
-        </article>
-        <article class="profile-card bride">
-          <img src="assets/wedding-hero.png" alt="신부 이서연 사진" />
-          <div>
-            <span>신부</span>
-            <h3>이서연</h3>
-            <p>이성재 · 최윤희의 딸</p>
-            <p>1993년 3월 14일</p>
-            <p>ESTJ</p>
-            <p class="tagline">#스노우보드 #캠핑</p>
-          </div>
-        </article>
-      </section>
-
-      <section class="wedding-day section-block">
-        <p class="script-word">Wedding Day</p>
-        <h2>2027. 02. 14. 일요일 오전 11시</h2>
-        <div class="month">2월</div>
-        <div class="calendar-card" aria-label="2027년 2월 달력">
-          <div class="weekdays">
-            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-          </div>
-          <div class="days">
-            <span class="muted">31</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
-            <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
-            <strong>14</strong><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
-            <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
-            <span>28</span><span class="muted">1</span><span class="muted">2</span><span class="muted">3</span><span class="muted">4</span><span class="muted">5</span><span class="muted">6</span>
-          </div>
-        </div>
-        <div class="countdown" aria-label="결혼식까지 남은 시간">
+      <section class="save section">
+        <h2>Save the Date</h2>
+        <div class="time-grid" aria-label="결혼식까지 남은 시간">
           <div><strong id="daysLeft">0</strong><span>DAYS</span></div>
+          <i>:</i>
           <div><strong id="hoursLeft">0</strong><span>HOUR</span></div>
+          <i>:</i>
           <div><strong id="minutesLeft">0</strong><span>MIN</span></div>
+          <i>:</i>
           <div><strong id="secondsLeft">0</strong><span>SEC</span></div>
         </div>
-        <p class="day-note"><strong>민준 서연</strong>의 결혼식이 <span id="dateMessage">다가오고 있습니다.</span></p>
+        <p class="d-day">민준 <b>♥</b> 서연의 결혼식이 <strong id="dateMessage">다가오고 있습니다.</strong></p>
       </section>
 
-      <section id="location" class="location section-block soft">
-        <p class="script-word">Location</p>
+      <section class="calendar-section section">
+        <h2>예식 안내</h2>
+        <p class="event-line">2026년 6월 28일 일요일 오전 11:00<br />아펠가모 반포점</p>
+        <span class="divider">-</span>
+        <h3>6월</h3>
+        <div class="calendar" aria-label="2026년 6월 달력">
+          <div class="week">
+            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+          </div>
+          <div class="dates">
+            <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+            <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
+            <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+            <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
+            <strong>28</strong><span>29</span><span>30</span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="location" class="location section">
         <h2>오시는 길</h2>
-        <p class="venue-name">비비드예식장 2F, 바우스홀</p>
-        <div class="address-line">
-          <span>경기 성남시 분당구 정자일로 95</span>
-          <button type="button" data-copy="경기 성남시 분당구 정자일로 95">복사</button>
+        <div class="map-preview" role="img" aria-label="예식장 위치 지도 미리보기">
+          <div class="map-road road-a"></div>
+          <div class="map-road road-b"></div>
+          <div class="map-road road-c"></div>
+          <span>아펠가모 반포점</span>
+          <small>250m</small>
         </div>
-        <div class="map-box" role="img" aria-label="비비드예식장 지도 미리보기">
-          <span>VIVID HALL</span>
+        <div class="map-buttons">
+          <a href="https://map.naver.com/p/search/%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">카카오맵</a>
+          <a href="https://www.tmap.co.kr/" target="_blank" rel="noreferrer">티맵</a>
         </div>
-        <div class="map-actions">
-          <a href="https://map.naver.com/p/search/%EB%B9%84%EB%B9%84%EB%93%9C%EC%98%88%EC%8B%9D%EC%9E%A5" target="_blank" rel="noreferrer">네이버지도</a>
-          <a href="https://map.kakao.com/?q=%EB%B9%84%EB%B9%84%EB%93%9C%EC%98%88%EC%8B%9D%EC%9E%A5" target="_blank" rel="noreferrer">카카오맵</a>
-        </div>
-        <div class="traffic-list">
-          <article>
-            <h3>셔틀버스</h3>
-            <p>10~20분 간격 왕복 운행, 비비드예식장 정문 앞 하차</p>
-          </article>
-          <article>
-            <h3>지하철</h3>
-            <p>비비드역 1번 출구에서 도보 5분</p>
-          </article>
-          <article>
-            <h3>자가용</h3>
-            <p>지하 1~2층 무료 주차장 이용 가능</p>
-          </article>
+        <div class="location-text">
+          <h3>아펠가모 반포</h3>
+          <p>서울특별시 서초구 반포대로 235</p>
+          <p>반포효성빌딩 LL층(지하 2층)</p>
+          <h3>자가용 이용 시</h3>
+          <p>네비게이션 : '아펠가모 반포' 입력</p>
+          <p>주차안내 : 지하주차장 이용, 2시간 무료 주차</p>
+          <h3>지하철 이용 시</h3>
+          <p>3, 7, 9호선 고속터미널역 5번 출구에서 도보 5분</p>
+          <h3>버스 이용 시</h3>
+          <p>서울성모병원 정류장 하차 후 도보 5분</p>
         </div>
       </section>
 
-      <section class="gallery section-block">
-        <p class="script-word">Gallery</p>
-        <h2>갤러리</h2>
-        <div class="middle-photo">
-          <img src="assets/wedding-hero.png" alt="중간 웨딩 사진" />
-        </div>
-        <div class="gallery-grid" aria-label="웨딩 사진 갤러리">
+      <section class="gallery section">
+        <h2>Our moments</h2>
+        <div class="photo-grid" aria-label="웨딩 갤러리">
           <button type="button" data-photo="0"><img src="assets/wedding-hero.png" alt="웨딩 사진 1" /></button>
           <button type="button" data-photo="1"><img src="assets/wedding-hero.png" alt="웨딩 사진 2" /></button>
           <button type="button" data-photo="2"><img src="assets/wedding-hero.png" alt="웨딩 사진 3" /></button>
           <button type="button" data-photo="3"><img src="assets/wedding-hero.png" alt="웨딩 사진 4" /></button>
           <button type="button" data-photo="4"><img src="assets/wedding-hero.png" alt="웨딩 사진 5" /></button>
           <button type="button" data-photo="5"><img src="assets/wedding-hero.png" alt="웨딩 사진 6" /></button>
+          <button type="button" data-photo="6"><img src="assets/wedding-hero.png" alt="웨딩 사진 7" /></button>
+          <button type="button" data-photo="7"><img src="assets/wedding-hero.png" alt="웨딩 사진 8" /></button>
+          <button type="button" data-photo="8"><img src="assets/wedding-hero.png" alt="웨딩 사진 9" /></button>
+        </div>
+        <span class="chevron" aria-hidden="true"></span>
+      </section>
+
+      <section class="guestbook section">
+        <h2>방명록</h2>
+        <ul class="message-list" id="messageList"></ul>
+        <div class="pill-actions">
+          <button type="button" data-open="guestbook">✦ 작성하기</button>
+          <button type="button" id="showAllMessages">☰ 전체보기</button>
         </div>
       </section>
 
-      <section class="information section-block soft">
-        <p class="script-word">Information</p>
+      <section class="notice section">
         <h2>안내사항</h2>
-        <article class="info-card">
-          <div class="info-image meal"></div>
-          <h3>연회 & 식사 안내</h3>
-          <p>식사는 결혼식 및 사진 촬영이 끝난 후 웨딩홀 2층에서 뷔페식으로 진행됩니다.</p>
-          <p>한식·중식·양식·일식 등 다채로운 메뉴가 마련되어 있으니 편안하게 즐겨 주세요.</p>
-        </article>
-        <article class="info-card">
-          <div class="info-image pet"></div>
-          <h3>강아지 화동 안내</h3>
-          <p>특별한 순간에 저희 반려견이 화동으로 함께합니다.</p>
-          <p>알러지나 두려움이 있으신 분은 미리 알려주시면 좌석 안내를 도와드리겠습니다.</p>
-        </article>
+        <dl>
+          <div>
+            <dt>주차</dt>
+            <dd>B3-B5, 2시간 무료 주차</dd>
+          </div>
+          <div>
+            <dt>피로연장 이용시간</dt>
+            <dd>10:30 ~ 12:30</dd>
+          </div>
+          <div>
+            <dt>화환은 정중히 사양합니다.</dt>
+            <dd>좋은 마음만 감사히 받겠습니다.</dd>
+          </div>
+        </dl>
       </section>
 
-      <section class="account section-block">
-        <p class="script-word">Account</p>
-        <h2>마음 전하는 곳</h2>
-        <p class="support-copy">참석이 어려우신 분들을 위해 계좌번호를 안내해 드립니다.</p>
-        <details>
-          <summary>신랑측 계좌번호</summary>
-          <button type="button" data-copy="국민 123456-78-901234 김민준">
-            국민 123456-78-901234 김민준
-          </button>
-        </details>
-        <details>
-          <summary>신부측 계좌번호</summary>
-          <button type="button" data-copy="신한 110-123-456789 이서연">
-            신한 110-123-456789 이서연
-          </button>
-        </details>
+      <section class="account section">
+        <h2>마음 전하실 곳</h2>
+        <div class="account-box">
+          <details>
+            <summary>신랑측</summary>
+            <div class="account-entry">
+              <span>신랑 김민준</span>
+              <strong>신한 110-294-723977</strong>
+              <button type="button" data-copy="신한 110-294-723977 김민준">계좌 복사하기</button>
+            </div>
+            <div class="account-entry">
+              <span>아버지 김영호</span>
+              <strong>국민 281901-04-236441</strong>
+              <button type="button" data-copy="국민 281901-04-236441 김영호">계좌 복사하기</button>
+            </div>
+          </details>
+          <details>
+            <summary>신부측</summary>
+            <div class="account-entry">
+              <span>신부 이서연</span>
+              <strong>카카오뱅크 3333-04-0218912</strong>
+              <button type="button" data-copy="카카오뱅크 3333-04-0218912 이서연">계좌 복사하기</button>
+            </div>
+            <div class="account-entry">
+              <span>어머니 최윤희</span>
+              <strong>국민 462602-04-463883</strong>
+              <button type="button" data-copy="국민 462602-04-463883 최윤희">계좌 복사하기</button>
+            </div>
+          </details>
+        </div>
         <p class="toast" id="copyResult" aria-live="polite"></p>
       </section>
 
-      <section id="rsvp" class="rsvp section-block soft">
-        <p class="script-word">Rsvp</p>
-        <h2>참석 의사 전달</h2>
-        <p class="support-copy">신랑, 신부에게 참석의사를 미리 전달할 수 있어요.</p>
-        <button class="solid-button" type="button" data-open="rsvp">전달하기</button>
+      <section class="rsvp section">
+        <h2>참석의사 전달하기</h2>
+        <p>축하의 마음으로 참석해 주시는<br />모든 분들을 귀하게 모실 수 있도록<br />참석 의사를 전달 부탁드립니다.</p>
+        <button class="line-button" type="button" data-open="rsvp">참석의사 전달하기</button>
       </section>
 
-      <section class="wreath section-block">
-        <h2>축하 화환 보내기</h2>
-        <p>축하의 마음을 전해보세요.</p>
-        <button class="outline-button" type="button">화환 문의하기</button>
-      </section>
-
-      <section class="guest-album section-block soft">
-        <p class="script-word">Guest Album</p>
-        <h2>예쁘게 빛난 순간, 같이 공유해요!</h2>
-        <p>오늘의 추억은 여러분의 한 장에서 완성돼요.</p>
-        <button class="solid-button" type="button" id="albumButton">사진 업로드</button>
-        <p class="album-note" id="albumNotice">결혼식 당일부터 업로드 가능합니다.</p>
-      </section>
-
-      <section class="ending">
-        <img src="assets/wedding-hero.png" alt="엔딩 웨딩 사진" />
-        <div>
-          <p>저희의 새로운 시작을</p>
-          <p>함께 해주셔서 감사합니다.</p>
-          <strong>민준 · 서연</strong>
-          <button class="share-button" type="button" id="shareButton">카카오톡으로 공유하기</button>
-          <small>©2026 Mobile Wedding Invitation</small>
+      <footer class="share">
+        <div class="share-buttons">
+          <button type="button" id="copyLink">↗<span>링크 복사</span></button>
+          <button type="button" id="shareButton">●<span>카카오톡 공유</span></button>
         </div>
-      </section>
+        <small>ⓒ Mobile Wedding Invitation</small>
+      </footer>
     </main>
 
-    <dialog id="contactDialog">
-      <div class="modal">
+    <dialog id="guestbookDialog">
+      <form class="modal" id="messageForm">
         <button class="close" type="button" data-close aria-label="닫기">×</button>
-        <h3 id="contactTitle">연락하기</h3>
-        <div class="modal-actions">
-          <a id="callLink" href="#">전화</a>
-          <a id="smsLink" href="#">문자</a>
-        </div>
-      </div>
+        <h3>방명록 작성하기</h3>
+        <label>
+          <span>이름</span>
+          <input name="writer" placeholder="보내는 분" required />
+        </label>
+        <label>
+          <span>메시지</span>
+          <textarea name="message" rows="4" placeholder="축하 메시지를 남겨주세요" required></textarea>
+        </label>
+        <button class="dark-button" type="submit">남기기</button>
+      </form>
     </dialog>
 
     <dialog id="rsvpDialog">
-      <form class="modal rsvp-modal" id="rsvpForm">
+      <form class="modal" id="rsvpForm">
         <button class="close" type="button" data-close aria-label="닫기">×</button>
-        <h3>참석 의사 전달</h3>
-        <p>특별한 날, 소중한 걸음으로 함께해 주시는 분들을 정성껏 모시고자 합니다.</p>
-        <div class="event-summary">
-          <span>♡ 신랑 김민준 & 신부 이서연</span>
-          <span>2027. 02. 14. 일요일 오전 11시</span>
-          <span>비비드예식장 2F, 바우스홀</span>
-        </div>
+        <h3>참석의사 전달하기</h3>
         <label>
           <span>성함</span>
-          <input name="name" autocomplete="name" placeholder="이름을 입력해 주세요" required />
+          <input name="name" autocomplete="name" placeholder="이름을 입력해주세요" required />
         </label>
         <fieldset>
           <legend>참석 여부</legend>
-          <label class="choice"><input type="radio" name="attendance" value="참석합니다" required /><span>참석합니다</span></label>
-          <label class="choice"><input type="radio" name="attendance" value="참석이 어렵습니다" /><span>참석이 어렵습니다</span></label>
+          <label class="choice"><input type="radio" name="attendance" value="참석" required /><span>참석</span></label>
+          <label class="choice"><input type="radio" name="attendance" value="불참" /><span>불참</span></label>
         </fieldset>
         <label>
-          <span>참석 인원</span>
+          <span>인원</span>
           <input name="count" type="number" min="1" max="10" value="1" required />
         </label>
-        <button class="solid-button" type="submit">전달하기</button>
+        <button class="dark-button" type="submit">전달하기</button>
         <p class="toast" id="rsvpResult" aria-live="polite"></p>
       </form>
     </dialog>
