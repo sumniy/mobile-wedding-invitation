@@ -11,7 +11,7 @@
     <link rel="icon" href="assets/wedding-hero.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Serif+KR:wght@400;500;600&family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -93,9 +93,18 @@
           <small>250m</small>
         </div>
         <div class="map-buttons">
-          <a href="https://map.naver.com/p/search/%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">네이버지도</a>
-          <a href="https://map.kakao.com/?q=%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">카카오맵</a>
-          <a href="https://www.tmap.co.kr/" target="_blank" rel="noreferrer">티맵</a>
+          <a class="map-button map-naver" href="https://map.naver.com/p/search/%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">
+            <span class="map-icon" aria-hidden="true">N</span>
+            <span>네이버지도</span>
+          </a>
+          <a class="map-button map-kakao" href="https://map.kakao.com/?q=%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">
+            <span class="map-icon" aria-hidden="true">K</span>
+            <span>카카오맵</span>
+          </a>
+          <a class="map-button map-tmap" href="https://www.tmap.co.kr/" target="_blank" rel="noreferrer">
+            <span class="map-icon" aria-hidden="true">T</span>
+            <span>티맵</span>
+          </a>
         </div>
         <div class="location-text">
           <h3>아펠가모 반포</h3>
@@ -131,8 +140,8 @@
         <h2>방명록</h2>
         <ul class="message-list" id="messageList"></ul>
         <div class="pill-actions">
-          <button type="button" data-open="guestbook">✦ 작성하기</button>
-          <button type="button" id="showAllMessages">☰ 전체보기</button>
+          <button type="button" data-open="guestbook"><span class="action-icon write-icon" aria-hidden="true"></span>작성하기</button>
+          <button type="button" id="showAllMessages"><span class="action-icon list-icon" aria-hidden="true"></span>전체보기</button>
         </div>
       </section>
 
@@ -195,8 +204,14 @@
 
       <footer class="share">
         <div class="share-buttons">
-          <button type="button" id="copyLink">↗<span>링크 복사</span></button>
-          <button type="button" id="shareButton">●<span>카카오톡 공유</span></button>
+          <button type="button" id="copyLink" aria-label="링크 복사">
+            <span class="share-icon link-icon" aria-hidden="true"></span>
+            <span>링크 복사</span>
+          </button>
+          <button type="button" id="shareButton" aria-label="카카오톡 공유">
+            <span class="share-icon kakao-icon" aria-hidden="true"></span>
+            <span>카카오톡 공유</span>
+          </button>
         </div>
         <small>ⓒ Mobile Wedding Invitation</small>
       </footer>

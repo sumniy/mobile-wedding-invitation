@@ -12,6 +12,72 @@ const guestbookDialog = document.querySelector("#guestbookDialog");
 const rsvpDialog = document.querySelector("#rsvpDialog");
 const photoDialog = document.querySelector("#photoDialog");
 const photoDialogImage = document.querySelector("#photoDialog img");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let revealObserver = null;
+
+const revealElement = (element, delay = 0) => {
+  if (!element || element.classList.contains("fade-up")) {
+    return;
+  }
+
+  element.classList.add("fade-up");
+  element.style.transitionDelay = `${delay}ms`;
+
+  if (prefersReducedMotion || !revealObserver) {
+    element.classList.add("in-view");
+    return;
+  }
+
+  revealObserver.observe(element);
+};
+
+const setupRevealAnimations = () => {
+  if (!prefersReducedMotion && "IntersectionObserver" in window) {
+    revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("in-view");
+          revealObserver.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
+    );
+  }
+
+  const revealTargets = document.querySelectorAll(
+    [
+      ".section h1",
+      ".section h2",
+      ".wide-photo",
+      ".poem",
+      ".time-grid",
+      ".d-day",
+      ".event-line",
+      ".divider",
+      ".calendar-section h3",
+      ".calendar",
+      ".map-preview",
+      ".map-buttons",
+      ".location-text",
+      ".photo-grid",
+      ".chevron",
+      ".notice dl > div",
+      ".account-box",
+      ".rsvp p",
+      ".rsvp .line-button",
+      ".share-buttons",
+    ].join(", "),
+  );
+
+  revealTargets.forEach((element, index) => {
+    revealElement(element, Math.min((index % 4) * 80, 240));
+  });
+};
 
 const setCountdown = () => {
   const diff = weddingDate.getTime() - Date.now();
@@ -39,14 +105,19 @@ const renderMessages = (showAll = false) => {
   const visibleMessages = showAll ? messages : messages.slice(-3);
   messageList.innerHTML = "";
 
-  visibleMessages.forEach((item) => {
+  visibleMessages.forEach((item, index) => {
     const li = document.createElement("li");
+    const actions = document.createElement("span");
     const strong = document.createElement("strong");
     const p = document.createElement("p");
+    actions.className = "message-actions";
+    actions.setAttribute("aria-hidden", "true");
+    actions.innerHTML = '<span class="message-action edit"></span><span class="message-action delete"></span>';
     strong.textContent = `from. ${item.writer}`;
     p.textContent = item.message;
-    li.append(strong, p);
+    li.append(actions, strong, p);
     messageList.append(li);
+    revealElement(li, Math.min(index * 70, 210));
   });
 };
 
@@ -146,4 +217,5 @@ document.querySelector("#shareButton").addEventListener("click", async () => {
 
 setCountdown();
 setInterval(setCountdown, 1000);
+setupRevealAnimations();
 renderMessages();

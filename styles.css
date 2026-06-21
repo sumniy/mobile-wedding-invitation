@@ -1,3 +1,75 @@
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard Variable";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/Pretendard-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: PyeongChang;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChang-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: PyeongChang;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChang-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: GowunBatang;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: GowunBatang;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff") format("woff");
+}
+
 :root {
   color-scheme: light;
   --page: #f1f1f1;
@@ -9,6 +81,9 @@
   --soft: #f0f0f1;
   --accent: #ff4b55;
   --shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-serif: "Nanum Myeongjo", GowunBatang, "Noto Serif KR", serif;
+  --font-title: PyeongChang, "Nanum Myeongjo", GowunBatang, serif;
 }
 
 * {
@@ -26,8 +101,9 @@ body {
   min-height: 100vh;
   color: var(--ink);
   background: var(--page);
-  font-family: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
 }
 
 button,
@@ -67,6 +143,8 @@ a {
   line-height: 1;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.36);
   cursor: pointer;
+  opacity: 0;
+  animation: coverFadeIn 0.8s ease-out 0.55s forwards, musicDrift 3.4s ease-in-out 1.4s infinite;
 }
 
 .music-toggle.is-on {
@@ -89,6 +167,8 @@ a {
   object-position: 50% center;
   display: block;
   filter: saturate(0.52) contrast(0.95) brightness(0.74);
+  transform: scale(1.035);
+  animation: coverImageSettle 1.6s ease-out forwards;
 }
 
 .cover-tint {
@@ -111,6 +191,16 @@ a {
   font-weight: 500;
 }
 
+.cover-names span {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: coverNameIn 0.7s ease-out 0.18s forwards;
+}
+
+.cover-names span:last-child {
+  animation-delay: 0.32s;
+}
+
 .cover-script {
   position: absolute;
   z-index: 2;
@@ -122,8 +212,10 @@ a {
   font-size: clamp(4.4rem, 18vw, 6.5rem);
   line-height: 0.72;
   text-align: center;
-  transform: rotate(-6deg);
+  opacity: 0;
+  transform: translateY(24px) rotate(-6deg);
   text-shadow: 0 3px 13px rgba(0, 0, 0, 0.24);
+  animation: coverScriptIn 1.05s ease-out 0.62s forwards;
 }
 
 .cover-meta {
@@ -133,11 +225,14 @@ a {
   right: 20px;
   bottom: 34px;
   text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: coverMetaIn 0.8s ease-out 0.95s forwards;
 }
 
 .cover-meta p {
   margin: 0;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 1.05rem;
   line-height: 1.7;
 }
@@ -151,8 +246,8 @@ a {
 .section h2,
 .section h3 {
   margin: 0;
-  font-family: "Noto Serif KR", serif;
-  font-weight: 500;
+  font-family: var(--font-title);
+  font-weight: 400;
   letter-spacing: 0;
 }
 
@@ -178,7 +273,7 @@ a {
 
 .poem {
   color: #4c4b50;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 1.04rem;
   line-height: 2;
 }
@@ -241,7 +336,7 @@ a {
 .d-day {
   margin: 0;
   color: #2f2d33;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 0.96rem;
 }
 
@@ -258,7 +353,7 @@ a {
 .event-line {
   margin: 0;
   color: #4a484e;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 1rem;
   line-height: 1.85;
 }
@@ -267,7 +362,7 @@ a {
   display: block;
   margin: 24px 0 38px;
   color: #2e2c32;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
 }
 
 .calendar-section h3 {
@@ -407,17 +502,47 @@ a {
 }
 
 .map-buttons a {
-  display: grid;
+  display: inline-flex;
   min-height: 40px;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   color: #76727a;
-  font-size: 0.88rem;
+  font-size: 0.78rem;
+  font-weight: 500;
   text-decoration: none;
+}
+
+.map-icon {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.map-naver .map-icon {
+  background: #03c75a;
+}
+
+.map-kakao .map-icon {
+  border-radius: 7px;
+  background: #fee500;
+  color: #1f1a00;
+}
+
+.map-tmap .map-icon {
+  background: linear-gradient(135deg, #111827 0%, #4f46e5 100%);
 }
 
 .location-text {
   color: #333136;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 1rem;
   line-height: 1.9;
 }
@@ -502,10 +627,71 @@ a {
 }
 
 .message-list li {
+  position: relative;
   padding: 20px 26px;
   border-radius: 9px;
   background: white;
   box-shadow: var(--shadow);
+}
+
+.message-actions {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  display: flex;
+  gap: 9px;
+  color: #c5c2c7;
+}
+
+.message-action {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.message-action.edit::before {
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 10px;
+  height: 2px;
+  border-radius: 99px;
+  background: currentColor;
+  transform: rotate(-42deg);
+  content: "";
+}
+
+.message-action.edit::after {
+  position: absolute;
+  left: 8px;
+  top: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 1px;
+  background: currentColor;
+  transform: rotate(-42deg);
+  content: "";
+}
+
+.message-action.delete::before,
+.message-action.delete::after {
+  position: absolute;
+  left: 6px;
+  top: 1px;
+  width: 2px;
+  height: 12px;
+  border-radius: 99px;
+  background: currentColor;
+  content: "";
+}
+
+.message-action.delete::before {
+  transform: rotate(45deg);
+}
+
+.message-action.delete::after {
+  transform: rotate(-45deg);
 }
 
 .message-list strong {
@@ -519,7 +705,7 @@ a {
 .message-list p {
   margin: 0;
   color: #353238;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 0.98rem;
   line-height: 1.75;
 }
@@ -533,7 +719,11 @@ a {
 }
 
 .pill-actions button {
+  display: inline-flex;
   min-height: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: 1px solid #d4d4d6;
   border-radius: 999px;
   background: transparent;
@@ -542,9 +732,63 @@ a {
   cursor: pointer;
 }
 
+.action-icon {
+  position: relative;
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  color: currentColor;
+}
+
+.write-icon::before {
+  position: absolute;
+  left: 2px;
+  top: 7px;
+  width: 9px;
+  height: 2px;
+  border-radius: 99px;
+  background: currentColor;
+  transform: rotate(-42deg);
+  content: "";
+}
+
+.write-icon::after {
+  position: absolute;
+  left: 8px;
+  top: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 1px;
+  background: currentColor;
+  transform: rotate(-42deg);
+  content: "";
+}
+
+.list-icon,
+.list-icon::before,
+.list-icon::after {
+  border-top: 2px solid currentColor;
+}
+
+.list-icon::before,
+.list-icon::after {
+  position: absolute;
+  left: 0;
+  width: 12px;
+  content: "";
+}
+
+.list-icon::before {
+  top: 4px;
+}
+
+.list-icon::after {
+  top: 9px;
+}
+
 .notice {
   padding-top: 88px;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
 }
 
 .notice dl {
@@ -659,7 +903,7 @@ a {
 .rsvp p {
   margin: 0 0 30px;
   color: #3f3c43;
-  font-family: "Noto Serif KR", serif;
+  font-family: var(--font-serif);
   font-size: 1rem;
   line-height: 1.9;
 }
@@ -679,22 +923,65 @@ a {
 
 .share-buttons button {
   display: grid;
-  gap: 10px;
+  gap: 9px;
   place-items: center;
   border: 0;
   background: transparent;
   color: #312f35;
-  font-size: 1.2rem;
+  font-size: 0.88rem;
   cursor: pointer;
 }
 
-.share-buttons button::first-line {
+.share-icon {
+  position: relative;
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 50px;
+  height: 50px;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
 }
 
-.share-buttons span {
+.link-icon::before,
+.link-icon::after {
+  position: absolute;
+  width: 17px;
+  height: 8px;
+  border: 2px solid #4b4850;
+  border-radius: 999px;
+  content: "";
+}
+
+.link-icon::before {
+  transform: translate(-4px, 2px) rotate(-38deg);
+}
+
+.link-icon::after {
+  transform: translate(5px, -2px) rotate(-38deg);
+}
+
+.kakao-icon::before {
+  position: absolute;
+  width: 25px;
+  height: 21px;
+  border-radius: 50%;
+  background: #2b261f;
+  content: "";
+}
+
+.kakao-icon::after {
+  position: absolute;
+  left: 15px;
+  top: 27px;
+  width: 8px;
+  height: 8px;
+  background: #2b261f;
+  transform: rotate(35deg);
+  content: "";
+}
+
+.share-buttons button > span:last-child {
   font-size: 0.88rem;
 }
 
@@ -849,6 +1136,90 @@ legend {
 
 .photo-modal .close {
   color: white;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition-property: transform, opacity;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  will-change: transform, opacity;
+}
+
+.in-view {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+@keyframes coverImageSettle {
+  from {
+    transform: scale(1.055);
+  }
+
+  to {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes coverNameIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes coverScriptIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-6deg);
+  }
+}
+
+@keyframes coverMetaIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes coverFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes musicDrift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .fade-up,
+  .in-view {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (max-width: 360px) {
