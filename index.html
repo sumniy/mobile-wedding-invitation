@@ -7,6 +7,7 @@
     <meta property="og:title" content="민준♥서연 결혼합니다" />
     <meta property="og:description" content="2026년 6월 28일 일요일 오전 11시, 아펠가모 반포점" />
     <meta property="og:image" content="assets/wedding-hero.png" />
+    <meta name="kakao-map-app-key" content="" />
     <title>민준♥서연 결혼합니다</title>
     <link rel="icon" href="assets/wedding-hero.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -30,6 +31,7 @@
           <p>2026.06.28 SUN 11:00</p>
           <p>아펠가모 반포점</p>
         </div>
+        <button class="scroll-cue" id="scrollCue" type="button" aria-label="초대장 내용 보기"></button>
       </section>
 
       <section class="greeting section">
@@ -85,12 +87,23 @@
 
       <section id="location" class="location section">
         <h2>오시는 길</h2>
-        <div class="map-preview" role="img" aria-label="예식장 위치 지도 미리보기">
-          <div class="map-road road-a"></div>
-          <div class="map-road road-b"></div>
-          <div class="map-road road-c"></div>
-          <span>아펠가모 반포점</span>
-          <small>250m</small>
+        <div
+          class="map-preview kakao-map-shell"
+          id="kakaoMap"
+          data-lat="37.50083677998381"
+          data-lng="127.00318916291162"
+          data-level="5"
+          data-title="아펠가모 반포점"
+          role="img"
+          aria-label="아펠가모 반포점 카카오 지도"
+        >
+          <div class="map-fallback" id="mapFallback">
+            <div class="map-road road-a"></div>
+            <div class="map-road road-b"></div>
+            <div class="map-road road-c"></div>
+            <span class="fallback-label">아펠가모 반포점</span>
+            <small>250m</small>
+          </div>
         </div>
         <div class="map-buttons">
           <a class="map-button map-naver" href="https://map.naver.com/p/search/%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">

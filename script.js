@@ -13,8 +13,20 @@ const rsvpDialog = document.querySelector("#rsvpDialog");
 const photoDialog = document.querySelector("#photoDialog");
 const photoDialogImage = document.querySelector("#photoDialog img");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const cover = document.querySelector(".cover");
+const greetingSection = document.querySelector(".greeting");
+const scrollCue = document.querySelector("#scrollCue");
+const kakaoMapContainer = document.querySelector("#kakaoMap");
+const kakaoMapAppKey = document.querySelector("meta[name='kakao-map-app-key']")?.content.trim() || window.KAKAO_MAP_APP_KEY || "";
 
 let revealObserver = null;
+let coverScrollDebt = 0;
+let coverTouchY = 0;
+let coverTransitioning = false;
+let coverResetTimer = null;
+let kakaoMapSdkPromise = null;
+
+const coverScrollThreshold = 180;
 
 const revealElement = (element, delay = 0) => {
   if (!element || element.classList.contains("fade-up")) {
@@ -77,6 +89,191 @@ const setupRevealAnimations = () => {
   revealTargets.forEach((element, index) => {
     revealElement(element, Math.min((index % 4) * 80, 240));
   });
+};
+
+const isAtCoverStart = () => window.scrollY <= Math.min(24, cover.offsetHeight * 0.04);
+
+const setCoverPull = () => {
+  const progress = Math.min(coverScrollDebt / coverScrollThreshold, 1);
+  cover.style.setProperty("--cover-scale", (1.035 + progress * 0.018).toFixed(3));
+  cover.style.setProperty("--cover-shift", `${Math.round(progress * -14)}px`);
+  cover.classList.toggle("is-pulling", progress > 0 && !coverTransitioning);
+};
+
+const resetCoverPull = () => {
+  if (coverTransitioning) {
+    return;
+  }
+
+  coverScrollDebt = 0;
+  cover.style.removeProperty("--cover-scale");
+  cover.style.removeProperty("--cover-shift");
+  cover.classList.remove("is-pulling");
+};
+
+const movePastCover = () => {
+  if (coverTransitioning) {
+    return;
+  }
+
+  coverTransitioning = true;
+  coverScrollDebt = coverScrollThreshold;
+  setCoverPull();
+  cover.classList.remove("is-pulling");
+  cover.classList.add("is-leaving");
+
+  window.setTimeout(() => {
+    greetingSection.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+  }, prefersReducedMotion ? 0 : 80);
+
+  window.setTimeout(() => {
+    cover.classList.remove("is-leaving");
+    coverTransitioning = false;
+    resetCoverPull();
+  }, prefersReducedMotion ? 120 : 1100);
+};
+
+const absorbCoverScroll = (deltaY) => {
+  if (deltaY <= 0 || prefersReducedMotion || !isAtCoverStart() || coverTransitioning) {
+    if (deltaY < 0) {
+      resetCoverPull();
+    }
+
+    return false;
+  }
+
+  coverScrollDebt = Math.min(coverScrollDebt + deltaY, coverScrollThreshold);
+  setCoverPull();
+
+  window.clearTimeout(coverResetTimer);
+  coverResetTimer = window.setTimeout(resetCoverPull, 620);
+
+  if (coverScrollDebt >= coverScrollThreshold) {
+    window.clearTimeout(coverResetTimer);
+    movePastCover();
+  }
+
+  return true;
+};
+
+const setupCoverScrollGate = () => {
+  window.addEventListener(
+    "wheel",
+    (event) => {
+      if (!absorbCoverScroll(event.deltaY)) {
+        return;
+      }
+
+      event.preventDefault();
+    },
+    { passive: false },
+  );
+
+  window.addEventListener(
+    "touchstart",
+    (event) => {
+      coverTouchY = event.touches[0]?.clientY || 0;
+    },
+    { passive: true },
+  );
+
+  window.addEventListener(
+    "touchmove",
+    (event) => {
+      const currentY = event.touches[0]?.clientY || coverTouchY;
+      const deltaY = coverTouchY - currentY;
+      coverTouchY = currentY;
+
+      if (!absorbCoverScroll(deltaY * 1.35)) {
+        return;
+      }
+
+      event.preventDefault();
+    },
+    { passive: false },
+  );
+
+  window.addEventListener("keydown", (event) => {
+    if (!["ArrowDown", "PageDown", "Space"].includes(event.code) || !isAtCoverStart()) {
+      return;
+    }
+
+    event.preventDefault();
+    movePastCover();
+  });
+
+  scrollCue.addEventListener("click", movePastCover);
+};
+
+const loadKakaoMapSdk = () => {
+  if (!kakaoMapAppKey) {
+    return Promise.reject(new Error("Kakao Maps JavaScript key is not configured."));
+  }
+
+  if (window.kakao?.maps) {
+    return new Promise((resolve) => window.kakao.maps.load(resolve));
+  }
+
+  if (kakaoMapSdkPromise) {
+    return kakaoMapSdkPromise;
+  }
+
+  kakaoMapSdkPromise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(kakaoMapAppKey)}&libraries=services,clusterer&autoload=false`;
+    script.async = true;
+    script.onload = () => {
+      if (!window.kakao?.maps) {
+        reject(new Error("Kakao Maps SDK did not initialize."));
+        return;
+      }
+
+      window.kakao.maps.load(resolve);
+    };
+    script.onerror = () => reject(new Error("Kakao Maps SDK failed to load."));
+    document.head.append(script);
+  });
+
+  return kakaoMapSdkPromise;
+};
+
+const setupKakaoMap = async () => {
+  if (!kakaoMapContainer) {
+    return;
+  }
+
+  try {
+    await loadKakaoMapSdk();
+
+    const latitude = Number(kakaoMapContainer.dataset.lat);
+    const longitude = Number(kakaoMapContainer.dataset.lng);
+    const level = Number(kakaoMapContainer.dataset.level || 5);
+    const title = kakaoMapContainer.dataset.title || "예식장";
+    const center = new window.kakao.maps.LatLng(latitude, longitude);
+    const map = new window.kakao.maps.Map(kakaoMapContainer, {
+      center,
+      level,
+      draggable: true,
+      scrollwheel: false,
+    });
+    const marker = new window.kakao.maps.Marker({ position: center, title });
+    const overlay = new window.kakao.maps.CustomOverlay({
+      position: center,
+      yAnchor: 2.45,
+      content: `<span class="kakao-map-label">${title}</span>`,
+    });
+
+    marker.setMap(map);
+    overlay.setMap(map);
+    kakaoMapContainer.classList.add("is-loaded");
+
+    window.setTimeout(() => {
+      map.relayout();
+      map.setCenter(center);
+    }, 80);
+  } catch {
+    kakaoMapContainer.classList.add("is-fallback");
+  }
 };
 
 const setCountdown = () => {
@@ -217,5 +414,7 @@ document.querySelector("#shareButton").addEventListener("click", async () => {
 
 setCountdown();
 setInterval(setCountdown, 1000);
+setupCoverScrollGate();
 setupRevealAnimations();
+setupKakaoMap();
 renderMessages();
