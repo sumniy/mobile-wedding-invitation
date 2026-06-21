@@ -3,18 +3,37 @@ const contacts = {
   bride: { label: "신부 이서연", phone: "01098765432" },
 };
 
+const weddingDate = new Date("2027-02-14T11:00:00+09:00");
+
 const contactDialog = document.querySelector("#contactDialog");
-const accountDialog = document.querySelector("#accountDialog");
+const rsvpDialog = document.querySelector("#rsvpDialog");
 const photoDialog = document.querySelector("#photoDialog");
 const contactTitle = document.querySelector("#contactTitle");
 const callLink = document.querySelector("#callLink");
 const smsLink = document.querySelector("#smsLink");
 const copyResult = document.querySelector("#copyResult");
-const messages = document.querySelector("#messages");
+const rsvpResult = document.querySelector("#rsvpResult");
+const photoDialogImage = document.querySelector("#photoDialog img");
+
+const setCountdown = () => {
+  const diff = weddingDate.getTime() - Date.now();
+  const safeDiff = Math.max(diff, 0);
+  const totalSeconds = Math.floor(safeDiff / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  document.querySelector("#daysLeft").textContent = days;
+  document.querySelector("#hoursLeft").textContent = hours;
+  document.querySelector("#minutesLeft").textContent = minutes;
+  document.querySelector("#secondsLeft").textContent = seconds;
+  document.querySelector("#dateMessage").textContent = diff > 0 ? `${days + 1}일 남았습니다.` : "오늘입니다.";
+};
 
 document.querySelectorAll("[data-call]").forEach((button) => {
   button.addEventListener("click", () => {
-    const contact = contacts[button.dataset.call];
+    const contact = contacts[button.dataset.call] || contacts.groom;
     contactTitle.textContent = `${contact.label}에게 연락하기`;
     callLink.href = `tel:${contact.phone}`;
     smsLink.href = `sms:${contact.phone}`;
@@ -22,16 +41,10 @@ document.querySelectorAll("[data-call]").forEach((button) => {
   });
 });
 
-document.querySelectorAll("[data-scroll]").forEach((button) => {
+document.querySelectorAll("[data-open='rsvp']").forEach((button) => {
   button.addEventListener("click", () => {
-    document.querySelector(button.dataset.scroll).scrollIntoView({ behavior: "smooth" });
-  });
-});
-
-document.querySelectorAll("[data-open='account']").forEach((button) => {
-  button.addEventListener("click", () => {
-    copyResult.textContent = "";
-    accountDialog.showModal();
+    rsvpResult.textContent = "";
+    rsvpDialog.showModal();
   });
 });
 
@@ -39,59 +52,57 @@ document.querySelectorAll("[data-close]").forEach((button) => {
   button.addEventListener("click", () => button.closest("dialog").close());
 });
 
+document.querySelectorAll("dialog").forEach((dialog) => {
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+});
+
 document.querySelectorAll("[data-copy]").forEach((button) => {
   button.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(button.dataset.copy);
-    copyResult.textContent = "계좌번호가 복사되었습니다.";
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy);
+      copyResult.textContent = "복사되었습니다.";
+    } catch {
+      copyResult.textContent = button.dataset.copy;
+    }
   });
 });
 
 document.querySelectorAll("[data-photo]").forEach((button) => {
-  button.addEventListener("click", () => photoDialog.showModal());
+  button.addEventListener("click", () => {
+    const image = button.querySelector("img");
+    photoDialogImage.src = image.src;
+    photoDialogImage.alt = image.alt || "확대된 웨딩 사진";
+    photoDialog.showModal();
+  });
 });
 
 document.querySelector("#rsvpForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const data = Object.fromEntries(new FormData(event.currentTarget));
   localStorage.setItem("wedding-rsvp", JSON.stringify(data));
-  document.querySelector("#rsvpResult").textContent = `${data.name}님의 응답이 저장되었습니다.`;
+  rsvpResult.textContent = `${data.name}님의 참석 의사가 저장되었습니다.`;
   event.currentTarget.reset();
 });
 
-const defaultMessages = [
-  { writer: "지현", message: "두 분의 시작을 진심으로 축하해요. 오래오래 행복하세요." },
-  { writer: "민석", message: "아름다운 날에 함께 축하할 수 있어 기쁩니다." },
-];
+document.querySelector("#soundButton").addEventListener("click", (event) => {
+  const button = event.currentTarget;
+  const isOn = button.classList.toggle("is-on");
+  button.setAttribute("aria-pressed", String(isOn));
+  button.setAttribute("aria-label", isOn ? "배경음악 끄기" : "배경음악 켜기");
+});
 
-const renderMessages = () => {
-  const saved = JSON.parse(localStorage.getItem("wedding-messages") || "[]");
-  const list = saved.length ? saved : defaultMessages;
-  messages.innerHTML = "";
-  list.slice(-3).reverse().forEach((item) => {
-    const li = document.createElement("li");
-    const strong = document.createElement("strong");
-    const p = document.createElement("p");
-    strong.textContent = item.writer;
-    p.textContent = item.message;
-    li.append(strong, p);
-    messages.append(li);
-  });
-};
-
-document.querySelector("#messageForm").addEventListener("submit", (event) => {
-  event.preventDefault();
-  const data = Object.fromEntries(new FormData(event.currentTarget));
-  const saved = JSON.parse(localStorage.getItem("wedding-messages") || "[]");
-  saved.push(data);
-  localStorage.setItem("wedding-messages", JSON.stringify(saved));
-  event.currentTarget.reset();
-  renderMessages();
+document.querySelector("#albumButton").addEventListener("click", () => {
+  document.querySelector("#albumNotice").textContent = "샘플 페이지에서는 업로드 기능이 비활성화되어 있습니다.";
 });
 
 document.querySelector("#shareButton").addEventListener("click", async () => {
   const shareData = {
-    title: "민준 그리고 서연의 모바일 청첩장",
-    text: "2026년 10월 17일 토요일 오후 1시, 라움 아트센터",
+    title: "민준 그리고 서연 결혼합니다.",
+    text: "2027년 2월 14일 일요일 오전 11시, 비비드예식장",
     url: location.href,
   };
 
@@ -104,4 +115,5 @@ document.querySelector("#shareButton").addEventListener("click", async () => {
   alert("청첩장 주소가 복사되었습니다.");
 });
 
-renderMessages();
+setCountdown();
+setInterval(setCountdown, 1000);
