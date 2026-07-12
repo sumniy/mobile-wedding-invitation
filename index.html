@@ -1,280 +1,723 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f6f6f8" />
-    <meta property="og:title" content="민준♥서연 결혼합니다" />
-    <meta property="og:description" content="2026년 6월 28일 일요일 오전 11시, 아펠가모 반포점" />
-    <meta property="og:image" content="assets/wedding-hero.png" />
-    <meta name="kakao-map-app-key" content="" />
-    <title>민준♥서연 결혼합니다</title>
-    <link rel="icon" href="assets/wedding-hero.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="invite-shell">
-      <button class="music-toggle" id="musicToggle" type="button" aria-label="배경음악 켜기" aria-pressed="false">♪</button>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>이수민 ♥ 조주영, 결혼합니다</title>
 
-      <section class="cover" aria-label="모바일 청첩장 표지">
-        <img src="assets/wedding-hero.png" alt="웨딩 커버 사진" />
-        <div class="cover-tint"></div>
-        <div class="cover-names" aria-label="신랑 신부 이름">
-          <span>민준</span>
-          <span>서연</span>
-        </div>
-        <div class="cover-script">Happily<br />Ever<br />After</div>
-        <div class="cover-meta">
-          <p>2026.06.28 SUN 11:00</p>
-          <p>아펠가모 반포점</p>
-        </div>
-        <button class="scroll-cue" id="scrollCue" type="button" aria-label="초대장 내용 보기"></button>
-      </section>
+<!-- 카톡/SNS 공유 미리보기 (OG 태그) — 배포 후 실제 URL/이미지로 교체 -->
+<meta property="og:title" content="이수민 ♥ 조주영, 결혼합니다">
+<meta property="og:description" content="2026년 10월 31일 토요일 낮 12시 · 콘래드 서울">
+<meta property="og:image" content="https://example.github.io/wedding/images/og-thumbnail.jpg">
+<meta property="og:url" content="https://example.github.io/wedding/">
+<meta property="og:type" content="website">
 
-      <section class="greeting section">
-        <h1>우리, 결혼합니다</h1>
-        <figure class="wide-photo">
-          <img src="assets/wedding-hero.png" alt="흑백 웨딩 사진" />
-        </figure>
-        <div class="poem">
-          <p>함께한 다섯 해의 시간을 지나</p>
-          <p>초여름의 푸른 날,</p>
-          <p>두 사람이 한 길을 걸어가고자 합니다.</p>
-          <br />
-          <p>늘 아껴주신 소중한 분들과</p>
-          <p>이 기쁜 순간을 함께하고 싶습니다.</p>
-          <span aria-hidden="true">-</span>
-          <p>김영호 · 박은정의 장남 김민준</p>
-          <p>이성재 · 최윤희의 장녀 이서연</p>
-        </div>
-      </section>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 
-      <section class="save section">
-        <h2>Save the Date</h2>
-        <div class="time-grid" aria-label="결혼식까지 남은 시간">
-          <div><strong id="daysLeft">0</strong><span>DAYS</span></div>
-          <i>:</i>
-          <div><strong id="hoursLeft">0</strong><span>HOUR</span></div>
-          <i>:</i>
-          <div><strong id="minutesLeft">0</strong><span>MIN</span></div>
-          <i>:</i>
-          <div><strong id="secondsLeft">0</strong><span>SEC</span></div>
-        </div>
-        <p class="d-day">민준 <b>♥</b> 서연의 결혼식이 <strong id="dateMessage">다가오고 있습니다.</strong></p>
-      </section>
+<style>
+/* ============================================================
+   화이트 미니멀 톤
+   ============================================================ */
+:root {
+  --bg: #ffffff;
+  --bg-soft: #fafafa;
+  --text: #222222;
+  --text-sub: #888888;
+  --line: #ebebeb;
+  --accent: #1a1a1a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  font-weight: 300;
+  color: var(--text);
+  background: #f2f2f2;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--bg);
+  box-shadow: 0 0 40px rgba(0,0,0,.06);
+  overflow-x: hidden;
+}
+.serif { font-family: 'Noto Serif KR', serif; }
 
-      <section class="calendar-section section">
-        <h2>예식 안내</h2>
-        <p class="event-line">2026년 6월 28일 일요일 오전 11:00<br />아펠가모 반포점</p>
-        <span class="divider">-</span>
-        <h3>6월</h3>
-        <div class="calendar" aria-label="2026년 6월 달력">
-          <div class="week">
-            <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
-          </div>
-          <div class="dates">
-            <span></span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
-            <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span>
-            <span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
-            <span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span>
-            <strong>28</strong><span>29</span><span>30</span><span></span><span></span><span></span><span></span>
-          </div>
-        </div>
-      </section>
+/* 정보성 섹션 (오시는 길 등) */
+section { padding: 72px 24px; }
+.sec-label {
+  text-align: center; font-size: 11px; letter-spacing: 4px;
+  color: var(--text-sub); margin-bottom: 10px;
+}
+.sec-title {
+  text-align: center; font-family: 'Noto Serif KR', serif;
+  font-size: 19px; font-weight: 400; margin-bottom: 36px;
+}
 
-      <section id="location" class="location section">
-        <h2>오시는 길</h2>
-        <div
-          class="map-preview kakao-map-shell"
-          id="kakaoMap"
-          data-lat="37.50083677998381"
-          data-lng="127.00318916291162"
-          data-level="5"
-          data-title="아펠가모 반포점"
-          role="img"
-          aria-label="아펠가모 반포점 카카오 지도"
-        >
-          <div class="map-fallback" id="mapFallback">
-            <div class="map-road road-a"></div>
-            <div class="map-road road-b"></div>
-            <div class="map-road road-c"></div>
-            <span class="fallback-label">아펠가모 반포점</span>
-            <small>250m</small>
-          </div>
-        </div>
-        <div class="map-buttons">
-          <a class="map-button map-naver" href="https://map.naver.com/p/search/%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">
-            <span class="map-icon" aria-hidden="true">N</span>
-            <span>네이버지도</span>
-          </a>
-          <a class="map-button map-kakao" href="https://map.kakao.com/?q=%EC%95%84%ED%8E%A0%EA%B0%80%EB%AA%A8%20%EB%B0%98%ED%8F%AC" target="_blank" rel="noreferrer">
-            <span class="map-icon" aria-hidden="true">K</span>
-            <span>카카오맵</span>
-          </a>
-          <a class="map-button map-tmap" href="https://www.tmap.co.kr/" target="_blank" rel="noreferrer">
-            <span class="map-icon" aria-hidden="true">T</span>
-            <span>티맵</span>
-          </a>
-        </div>
-        <div class="location-text">
-          <h3>아펠가모 반포</h3>
-          <p>서울특별시 서초구 반포대로 235</p>
-          <p>반포효성빌딩 LL층(지하 2층)</p>
-          <h3>자가용 이용 시</h3>
-          <p>네비게이션 : '아펠가모 반포' 입력</p>
-          <p>주차안내 : 지하주차장 이용, 2시간 무료 주차</p>
-          <h3>지하철 이용 시</h3>
-          <p>3, 7, 9호선 고속터미널역 5번 출구에서 도보 5분</p>
-          <h3>버스 이용 시</h3>
-          <p>서울성모병원 정류장 하차 후 도보 5분</p>
-        </div>
-      </section>
+/* 이야기 흐름 구간 — 제목 없이 이어지는 부분 */
+.story { padding: 0 24px; }
+.story .block { padding: 44px 0; }
+.divider {
+  width: 1px; height: 40px; margin: 0 auto;
+  background: linear-gradient(to bottom, transparent, #d5d5d5, transparent);
+}
+.caption {
+  text-align: center; font-size: 13px; color: var(--text-sub);
+  letter-spacing: 1px; margin-bottom: 20px;
+}
 
-      <section class="gallery section">
-        <h2>Our moments</h2>
-        <div class="photo-grid" aria-label="웨딩 갤러리">
-          <button type="button" data-photo="0"><img src="assets/wedding-hero.png" alt="웨딩 사진 1" /></button>
-          <button type="button" data-photo="1"><img src="assets/wedding-hero.png" alt="웨딩 사진 2" /></button>
-          <button type="button" data-photo="2"><img src="assets/wedding-hero.png" alt="웨딩 사진 3" /></button>
-          <button type="button" data-photo="3"><img src="assets/wedding-hero.png" alt="웨딩 사진 4" /></button>
-          <button type="button" data-photo="4"><img src="assets/wedding-hero.png" alt="웨딩 사진 5" /></button>
-          <button type="button" data-photo="5"><img src="assets/wedding-hero.png" alt="웨딩 사진 6" /></button>
-          <button type="button" data-photo="6"><img src="assets/wedding-hero.png" alt="웨딩 사진 7" /></button>
-          <button type="button" data-photo="7"><img src="assets/wedding-hero.png" alt="웨딩 사진 8" /></button>
-          <button type="button" data-photo="8"><img src="assets/wedding-hero.png" alt="웨딩 사진 9" /></button>
-        </div>
-        <span class="chevron" aria-hidden="true"></span>
-      </section>
+/* 스크롤 페이드인 */
+.fade { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.fade.show { opacity: 1; transform: none; }
 
-      <section class="guestbook section">
-        <h2>방명록</h2>
-        <ul class="message-list" id="messageList"></ul>
-        <div class="pill-actions">
-          <button type="button" data-open="guestbook"><span class="action-icon write-icon" aria-hidden="true"></span>작성하기</button>
-          <button type="button" id="showAllMessages"><span class="action-icon list-icon" aria-hidden="true"></span>전체보기</button>
-        </div>
-      </section>
+/* 이미지 플레이스홀더 — 실제 사진으로 교체 시 <img>로 바꾸면 됨 */
+.ph {
+  background: var(--bg-soft);
+  border: 1px dashed #d9d9d9;
+  display: flex; align-items: center; justify-content: center;
+  color: #bbb; font-size: 12px; letter-spacing: 1px; width: 100%;
+}
 
-      <section class="notice section">
-        <h2>안내사항</h2>
-        <dl>
-          <div>
-            <dt>주차</dt>
-            <dd>B3-B5, 2시간 무료 주차</dd>
-          </div>
-          <div>
-            <dt>피로연장 이용시간</dt>
-            <dd>10:30 ~ 12:30</dd>
-          </div>
-          <div>
-            <dt>화환은 정중히 사양합니다.</dt>
-            <dd>좋은 마음만 감사히 받겠습니다.</dd>
-          </div>
-        </dl>
-      </section>
+/* ── 커버 ─────────────────────────── */
+.cover { padding: 0; }
+.cover .ph { aspect-ratio: 3/4; border: none; border-bottom: 1px solid var(--line); }
+.cover-text { text-align: center; padding: 44px 24px 56px; }
+.cover-text .date-line { font-size: 12px; letter-spacing: 5px; color: var(--text-sub); margin-bottom: 18px; }
+.cover-text h1 { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 400; letter-spacing: 2px; }
+.cover-text h1 .and { font-size: 16px; color: var(--text-sub); margin: 0 10px; }
+.cover-text .venue-line { font-size: 13px; color: var(--text-sub); margin-top: 18px; line-height: 1.7; }
 
-      <section class="account section">
-        <h2>마음 전하실 곳</h2>
-        <div class="account-box">
-          <details>
-            <summary>신랑측</summary>
-            <div class="account-entry">
-              <span>신랑 김민준</span>
-              <strong>신한 110-294-723977</strong>
-              <button type="button" data-copy="신한 110-294-723977 김민준">계좌 복사하기</button>
-            </div>
-            <div class="account-entry">
-              <span>아버지 김영호</span>
-              <strong>국민 281901-04-236441</strong>
-              <button type="button" data-copy="국민 281901-04-236441 김영호">계좌 복사하기</button>
-            </div>
-          </details>
-          <details>
-            <summary>신부측</summary>
-            <div class="account-entry">
-              <span>신부 이서연</span>
-              <strong>카카오뱅크 3333-04-0218912</strong>
-              <button type="button" data-copy="카카오뱅크 3333-04-0218912 이서연">계좌 복사하기</button>
-            </div>
-            <div class="account-entry">
-              <span>어머니 최윤희</span>
-              <strong>국민 462602-04-463883</strong>
-              <button type="button" data-copy="국민 462602-04-463883 최윤희">계좌 복사하기</button>
-            </div>
-          </details>
-        </div>
-        <p class="toast" id="copyResult" aria-live="polite"></p>
-      </section>
+/* ── Save the Date ─────────────────── */
+.std { background: var(--bg-soft); text-align: center; }
+.std .big-date { font-family: 'Noto Serif KR', serif; font-size: 34px; font-weight: 300; letter-spacing: 3px; margin-bottom: 8px; }
+.std .detail { font-size: 14px; line-height: 2; }
+.std .detail .sub { color: var(--text-sub); font-size: 13px; }
 
-      <section class="rsvp section">
-        <h2>참석의사 전달하기</h2>
-        <p>축하의 마음으로 참석해 주시는<br />모든 분들을 귀하게 모실 수 있도록<br />참석 의사를 전달 부탁드립니다.</p>
-        <button class="line-button" type="button" data-open="rsvp">참석의사 전달하기</button>
-      </section>
+/* ── 초대 인사말 ─────────────────────── */
+.invite-title {
+  text-align: center; font-family: 'Noto Serif KR', serif;
+  font-size: 19px; font-weight: 400; margin-bottom: 36px;
+}
+.invite .handwriting { aspect-ratio: 4/5; margin-bottom: 28px; }
+.invite .parents { text-align: center; font-size: 14px; line-height: 2.2; margin-top: 8px; }
+.invite .parents b { font-weight: 500; }
+.invite .parents .rel { color: var(--text-sub); font-size: 13px; margin: 0 6px; }
 
-      <footer class="share">
-        <div class="share-buttons">
-          <button type="button" id="copyLink" aria-label="링크 복사">
-            <span class="share-icon link-icon" aria-hidden="true"></span>
-            <span>링크 복사</span>
-          </button>
-          <button type="button" id="shareButton" aria-label="카카오톡 공유">
-            <span class="share-icon kakao-icon" aria-hidden="true"></span>
-            <span>카카오톡 공유</span>
-          </button>
-        </div>
-        <small>ⓒ Mobile Wedding Invitation</small>
-      </footer>
-    </main>
+/* ── 신랑 & 신부 ───────────────────── */
+.couple .pair { display: flex; gap: 16px; }
+.couple .person { flex: 1; text-align: center; }
+.couple .person .ph { aspect-ratio: 3/4; margin-bottom: 14px; }
+.couple .person .role { font-size: 11px; letter-spacing: 3px; color: var(--text-sub); margin-bottom: 6px; }
+.couple .person .pname { font-family: 'Noto Serif KR', serif; font-size: 17px; }
 
-    <dialog id="guestbookDialog">
-      <form class="modal" id="messageForm">
-        <button class="close" type="button" data-close aria-label="닫기">×</button>
-        <h3>방명록 작성하기</h3>
-        <label>
-          <span>이름</span>
-          <input name="writer" placeholder="보내는 분" required />
-        </label>
-        <label>
-          <span>메시지</span>
-          <textarea name="message" rows="4" placeholder="축하 메시지를 남겨주세요" required></textarea>
-        </label>
-        <button class="dark-button" type="submit">남기기</button>
-      </form>
-    </dialog>
+/* ── 가족 사진 ─────────────────────── */
+.family .ph { aspect-ratio: 4/3; }
+.family .cap { text-align: center; font-size: 12px; color: var(--text-sub); margin: 12px 0 28px; }
+.family .cap:last-child { margin-bottom: 0; }
 
-    <dialog id="rsvpDialog">
-      <form class="modal" id="rsvpForm">
-        <button class="close" type="button" data-close aria-label="닫기">×</button>
-        <h3>참석의사 전달하기</h3>
-        <label>
-          <span>성함</span>
-          <input name="name" autocomplete="name" placeholder="이름을 입력해주세요" required />
-        </label>
-        <fieldset>
-          <legend>참석 여부</legend>
-          <label class="choice"><input type="radio" name="attendance" value="참석" required /><span>참석</span></label>
-          <label class="choice"><input type="radio" name="attendance" value="불참" /><span>불참</span></label>
-        </fieldset>
-        <label>
-          <span>인원</span>
-          <input name="count" type="number" min="1" max="10" value="1" required />
-        </label>
-        <button class="dark-button" type="submit">전달하기</button>
-        <p class="toast" id="rsvpResult" aria-live="polite"></p>
-      </form>
-    </dialog>
+/* ── 갤러리 ────────────────────────── */
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.gallery-grid .ph { aspect-ratio: 1; cursor: pointer; font-size: 10px; }
+.gallery-grid .hidden-item { display: none; }
+.gallery-grid.expanded .hidden-item { display: flex; }
+.more-btn {
+  display: block; margin: 24px auto 0; padding: 12px 40px;
+  font-size: 13px; letter-spacing: 1px; color: var(--text);
+  background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+}
 
-    <dialog id="photoDialog">
-      <div class="modal photo-modal">
-        <button class="close" type="button" data-close aria-label="닫기">×</button>
-        <img src="assets/wedding-hero.png" alt="확대된 웨딩 사진" />
+/* 라이트박스 */
+#lightbox {
+  display: none; position: fixed; inset: 0; z-index: 100;
+  background: rgba(0,0,0,.92);
+  align-items: center; justify-content: center;
+}
+#lightbox.open { display: flex; }
+#lightbox .lb-content {
+  width: 86%; max-width: 400px; aspect-ratio: 1;
+  background: #333; color: #999;
+  display: flex; align-items: center; justify-content: center; font-size: 13px;
+}
+#lightbox .lb-close {
+  position: absolute; top: 20px; right: 24px;
+  color: #fff; font-size: 26px; background: none; border: none; cursor: pointer;
+}
+
+/* ── 러브레터 ───────────────────────── */
+.letters .letter-card {
+  background: #fff; border: 1px solid var(--line); border-radius: 4px;
+  padding: 20px; margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.03);
+}
+.letters .letter-card:last-child { margin-bottom: 0; }
+.letters .letter-card .from {
+  font-size: 11px; letter-spacing: 3px; color: var(--text-sub);
+  text-align: center; margin-bottom: 14px;
+}
+.letters .letter-card .ph { aspect-ratio: 4/3; border-style: dashed; }
+
+/* ── 캘린더 / D-day ────────────────── */
+.calendar { background: var(--bg-soft); }
+.calendar table { width: 100%; border-collapse: collapse; text-align: center; }
+.calendar th { font-size: 11px; font-weight: 400; color: var(--text-sub); padding: 10px 0; }
+.calendar th.sun, .calendar td.sun { color: #c96a5f; }
+.calendar td { font-size: 14px; padding: 12px 0; }
+.calendar td.dday span {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+}
+.calendar .month-label {
+  text-align: center; font-family: 'Noto Serif KR', serif;
+  font-size: 22px; font-weight: 300; margin-bottom: 6px; letter-spacing: 3px;
+}
+.calendar .month-sub { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 24px; }
+.countdown { display: flex; justify-content: center; gap: 12px; margin-top: 36px; }
+.countdown .unit { text-align: center; min-width: 58px; }
+.countdown .num {
+  font-family: 'Noto Serif KR', serif; font-size: 24px;
+  background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 0;
+}
+.countdown .lab { font-size: 11px; color: var(--text-sub); margin-top: 8px; letter-spacing: 1px; }
+.dday-msg { text-align: center; font-size: 13px; color: var(--text-sub); margin-top: 24px; }
+.dday-msg b { color: var(--text); font-weight: 500; }
+
+/* ── 오시는 길 ─────────────────────── */
+.sketch-map { margin-bottom: 24px; }
+.sketch-map svg { width: 100%; height: auto; display: block; }
+.location .venue-name { text-align: center; font-size: 16px; font-weight: 400; margin-bottom: 6px; }
+.location .venue-addr { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 14px; }
+.copy-btn {
+  display: block; margin: 0 auto; padding: 9px 26px;
+  font-size: 12px; color: var(--text); letter-spacing: 1px;
+  background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+}
+.transport { margin-top: 36px; border-top: 1px solid var(--line); }
+.transport .t-item { padding: 20px 4px; border-bottom: 1px solid var(--line); }
+.transport .t-item h4 { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+.transport .t-item p { font-size: 13px; color: var(--text-sub); line-height: 1.8; }
+
+/* ── 참석 여부 (버튼 → 모달) ──────────── */
+.attend { background: var(--bg-soft); text-align: center; }
+.attend .msg { font-size: 14px; line-height: 2; margin-bottom: 28px; }
+.attend .msg .sub { font-size: 13px; color: var(--text-sub); }
+.attend-open-btn {
+  padding: 15px 52px; font-size: 14px; letter-spacing: 2px;
+  color: #fff; background: var(--accent); border: none; border-radius: 999px;
+  cursor: pointer; font-family: inherit;
+}
+
+/* 참석 여부 모달 */
+#attend-modal {
+  display: none; position: fixed; inset: 0; z-index: 150;
+  background: rgba(0,0,0,.5);
+  align-items: flex-end; justify-content: center;
+}
+#attend-modal.open { display: flex; }
+.modal-sheet {
+  width: 100%; max-width: 430px; max-height: 88vh; overflow-y: auto;
+  background: #fff; border-radius: 20px 20px 0 0;
+  padding: 28px 24px 40px;
+  animation: sheetUp .3s ease;
+}
+@keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.modal-head h3 { font-family: 'Noto Serif KR', serif; font-size: 17px; font-weight: 400; }
+.modal-close { background: none; border: none; font-size: 22px; color: var(--text-sub); cursor: pointer; padding: 4px; }
+.modal-sub { font-size: 13px; color: var(--text-sub); line-height: 1.7; margin-bottom: 24px; }
+
+.field { margin-bottom: 18px; }
+.field > label { display: block; font-size: 12px; font-weight: 500; margin-bottom: 8px; }
+input[type="text"], input[type="number"] {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff; outline: none;
+  font-family: inherit;
+}
+input:focus { border-color: var(--accent); }
+.options { display: flex; gap: 8px; }
+.options input[type="radio"] { display: none; }
+.options label {
+  flex: 1; text-align: center; padding: 12px 0; font-size: 13px;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+  cursor: pointer; transition: all .15s;
+}
+.options input[type="radio"]:checked + label {
+  border-color: var(--accent); color: #fff; background: var(--accent); font-weight: 500;
+}
+#rsvp-submit {
+  width: 100%; padding: 15px; margin-top: 10px; font-size: 14px; letter-spacing: 2px;
+  color: #fff; background: var(--accent); border: none; border-radius: 8px; cursor: pointer;
+  font-family: inherit;
+}
+#rsvp-submit:disabled { opacity: .5; }
+#rsvp-done { display: none; text-align: center; padding: 40px 0; line-height: 1.9; font-size: 14px; }
+#rsvp-done .check { font-size: 36px; margin-bottom: 10px; }
+
+/* ── 마음 전하실 곳 ────────────────── */
+.accounts .acc-group { margin-bottom: 14px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.accounts summary {
+  padding: 16px; font-size: 14px; cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--bg-soft);
+}
+.accounts summary::after { content: '+'; color: var(--text-sub); font-size: 18px; }
+.accounts details[open] summary::after { content: '–'; }
+.acc-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 16px; border-top: 1px solid var(--line); font-size: 13px;
+}
+.acc-row .info { line-height: 1.6; }
+.acc-row .info .who { color: var(--text-sub); font-size: 12px; }
+.acc-row button {
+  padding: 7px 14px; font-size: 11px; color: var(--text);
+  background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── 푸터 ─────────────────────────── */
+footer { padding: 56px 24px 72px; text-align: center; background: var(--bg-soft); }
+footer .share-btns { display: flex; gap: 10px; max-width: 320px; margin: 0 auto 40px; }
+footer .share-btns button {
+  flex: 1; padding: 14px 0; font-size: 13px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: #fff; font-family: inherit;
+}
+footer .share-btns .kakao { background: #FEE500; border-color: #FEE500; font-weight: 500; }
+footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: var(--text-sub); letter-spacing: 1px; }
+
+/* 토스트 */
+#toast {
+  position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: rgba(0,0,0,.8); color: #fff; font-size: 13px;
+  padding: 11px 22px; border-radius: 999px;
+  opacity: 0; transition: all .3s; pointer-events: none; z-index: 200;
+}
+#toast.on { opacity: 1; transform: translateX(-50%); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ═══ 커버 ═══ -->
+  <section class="cover">
+    <div class="ph">메인 사진 (3:4)</div>
+    <div class="cover-text fade">
+      <p class="date-line">2026 . 10 . 31</p>
+      <h1 class="serif">이수민 <span class="and">and</span> 조주영</h1>
+      <p class="venue-line">토요일 낮 12시<br>콘래드 서울 그랜드볼룸 3F</p>
+    </div>
+  </section>
+
+  <!-- ═══ Save the Date ═══ -->
+  <section class="std">
+    <div class="fade">
+      <p class="sec-label">SAVE THE DATE</p>
+      <p class="big-date serif">10 . 31</p>
+      <div class="detail">
+        <p>2026년 10월 31일 토요일 낮 12시</p>
+        <p class="sub">콘래드 서울 그랜드볼룸 3F<br>서울 영등포구 국제금융로 10<br>신부대기실 6F</p>
       </div>
-    </dialog>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
-  </body>
+  <!-- ═══════════════════════════════════════════
+       이야기 흐름 구간 — 인사말부터 편지까지
+       제목 없이 얇은 디바이더로만 이어집니다
+       ═══════════════════════════════════════════ -->
+  <div class="story">
+
+    <!-- 초대 인사말 · 손글씨 ① -->
+    <div class="block invite fade" style="padding-top: 72px;">
+      <h2 class="invite-title">소중한 분들을 초대합니다</h2>
+      <!-- 태블릿 손글씨 투명 PNG로 교체:
+           <img src="images/letter-invite.png" alt="초대 인사말" style="width:100%"> -->
+      <div class="ph handwriting">손글씨 초대 편지 (투명 PNG)</div>
+      <div class="parents">
+        <p><b>이동주</b> · <b>김순옥</b><span class="rel">의 아들</span><b>수민</b></p>
+        <p><b>조희승</b> · <b>조예은</b><span class="rel">의 딸</span><b>주영</b></p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 신랑 & 신부 -->
+    <div class="block couple fade">
+      <div class="pair">
+        <div class="person">
+          <div class="ph">신랑 사진</div>
+          <p class="role">GROOM</p>
+          <p class="pname serif">이수민</p>
+        </div>
+        <div class="person">
+          <div class="ph">신부 사진</div>
+          <p class="role">BRIDE</p>
+          <p class="pname serif">조주영</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 가족 사진 -->
+    <div class="block family fade">
+      <p class="caption">함께해 온 가족들</p>
+      <div class="ph">신랑 측 가족 사진 (4:3)</div>
+      <p class="cap">신랑 측 가족</p>
+      <div class="ph">신부 측 가족 사진 (4:3)</div>
+      <p class="cap">신부 측 가족</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 갤러리 -->
+    <div class="block fade">
+      <p class="caption">우리의 순간들</p>
+      <div class="gallery-grid" id="gallery">
+        <!-- 실제 사진으로 교체: <img src="images/g1.jpg" loading="lazy" onclick="openLightbox(0)"> -->
+        <div class="ph" onclick="openLightbox(1)">사진 1</div>
+        <div class="ph" onclick="openLightbox(2)">사진 2</div>
+        <div class="ph" onclick="openLightbox(3)">사진 3</div>
+        <div class="ph" onclick="openLightbox(4)">사진 4</div>
+        <div class="ph" onclick="openLightbox(5)">사진 5</div>
+        <div class="ph" onclick="openLightbox(6)">사진 6</div>
+        <div class="ph hidden-item" onclick="openLightbox(7)">사진 7</div>
+        <div class="ph hidden-item" onclick="openLightbox(8)">사진 8</div>
+        <div class="ph hidden-item" onclick="openLightbox(9)">사진 9</div>
+        <div class="ph hidden-item" onclick="openLightbox(10)">사진 10</div>
+        <div class="ph hidden-item" onclick="openLightbox(11)">사진 11</div>
+        <div class="ph hidden-item" onclick="openLightbox(12)">사진 12</div>
+      </div>
+      <button class="more-btn" id="more-btn" onclick="toggleGallery()">더보기</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 러브레터 · 손글씨 ② -->
+    <div class="block letters fade" style="padding-bottom: 72px;">
+      <p class="caption">서로에게 쓰는 편지</p>
+      <div class="letter-card">
+        <p class="from">FROM GROOM TO BRIDE</p>
+        <div class="ph">신랑의 손글씨 편지 (투명 PNG)</div>
+      </div>
+      <div class="letter-card">
+        <p class="from">FROM BRIDE TO GROOM</p>
+        <div class="ph">신부의 손글씨 편지 (투명 PNG)</div>
+      </div>
+    </div>
+
+  </div>
+  <!-- ═══ 이야기 흐름 구간 끝 ═══ -->
+
+  <!-- 라이트박스 -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <button class="lb-close">✕</button>
+    <div class="lb-content" id="lb-content">사진 확대 보기</div>
+  </div>
+
+  <!-- ═══ 캘린더 / D-day ═══ -->
+  <section class="calendar">
+    <div class="fade">
+      <p class="month-label serif">10월 31일, 토요일</p>
+      <p class="month-sub">낮 12시</p>
+      <table>
+        <tr><th class="sun">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>
+        <tr><td class="sun"></td><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td></tr>
+        <tr><td class="sun">4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+        <tr><td class="sun">11</td><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td></tr>
+        <tr><td class="sun">18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td></tr>
+        <tr><td class="sun">25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td class="dday"><span>31</span></td></tr>
+      </table>
+      <div class="countdown" id="countdown">
+        <div class="unit"><div class="num" id="cd-d">0</div><div class="lab">DAYS</div></div>
+        <div class="unit"><div class="num" id="cd-h">0</div><div class="lab">HOURS</div></div>
+        <div class="unit"><div class="num" id="cd-m">0</div><div class="lab">MIN</div></div>
+        <div class="unit"><div class="num" id="cd-s">0</div><div class="lab">SEC</div></div>
+      </div>
+      <p class="dday-msg">수민, 주영의 결혼식이 <b id="dday-count">0일</b> 남았습니다.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 오시는 길 ═══ -->
+  <section class="location">
+    <div class="fade">
+      <p class="sec-label">LOCATION</p>
+      <h2 class="sec-title">오시는 길</h2>
+      <!-- 대략적인 약도 (SVG) — 원하면 카카오맵 임베드로 교체 가능 -->
+      <div class="sketch-map">
+        <svg viewBox="0 0 340 250" xmlns="http://www.w3.org/2000/svg" aria-label="약도">
+          <!-- 여의도공원 -->
+          <rect x="20" y="18" width="300" height="52" rx="6" fill="#f0f4ef"/>
+          <text x="170" y="48" text-anchor="middle" font-size="12" fill="#9aa79a">여의도공원</text>
+          <!-- 국제금융로 -->
+          <rect x="0" y="86" width="340" height="26" fill="#f5f5f5"/>
+          <text x="170" y="103" text-anchor="middle" font-size="10" fill="#b5b5b5" letter-spacing="2">국 제 금 융 로</text>
+          <!-- IFC 블록 -->
+          <rect x="20" y="128" width="196" height="96" rx="6" fill="#fafafa" stroke="#e5e5e5"/>
+          <text x="118" y="212" text-anchor="middle" font-size="11" fill="#aaaaaa">IFC 서울 · IFC몰</text>
+          <!-- 콘래드 -->
+          <rect x="38" y="142" width="86" height="48" rx="5" fill="#1a1a1a"/>
+          <text x="81" y="162" text-anchor="middle" font-size="11" fill="#ffffff">콘래드 서울</text>
+          <text x="81" y="177" text-anchor="middle" font-size="9" fill="#cccccc">그랜드볼룸 3F</text>
+          <!-- 여의도역 -->
+          <circle cx="284" cy="196" r="15" fill="#ffffff" stroke="#8a76b5" stroke-width="2.5"/>
+          <text x="284" y="200" text-anchor="middle" font-size="9" fill="#8a76b5">5·9</text>
+          <text x="284" y="228" text-anchor="middle" font-size="11" fill="#666666">여의도역 3번 출구</text>
+          <!-- 도보 경로 -->
+          <path d="M 268 192 Q 230 178 218 170 T 130 166" fill="none" stroke="#bbbbbb" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <text x="212" y="152" text-anchor="middle" font-size="9" fill="#aaaaaa">지하 연결통로 도보 5분</text>
+        </svg>
+      </div>
+      <p class="venue-name">콘래드 서울 그랜드볼룸 3F</p>
+      <p class="venue-addr">서울 영등포구 국제금융로 10<br>신부대기실 6F</p>
+      <button class="copy-btn" onclick="copyText('서울 영등포구 국제금융로 10', '주소가 복사되었습니다')">주소 복사하기</button>
+      <div class="transport">
+        <div class="t-item">
+          <h4>🚇 지하철</h4>
+          <p>5 · 9호선 여의도역 3번 출구<br>IFC몰 지하 연결통로 이용 도보 5분</p>
+        </div>
+        <div class="t-item">
+          <h4>🚗 주차</h4>
+          <p>IFC몰 주차장 이용 가능</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 참석 여부 — 버튼만 노출, 폼은 모달 ═══ -->
+  <section class="attend">
+    <div class="fade">
+      <p class="msg">
+        참석 여부를 미리 알려주시면<br>더욱 정성껏 준비하겠습니다.
+        <br><span class="sub">한 분 한 분 소중히 모실 수 있도록 회신 부탁드립니다.</span>
+      </p>
+      <button class="attend-open-btn" onclick="openAttend()">참석 여부 전달하기</button>
+    </div>
+  </section>
+
+  <!-- ═══ 마음 전하실 곳 ═══ -->
+  <section class="accounts">
+    <div class="fade">
+      <p class="sec-label">ACCOUNT</p>
+      <h2 class="sec-title">마음 전하실 곳</h2>
+
+      <details class="acc-group">
+        <summary>신랑 측 계좌번호</summary>
+        <div class="acc-row">
+          <div class="info">카카오뱅크 3333-01-1234567<br><span class="who">신랑 이수민</span></div>
+          <button onclick="copyText('카카오뱅크 3333-01-1234567', '계좌번호가 복사되었습니다')">복사</button>
+        </div>
+        <div class="acc-row">
+          <div class="info">국민은행 123-45-6789012<br><span class="who">아버지 이동주</span></div>
+          <button onclick="copyText('국민은행 123-45-6789012', '계좌번호가 복사되었습니다')">복사</button>
+        </div>
+        <div class="acc-row">
+          <div class="info">신한은행 110-123-456789<br><span class="who">어머니 김순옥</span></div>
+          <button onclick="copyText('신한은행 110-123-456789', '계좌번호가 복사되었습니다')">복사</button>
+        </div>
+      </details>
+
+      <details class="acc-group">
+        <summary>신부 측 계좌번호</summary>
+        <div class="acc-row">
+          <div class="info">토스뱅크 1000-1234-5678<br><span class="who">신부 조주영</span></div>
+          <button onclick="copyText('토스뱅크 1000-1234-5678', '계좌번호가 복사되었습니다')">복사</button>
+        </div>
+        <div class="acc-row">
+          <div class="info">우리은행 1002-123-456789<br><span class="who">아버지 조희승</span></div>
+          <button onclick="copyText('우리은행 1002-123-456789', '계좌번호가 복사되었습니다')">복사</button>
+        </div>
+        <div class="acc-row">
+          <div class="info">하나은행 123-456789-01234<br><span class="who">어머니 조예은</span></div>
+          <button onclick="copyText('하나은행 123-456789-01234', '계좌번호가 복사되었습니다')">복사</button>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ═══ 푸터 ═══ -->
+  <footer>
+    <div class="share-btns">
+      <button class="kakao" onclick="shareKakao()">카카오톡 공유</button>
+      <button onclick="copyText(location.href, '청첩장 주소가 복사되었습니다')">링크 복사</button>
+    </div>
+    <p class="thanks serif">THANK YOU</p>
+  </footer>
+
+</div>
+
+<!-- ═══ 참석 여부 모달 (바텀 시트) ═══ -->
+<div id="attend-modal" onclick="if(event.target === this) closeAttend()">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h3>참석 여부 전달</h3>
+      <button class="modal-close" onclick="closeAttend()">✕</button>
+    </div>
+    <p class="modal-sub">참석 여부를 알려주시면 더욱 정성껏 준비하겠습니다.</p>
+
+    <form id="rsvp-form">
+      <div class="field">
+        <label>구분</label>
+        <div class="options">
+          <input type="radio" name="side" value="신랑측" id="side-groom" required>
+          <label for="side-groom">신랑측 하객</label>
+          <input type="radio" name="side" value="신부측" id="side-bride">
+          <label for="side-bride">신부측 하객</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="name">성함</label>
+        <input type="text" id="name" name="name" placeholder="이름을 입력해 주세요" required>
+      </div>
+      <div class="field">
+        <label>참석 여부</label>
+        <div class="options">
+          <input type="radio" name="attendance" value="참석" id="att-yes" required>
+          <label for="att-yes">참석</label>
+          <input type="radio" name="attendance" value="불참" id="att-no">
+          <label for="att-no">불참</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>식사 여부</label>
+        <div class="options">
+          <input type="radio" name="meal" value="예정" id="meal-yes" required>
+          <label for="meal-yes">식사 예정</label>
+          <input type="radio" name="meal" value="안함" id="meal-no">
+          <label for="meal-no">식사 안함</label>
+          <input type="radio" name="meal" value="미정" id="meal-tbd">
+          <label for="meal-tbd">미정</label>
+        </div>
+      </div>
+      <div class="field">
+        <label for="count">인원 수 (본인 포함)</label>
+        <input type="number" id="count" name="count" min="1" max="10" value="1" required>
+      </div>
+      <button type="submit" id="rsvp-submit">회신하기</button>
+    </form>
+
+    <div id="rsvp-done">
+      <div class="check">✓</div>
+      <p><strong>회신이 전달되었습니다.</strong><br>소중한 시간 내주셔서 감사합니다.</p>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ============================================================
+   설정값 — 실제 값으로 교체
+   ============================================================ */
+const WEDDING_DATE = new Date('2026-10-31T12:00:00+09:00');
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfhcgHo3Z5i_Ykkbg2L8o-EYbJFCWl0nymu2X4vp2rvOBbL4YBv5QS7cDPRjFUZ8S-/exec';
+
+/* ── 스크롤 페이드인 ── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.fade').forEach(el => io.observe(el));
+
+/* ── 갤러리 더보기 ── */
+function toggleGallery() {
+  const g = document.getElementById('gallery');
+  const btn = document.getElementById('more-btn');
+  g.classList.toggle('expanded');
+  btn.textContent = g.classList.contains('expanded') ? '접기' : '더보기';
+}
+
+/* ── 라이트박스 ── */
+function openLightbox(n) {
+  document.getElementById('lb-content').textContent = '사진 ' + n + ' 확대 보기';
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+/* ── D-day 카운트다운 ── */
+function tick() {
+  const diff = WEDDING_DATE - new Date();
+  if (diff <= 0) return;
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor(diff % 86400000 / 3600000);
+  const m = Math.floor(diff % 3600000 / 60000);
+  const s = Math.floor(diff % 60000 / 1000);
+  cd('cd-d', d); cd('cd-h', h); cd('cd-m', m); cd('cd-s', s);
+  document.getElementById('dday-count').textContent = d + '일';
+}
+function cd(id, v) { document.getElementById(id).textContent = String(v).padStart(2, '0'); }
+tick(); setInterval(tick, 1000);
+
+/* ── 참석 여부 모달 ── */
+function openAttend() {
+  document.getElementById('attend-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAttend() {
+  document.getElementById('attend-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── 복사 + 토스트 ── */
+function copyText(text, msg) {
+  navigator.clipboard.writeText(text).then(() => showToast(msg));
+}
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('on');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 2000);
+}
+
+/* ── 카카오톡 공유 ──
+   Kakao Developers(developers.kakao.com)에서 앱 생성 후 JavaScript 키 발급 필요.
+   발급 전까지는 링크 복사로 대체됩니다. */
+function shareKakao() {
+  if (window.Kakao && Kakao.isInitialized()) {
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '이수민 ♥ 조주영, 결혼합니다',
+        description: '2026년 10월 31일 토요일 낮 12시 · 콘래드 서울',
+        imageUrl: 'https://example.github.io/wedding/images/og-thumbnail.jpg',
+        link: { mobileWebUrl: location.href, webUrl: location.href }
+      },
+      buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: location.href, webUrl: location.href } }]
+    });
+  } else {
+    copyText(location.href, '청첩장 주소가 복사되었습니다');
+  }
+}
+/* Kakao SDK 사용 시 <head>에 추가:
+   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"><\/script>
+   그리고 여기서: Kakao.init('발급받은_JAVASCRIPT_키'); */
+
+/* ── 참석 여부 제출 ── */
+const form = document.getElementById('rsvp-form');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('rsvp-submit');
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(form))
+    });
+    const data = await res.json();
+    if (data.result !== 'success') throw new Error(data.message);
+    form.style.display = 'none';
+    document.getElementById('rsvp-done').style.display = 'block';
+  } catch (err) {
+    alert('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+    btn.disabled = false;
+    btn.textContent = '회신하기';
+  }
+});
+</script>
+
+</body>
 </html>
