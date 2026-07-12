@@ -13,92 +13,117 @@
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Parisienne&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
-   화이트 미니멀 톤
+   웜 아이보리 · 감성 세리프 톤
    ============================================================ */
 :root {
-  --bg: #ffffff;
-  --bg-soft: #fafafa;
-  --text: #222222;
-  --text-sub: #888888;
-  --line: #ebebeb;
-  --accent: #1a1a1a;
+  --bg: #fffefb;
+  --bg-soft: #f8f4ed;
+  --text: #4c463e;
+  --text-sub: #a49b8d;
+  --line: #eae3d7;
+  --accent: #3f3a33;
+  --point: #b99667;
+  --sans: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  --batang: 'Gowun Batang', serif;
+  --latin: 'Cormorant Garamond', serif;
+  --script: 'Parisienne', cursive;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
-  font-weight: 300;
+  font-family: 'Gowun Batang', serif;
+  font-weight: 400;
   color: var(--text);
-  background: #f2f2f2;
+  background: #f1ede6;
   -webkit-font-smoothing: antialiased;
 }
 .wrap {
   max-width: 430px;
   margin: 0 auto;
   background: var(--bg);
-  box-shadow: 0 0 40px rgba(0,0,0,.06);
+  box-shadow: 0 0 40px rgba(90,78,60,.08);
   overflow-x: hidden;
 }
-.serif { font-family: 'Noto Serif KR', serif; }
+.serif { font-family: var(--batang); }
 
 /* 정보성 섹션 (오시는 길 등) */
-section { padding: 72px 24px; }
+section { padding: 84px 24px; }
 .sec-label {
-  text-align: center; font-size: 11px; letter-spacing: 4px;
-  color: var(--text-sub); margin-bottom: 10px;
+  text-align: center; font-family: var(--latin);
+  font-size: 13px; font-weight: 500; letter-spacing: 5px;
+  color: var(--point); margin-bottom: 12px;
 }
 .sec-title {
-  text-align: center; font-family: 'Noto Serif KR', serif;
-  font-size: 19px; font-weight: 400; margin-bottom: 36px;
+  text-align: center; font-family: var(--batang);
+  font-size: 20px; font-weight: 400; margin-bottom: 40px;
+}
+.script-accent {
+  text-align: center; font-family: var(--script);
+  font-size: 32px; font-weight: 400; color: var(--point);
+  margin-bottom: 10px;
 }
 
 /* 이야기 흐름 구간 — 제목 없이 이어지는 부분 */
 .story { padding: 0 24px; }
-.story .block { padding: 44px 0; }
+.story .block { padding: 48px 0; }
 .divider {
-  width: 1px; height: 40px; margin: 0 auto;
-  background: linear-gradient(to bottom, transparent, #d5d5d5, transparent);
+  position: relative;
+  width: 1px; height: 64px; margin: 0 auto;
+  background: linear-gradient(to bottom, transparent, #d9cfbe, transparent);
+}
+.divider::after {
+  content: ''; position: absolute; left: 50%; top: 50%;
+  width: 5px; height: 5px;
+  transform: translate(-50%,-50%) rotate(45deg);
+  background: var(--point);
 }
 .caption {
-  text-align: center; font-size: 13px; color: var(--text-sub);
-  letter-spacing: 1px; margin-bottom: 20px;
+  text-align: center; font-size: 14px; color: #8d8375;
+  letter-spacing: 3px; margin-bottom: 26px;
 }
 
 /* 스크롤 페이드인 */
-.fade { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.fade { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
 .fade.show { opacity: 1; transform: none; }
 
 /* 이미지 플레이스홀더 — 실제 사진으로 교체 시 <img>로 바꾸면 됨 */
 .ph {
   background: var(--bg-soft);
-  border: 1px dashed #d9d9d9;
+  border: 1px dashed #dcd2c1;
   display: flex; align-items: center; justify-content: center;
-  color: #bbb; font-size: 12px; letter-spacing: 1px; width: 100%;
+  color: #c3b9a8; font-family: var(--sans); font-size: 11px; font-weight: 300;
+  letter-spacing: 1px; width: 100%;
 }
 
 /* ── 커버 ─────────────────────────── */
 .cover { padding: 0; }
 .cover .ph { aspect-ratio: 3/4; border: none; border-bottom: 1px solid var(--line); }
-.cover-text { text-align: center; padding: 44px 24px 56px; }
-.cover-text .date-line { font-size: 12px; letter-spacing: 5px; color: var(--text-sub); margin-bottom: 18px; }
-.cover-text h1 { font-family: 'Noto Serif KR', serif; font-size: 26px; font-weight: 400; letter-spacing: 2px; }
-.cover-text h1 .and { font-size: 16px; color: var(--text-sub); margin: 0 10px; }
-.cover-text .venue-line { font-size: 13px; color: var(--text-sub); margin-top: 18px; line-height: 1.7; }
+.cover-text { text-align: center; padding: 52px 24px 64px; }
+.cover-text .date-line {
+  font-family: var(--latin); font-size: 15px; font-weight: 400;
+  letter-spacing: 7px; color: var(--point); margin-bottom: 20px;
+}
+.cover-text h1 { font-family: var(--batang); font-size: 27px; font-weight: 400; letter-spacing: 3px; }
+.cover-text h1 .and { font-family: var(--script); font-size: 24px; font-weight: 400; color: var(--point); margin: 0 8px; letter-spacing: 0; }
+.cover-text .venue-line { font-size: 13.5px; color: var(--text-sub); margin-top: 22px; line-height: 1.9; }
 
 /* ── Save the Date ─────────────────── */
 .std { background: var(--bg-soft); text-align: center; }
-.std .big-date { font-family: 'Noto Serif KR', serif; font-size: 34px; font-weight: 300; letter-spacing: 3px; margin-bottom: 8px; }
-.std .detail { font-size: 14px; line-height: 2; }
+.std .big-date {
+  font-family: var(--latin); font-size: 46px; font-weight: 300;
+  letter-spacing: 6px; margin-bottom: 12px;
+}
+.std .detail { font-size: 14.5px; line-height: 2.1; }
 .std .detail .sub { color: var(--text-sub); font-size: 13px; }
 
 /* ── 초대 인사말 ─────────────────────── */
 .invite-title {
-  text-align: center; font-family: 'Noto Serif KR', serif;
-  font-size: 19px; font-weight: 400; margin-bottom: 36px;
+  text-align: center; font-family: var(--batang);
+  font-size: 20px; font-weight: 400; margin-bottom: 40px;
 }
 .invite .handwriting { aspect-ratio: 4/5; margin-bottom: 28px; }
 .invite .parents { margin-top: 8px; }
@@ -116,26 +141,32 @@ section { padding: 72px 24px; }
 .parents .prow .pchild { text-align: left; }
 
 /* ── 신랑 & 신부 ───────────────────── */
-.couple .pair { display: flex; gap: 16px; }
+.couple .pair { display: flex; gap: 18px; }
 .couple .person { flex: 1; text-align: center; }
-.couple .person .ph { aspect-ratio: 3/4; margin-bottom: 14px; }
-.couple .person .role { font-size: 11px; letter-spacing: 3px; color: var(--text-sub); margin-bottom: 6px; }
-.couple .person .pname { font-family: 'Noto Serif KR', serif; font-size: 17px; }
+.couple .person .ph {
+  aspect-ratio: 3/4; margin-bottom: 16px;
+  border-radius: 999px 999px 10px 10px; /* 아치형 프레임 */
+}
+.couple .person .role {
+  font-family: var(--latin); font-size: 12px; font-weight: 500;
+  letter-spacing: 4px; color: var(--point); margin-bottom: 7px;
+}
+.couple .person .pname { font-family: var(--batang); font-size: 17px; }
 
 /* ── 가족 사진 ─────────────────────── */
-.family .ph { aspect-ratio: 4/3; }
-.family .cap { text-align: center; font-size: 12px; color: var(--text-sub); margin: 12px 0 28px; }
+.family .ph { aspect-ratio: 4/3; border-radius: 10px; }
+.family .cap { text-align: center; font-size: 13px; color: var(--text-sub); margin: 13px 0 30px; }
 .family .cap:last-child { margin-bottom: 0; }
 
 /* ── 갤러리 ────────────────────────── */
-.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
-.gallery-grid .ph { aspect-ratio: 1; cursor: pointer; font-size: 10px; }
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.gallery-grid .ph { aspect-ratio: 1; cursor: pointer; font-size: 10px; border-radius: 6px; }
 .gallery-grid .hidden-item { display: none; }
 .gallery-grid.expanded .hidden-item { display: flex; }
 .more-btn {
-  display: block; margin: 24px auto 0; padding: 12px 40px;
-  font-size: 13px; letter-spacing: 1px; color: var(--text);
-  background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  display: block; margin: 26px auto 0; padding: 12px 44px;
+  font-family: var(--batang); font-size: 13px; letter-spacing: 2px; color: var(--text);
+  background: none; border: 1px solid #ddd2c0; border-radius: 999px; cursor: pointer;
 }
 
 /* 라이트박스 */
@@ -157,16 +188,19 @@ section { padding: 72px 24px; }
 
 /* ── 러브레터 ───────────────────────── */
 .letters .letter-card {
-  background: #fff; border: 1px solid var(--line); border-radius: 4px;
-  padding: 20px; margin-bottom: 20px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.03);
+  background: #fffdf8; border: 1px solid var(--line); border-radius: 10px;
+  padding: 24px 20px; margin-bottom: 24px;
+  box-shadow: 0 4px 18px rgba(90,78,60,.07);
 }
+.letters div.letter-card:nth-of-type(1) { transform: rotate(-.6deg); }
+.letters div.letter-card:nth-of-type(2) { transform: rotate(.6deg); }
 .letters .letter-card:last-child { margin-bottom: 0; }
 .letters .letter-card .from {
-  font-size: 11px; letter-spacing: 3px; color: var(--text-sub);
-  text-align: center; margin-bottom: 14px;
+  font-family: var(--latin); font-size: 12px; font-weight: 500;
+  letter-spacing: 3px; color: var(--point);
+  text-align: center; margin-bottom: 16px;
 }
-.letters .letter-card .ph { aspect-ratio: 4/3; border-style: dashed; }
+.letters .letter-card .ph { aspect-ratio: 4/3; border-style: dashed; border-radius: 6px; }
 
 /* ── 캘린더 / D-day ────────────────── */
 .calendar { background: var(--bg-soft); }
@@ -174,28 +208,28 @@ section { padding: 72px 24px; }
   width: 100%; max-width: 340px; margin: 0 auto;
   border-collapse: collapse; table-layout: fixed; text-align: center;
 }
-.calendar th { font-size: 11px; font-weight: 400; color: var(--text-sub); padding: 12px 0 8px; }
-.calendar th.sun, .calendar td.sun { color: #c96a5f; }
-.calendar td { font-size: 14px; height: 44px; vertical-align: middle; }
+.calendar th { font-family: var(--latin); font-size: 12px; font-weight: 500; color: var(--text-sub); padding: 14px 0 10px; }
+.calendar th.sun, .calendar td.sun { color: #c98d80; }
+.calendar td { font-family: var(--latin); font-size: 15px; height: 44px; vertical-align: middle; }
 .calendar td.dday span {
   display: inline-flex; align-items: center; justify-content: center;
   width: 32px; height: 32px; border-radius: 50%;
-  background: var(--accent); color: #fff;
+  background: var(--point); color: #fff;
 }
 .calendar .cal-date {
-  text-align: center; font-family: 'Noto Serif KR', serif;
-  font-size: 20px; font-weight: 400; letter-spacing: 1px; margin-bottom: 8px;
+  text-align: center; font-family: var(--batang);
+  font-size: 21px; font-weight: 400; letter-spacing: 1px; margin-bottom: 9px;
 }
-.calendar .cal-time { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 28px; }
-.countdown { display: flex; justify-content: center; gap: 12px; margin-top: 36px; }
-.countdown .unit { text-align: center; min-width: 58px; }
+.calendar .cal-time { text-align: center; font-size: 13.5px; color: var(--text-sub); margin-bottom: 30px; }
+.countdown { display: flex; justify-content: center; gap: 12px; margin-top: 40px; }
+.countdown .unit { text-align: center; min-width: 60px; }
 .countdown .num {
-  font-family: 'Noto Serif KR', serif; font-size: 24px;
-  background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 12px 0;
+  font-family: var(--latin); font-size: 27px; font-weight: 400;
+  background: #fffdf8; border: 1px solid var(--line); border-radius: 10px; padding: 13px 0;
 }
-.countdown .lab { font-size: 11px; color: var(--text-sub); margin-top: 8px; letter-spacing: 1px; }
-.dday-msg { text-align: center; font-size: 13px; color: var(--text-sub); margin-top: 24px; }
-.dday-msg b { color: var(--text); font-weight: 500; }
+.countdown .lab { font-family: var(--latin); font-size: 11px; font-weight: 500; color: var(--text-sub); margin-top: 9px; letter-spacing: 2px; }
+.dday-msg { text-align: center; font-size: 13.5px; color: var(--text-sub); margin-top: 28px; }
+.dday-msg b { color: var(--point); font-weight: 700; }
 
 /* ── 오시는 길 ─────────────────────── */
 #map {
@@ -208,32 +242,34 @@ section { padding: 72px 24px; }
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; color: #bbb;
 }
-.map-links { display: flex; gap: 8px; margin-bottom: 28px; }
+.map-links { display: flex; gap: 8px; margin-bottom: 30px; }
 .map-links a {
-  flex: 1; text-align: center; padding: 11px 0;
-  font-size: 12px; color: var(--text); text-decoration: none;
-  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+  flex: 1; text-align: center; padding: 12px 0;
+  font-family: var(--sans); font-size: 12px; font-weight: 400;
+  color: var(--text); text-decoration: none;
+  border: 1px solid #ddd2c0; border-radius: 999px; background: #fffdf8;
 }
-.location .venue-name { text-align: center; font-size: 16px; font-weight: 400; margin-bottom: 6px; }
-.location .venue-addr { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 14px; }
+.location .venue-name { text-align: center; font-family: var(--batang); font-size: 17px; font-weight: 400; margin-bottom: 8px; }
+.location .venue-addr { text-align: center; font-size: 13px; color: var(--text-sub); line-height: 1.8; margin-bottom: 16px; }
 .copy-btn {
-  display: block; margin: 0 auto; padding: 9px 26px;
-  font-size: 12px; color: var(--text); letter-spacing: 1px;
-  background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  display: block; margin: 0 auto; padding: 10px 28px;
+  font-family: var(--batang); font-size: 12px; color: var(--text); letter-spacing: 1px;
+  background: none; border: 1px solid #ddd2c0; border-radius: 999px; cursor: pointer;
 }
-.transport { margin-top: 36px; border-top: 1px solid var(--line); }
-.transport .t-item { padding: 20px 4px; border-bottom: 1px solid var(--line); }
-.transport .t-item h4 { font-size: 13px; font-weight: 500; margin-bottom: 8px; }
-.transport .t-item p { font-size: 13px; color: var(--text-sub); line-height: 1.8; }
+.transport { margin-top: 40px; border-top: 1px solid var(--line); }
+.transport .t-item { padding: 22px 4px; border-bottom: 1px solid var(--line); }
+.transport .t-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 9px; }
+.transport .t-item p { font-family: var(--sans); font-size: 13px; font-weight: 300; color: #8d8375; line-height: 1.9; }
 
 /* ── 참석 여부 (버튼 → 모달) ──────────── */
 .attend { background: var(--bg-soft); text-align: center; }
-.attend .msg { font-size: 14px; line-height: 2; margin-bottom: 28px; }
+.attend .msg { font-size: 15px; line-height: 2.1; margin-bottom: 32px; }
 .attend .msg .sub { font-size: 13px; color: var(--text-sub); }
 .attend-open-btn {
-  padding: 15px 52px; font-size: 14px; letter-spacing: 2px;
+  padding: 16px 56px; font-family: var(--batang); font-size: 14px; letter-spacing: 3px;
   color: #fff; background: var(--accent); border: none; border-radius: 999px;
-  cursor: pointer; font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(63,58,51,.22);
 }
 
 /* 참석 여부 모달 */
@@ -245,13 +281,14 @@ section { padding: 72px 24px; }
 #attend-modal.open { display: flex; }
 .modal-sheet {
   width: 100%; max-width: 430px; max-height: 88vh; overflow-y: auto;
-  background: #fff; border-radius: 20px 20px 0 0;
-  padding: 28px 24px 40px;
+  background: var(--bg); border-radius: 22px 22px 0 0;
+  padding: 30px 24px 42px;
+  font-family: var(--sans); font-weight: 300;
   animation: sheetUp .3s ease;
 }
 @keyframes sheetUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
 .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.modal-head h3 { font-family: 'Noto Serif KR', serif; font-size: 17px; font-weight: 400; }
+.modal-head h3 { font-family: var(--batang); font-size: 18px; font-weight: 400; }
 .modal-close { background: none; border: none; font-size: 22px; color: var(--text-sub); cursor: pointer; padding: 4px; }
 .modal-sub { font-size: 13px; color: var(--text-sub); line-height: 1.7; margin-bottom: 24px; }
 
@@ -262,16 +299,16 @@ input[type="text"], input[type="number"] {
   border: 1px solid var(--line); border-radius: 8px; background: #fff; outline: none;
   font-family: inherit;
 }
-input:focus { border-color: var(--accent); }
+input:focus { border-color: var(--point); }
 .options { display: flex; gap: 8px; }
 .options input[type="radio"] { display: none; }
 .options label {
   flex: 1; text-align: center; padding: 12px 0; font-size: 13px;
-  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+  border: 1px solid var(--line); border-radius: 10px; background: #fff;
   cursor: pointer; transition: all .15s;
 }
 .options input[type="radio"]:checked + label {
-  border-color: var(--accent); color: #fff; background: var(--accent); font-weight: 500;
+  border-color: var(--accent); color: #fff; background: var(--accent); font-weight: 400;
 }
 #rsvp-submit {
   width: 100%; padding: 15px; margin-top: 10px; font-size: 14px; letter-spacing: 2px;
@@ -283,23 +320,24 @@ input:focus { border-color: var(--accent); }
 #rsvp-done .check { font-size: 36px; margin-bottom: 10px; }
 
 /* ── 마음 전하실 곳 ────────────────── */
-.accounts .acc-group { margin-bottom: 14px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.accounts .acc-group { margin-bottom: 14px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fffdf8; }
 .accounts summary {
-  padding: 16px; font-size: 14px; cursor: pointer; list-style: none;
+  padding: 17px 18px; font-size: 14px; cursor: pointer; list-style: none;
   display: flex; justify-content: space-between; align-items: center;
   background: var(--bg-soft);
 }
-.accounts summary::after { content: '+'; color: var(--text-sub); font-size: 18px; }
+.accounts summary::after { content: '+'; color: var(--point); font-size: 18px; font-family: var(--latin); }
 .accounts details[open] summary::after { content: '–'; }
 .acc-row {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 14px 16px; border-top: 1px solid var(--line); font-size: 13px;
+  padding: 15px 18px; border-top: 1px solid var(--line);
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
 }
-.acc-row .info { line-height: 1.6; }
+.acc-row .info { line-height: 1.7; }
 .acc-row .info .who { color: var(--text-sub); font-size: 12px; }
 .acc-row button {
-  padding: 7px 14px; font-size: 11px; color: var(--text);
-  background: none; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+  padding: 7px 15px; font-size: 11px; color: var(--text); font-family: var(--sans);
+  background: none; border: 1px solid #ddd2c0; border-radius: 999px; cursor: pointer;
   flex-shrink: 0;
 }
 
@@ -315,14 +353,15 @@ footer { padding: 56px 24px 72px; text-align: center; background: var(--bg-soft)
 }
 .share-icons button:active .ic { transform: scale(.92); }
 .share-icons .kakao-ic { background: #FEE500; }
-.share-icons .link-ic { background: #ffffff; border: 1px solid var(--line); }
-.share-icons .ic-label { font-size: 11px; color: var(--text-sub); letter-spacing: 1px; }
-footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: var(--text-sub); letter-spacing: 1px; }
+.share-icons .link-ic { background: #fffdf8; border: 1px solid #ddd2c0; }
+.share-icons .ic-label { font-family: var(--sans); font-size: 11px; font-weight: 300; color: var(--text-sub); letter-spacing: 1px; }
+footer .thanks-script { font-family: var(--script); font-size: 36px; color: var(--point); }
 
 /* 토스트 */
 #toast {
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
-  background: rgba(0,0,0,.8); color: #fff; font-size: 13px;
+  background: rgba(60,54,46,.88); color: #fff;
+  font-family: var(--sans); font-size: 13px; font-weight: 300;
   padding: 11px 22px; border-radius: 999px;
   opacity: 0; transition: all .3s; pointer-events: none; z-index: 200;
 }
@@ -345,8 +384,8 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
   <!-- ═══ Save the Date ═══ -->
   <section class="std">
     <div class="fade">
-      <p class="sec-label">SAVE THE DATE</p>
-      <p class="big-date serif">10 . 31</p>
+      <p class="script-accent">Save the Date</p>
+      <p class="big-date">10 . 31</p>
       <div class="detail">
         <p>2026년 10월 31일 토요일 낮 12시</p>
         <p class="sub">콘래드 서울 그랜드볼룸 3F<br>서울 영등포구 국제금융로 10<br>신부대기실 6F</p>
@@ -566,7 +605,7 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
         <span class="ic-label">링크 복사</span>
       </button>
     </div>
-    <p class="thanks serif">THANK YOU</p>
+    <p class="thanks-script">Thank you</p>
   </footer>
 
 </div>
