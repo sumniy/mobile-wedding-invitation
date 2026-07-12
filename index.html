@@ -101,9 +101,19 @@ section { padding: 72px 24px; }
   font-size: 19px; font-weight: 400; margin-bottom: 36px;
 }
 .invite .handwriting { aspect-ratio: 4/5; margin-bottom: 28px; }
-.invite .parents { text-align: center; font-size: 14px; line-height: 2.2; margin-top: 8px; }
-.invite .parents b { font-weight: 500; }
-.invite .parents .rel { color: var(--text-sub); font-size: 13px; margin: 0 6px; }
+.invite .parents { margin-top: 8px; }
+.parents .prow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: baseline;
+  column-gap: 10px;
+  font-size: 15px;
+  line-height: 2.4;
+  font-weight: 500;
+}
+.parents .prow .pparents { text-align: right; }
+.parents .prow .rel { text-align: center; color: var(--text-sub); font-size: 13px; font-weight: 300; }
+.parents .prow .pchild { text-align: left; }
 
 /* ── 신랑 & 신부 ───────────────────── */
 .couple .pair { display: flex; gap: 16px; }
@@ -160,20 +170,23 @@ section { padding: 72px 24px; }
 
 /* ── 캘린더 / D-day ────────────────── */
 .calendar { background: var(--bg-soft); }
-.calendar table { width: 100%; border-collapse: collapse; text-align: center; }
-.calendar th { font-size: 11px; font-weight: 400; color: var(--text-sub); padding: 10px 0; }
+.calendar table {
+  width: 100%; max-width: 340px; margin: 0 auto;
+  border-collapse: collapse; table-layout: fixed; text-align: center;
+}
+.calendar th { font-size: 11px; font-weight: 400; color: var(--text-sub); padding: 12px 0 8px; }
 .calendar th.sun, .calendar td.sun { color: #c96a5f; }
-.calendar td { font-size: 14px; padding: 12px 0; }
+.calendar td { font-size: 14px; height: 44px; vertical-align: middle; }
 .calendar td.dday span {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 34px; height: 34px; border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%;
   background: var(--accent); color: #fff;
 }
-.calendar .month-label {
+.calendar .cal-date {
   text-align: center; font-family: 'Noto Serif KR', serif;
-  font-size: 22px; font-weight: 300; margin-bottom: 6px; letter-spacing: 3px;
+  font-size: 20px; font-weight: 400; letter-spacing: 1px; margin-bottom: 8px;
 }
-.calendar .month-sub { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 24px; }
+.calendar .cal-time { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 28px; }
 .countdown { display: flex; justify-content: center; gap: 12px; margin-top: 36px; }
 .countdown .unit { text-align: center; min-width: 58px; }
 .countdown .num {
@@ -185,8 +198,22 @@ section { padding: 72px 24px; }
 .dday-msg b { color: var(--text); font-weight: 500; }
 
 /* ── 오시는 길 ─────────────────────── */
-.sketch-map { margin-bottom: 24px; }
-.sketch-map svg { width: 100%; height: auto; display: block; }
+#map {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--bg-soft); border: 1px solid var(--line); border-radius: 4px;
+  margin-bottom: 10px; overflow: hidden;
+}
+.map-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: #bbb;
+}
+.map-links { display: flex; gap: 8px; margin-bottom: 28px; }
+.map-links a {
+  flex: 1; text-align: center; padding: 11px 0;
+  font-size: 12px; color: var(--text); text-decoration: none;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+}
 .location .venue-name { text-align: center; font-size: 16px; font-weight: 400; margin-bottom: 6px; }
 .location .venue-addr { text-align: center; font-size: 13px; color: var(--text-sub); margin-bottom: 14px; }
 .copy-btn {
@@ -278,12 +305,18 @@ input:focus { border-color: var(--accent); }
 
 /* ── 푸터 ─────────────────────────── */
 footer { padding: 56px 24px 72px; text-align: center; background: var(--bg-soft); }
-footer .share-btns { display: flex; gap: 10px; max-width: 320px; margin: 0 auto 40px; }
-footer .share-btns button {
-  flex: 1; padding: 14px 0; font-size: 13px; border-radius: 8px; cursor: pointer;
-  border: 1px solid var(--line); background: #fff; font-family: inherit;
+.share-icons { display: flex; justify-content: center; gap: 44px; margin-bottom: 44px; }
+.share-icons button { background: none; border: none; cursor: pointer; font-family: inherit; }
+.share-icons .ic {
+  width: 54px; height: 54px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 9px;
+  transition: transform .15s;
 }
-footer .share-btns .kakao { background: #FEE500; border-color: #FEE500; font-weight: 500; }
+.share-icons button:active .ic { transform: scale(.92); }
+.share-icons .kakao-ic { background: #FEE500; }
+.share-icons .link-ic { background: #ffffff; border: 1px solid var(--line); }
+.share-icons .ic-label { font-size: 11px; color: var(--text-sub); letter-spacing: 1px; }
 footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: var(--text-sub); letter-spacing: 1px; }
 
 /* 토스트 */
@@ -334,8 +367,8 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
            <img src="images/letter-invite.png" alt="초대 인사말" style="width:100%"> -->
       <div class="ph handwriting">손글씨 초대 편지 (투명 PNG)</div>
       <div class="parents">
-        <p><b>이동주</b> · <b>김순옥</b><span class="rel">의 아들</span><b>수민</b></p>
-        <p><b>조희승</b> · <b>조예은</b><span class="rel">의 딸</span><b>주영</b></p>
+        <div class="prow"><span class="pparents">이동주 · 김순옥</span><span class="rel">의 아들</span><span class="pchild">수민</span></div>
+        <div class="prow"><span class="pparents">조희승 · 조예은</span><span class="rel">의 딸</span><span class="pchild">주영</span></div>
       </div>
     </div>
 
@@ -418,8 +451,9 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
   <!-- ═══ 캘린더 / D-day ═══ -->
   <section class="calendar">
     <div class="fade">
-      <p class="month-label serif">10월 31일, 토요일</p>
-      <p class="month-sub">낮 12시</p>
+      <p class="sec-label">WEDDING DAY</p>
+      <p class="cal-date serif">2026년 10월 31일</p>
+      <p class="cal-time">토요일 낮 12시</p>
       <table>
         <tr><th class="sun">일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr>
         <tr><td class="sun"></td><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td></tr>
@@ -443,30 +477,12 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
     <div class="fade">
       <p class="sec-label">LOCATION</p>
       <h2 class="sec-title">오시는 길</h2>
-      <!-- 대략적인 약도 (SVG) — 원하면 카카오맵 임베드로 교체 가능 -->
-      <div class="sketch-map">
-        <svg viewBox="0 0 340 250" xmlns="http://www.w3.org/2000/svg" aria-label="약도">
-          <!-- 여의도공원 -->
-          <rect x="20" y="18" width="300" height="52" rx="6" fill="#f0f4ef"/>
-          <text x="170" y="48" text-anchor="middle" font-size="12" fill="#9aa79a">여의도공원</text>
-          <!-- 국제금융로 -->
-          <rect x="0" y="86" width="340" height="26" fill="#f5f5f5"/>
-          <text x="170" y="103" text-anchor="middle" font-size="10" fill="#b5b5b5" letter-spacing="2">국 제 금 융 로</text>
-          <!-- IFC 블록 -->
-          <rect x="20" y="128" width="196" height="96" rx="6" fill="#fafafa" stroke="#e5e5e5"/>
-          <text x="118" y="212" text-anchor="middle" font-size="11" fill="#aaaaaa">IFC 서울 · IFC몰</text>
-          <!-- 콘래드 -->
-          <rect x="38" y="142" width="86" height="48" rx="5" fill="#1a1a1a"/>
-          <text x="81" y="162" text-anchor="middle" font-size="11" fill="#ffffff">콘래드 서울</text>
-          <text x="81" y="177" text-anchor="middle" font-size="9" fill="#cccccc">그랜드볼룸 3F</text>
-          <!-- 여의도역 -->
-          <circle cx="284" cy="196" r="15" fill="#ffffff" stroke="#8a76b5" stroke-width="2.5"/>
-          <text x="284" y="200" text-anchor="middle" font-size="9" fill="#8a76b5">5·9</text>
-          <text x="284" y="228" text-anchor="middle" font-size="11" fill="#666666">여의도역 3번 출구</text>
-          <!-- 도보 경로 -->
-          <path d="M 268 192 Q 230 178 218 170 T 130 166" fill="none" stroke="#bbbbbb" stroke-width="1.5" stroke-dasharray="4 4"/>
-          <text x="212" y="152" text-anchor="middle" font-size="9" fill="#aaaaaa">지하 연결통로 도보 5분</text>
-        </svg>
+      <!-- 카카오맵 (JS 키 등록 시 실제 지도 표시) -->
+      <div id="map"></div>
+      <div class="map-links">
+        <a href="https://map.kakao.com/link/map/콘래드 서울,37.52508,126.92538" target="_blank" rel="noopener">카카오맵</a>
+        <a href="https://map.naver.com/p/search/콘래드 서울" target="_blank" rel="noopener">네이버지도</a>
+        <a href="https://map.kakao.com/link/to/콘래드 서울,37.52508,126.92538" target="_blank" rel="noopener">길찾기</a>
       </div>
       <p class="venue-name">콘래드 서울 그랜드볼룸 3F</p>
       <p class="venue-addr">서울 영등포구 국제금융로 10<br>신부대기실 6F</p>
@@ -537,9 +553,19 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
 
   <!-- ═══ 푸터 ═══ -->
   <footer>
-    <div class="share-btns">
-      <button class="kakao" onclick="shareKakao()">카카오톡 공유</button>
-      <button onclick="copyText(location.href, '청첩장 주소가 복사되었습니다')">링크 복사</button>
+    <div class="share-icons">
+      <button onclick="shareKakao()" aria-label="카카오톡 공유">
+        <span class="ic kakao-ic">
+          <svg viewBox="0 0 24 24" width="26" height="26"><path fill="#3C1E1E" d="M12 3C6.48 3 2 6.54 2 10.9c0 2.8 1.86 5.26 4.66 6.65-.15.52-.97 3.36-1 3.58 0 0-.02.17.09.24.11.07.24.02.24.02.32-.04 3.66-2.4 4.24-2.81.57.08 1.16.13 1.77.13 5.52 0 10-3.54 10-7.9S17.52 3 12 3z"/></svg>
+        </span>
+        <span class="ic-label">카카오톡 공유</span>
+      </button>
+      <button onclick="copyText(location.href, '청첩장 주소가 복사되었습니다')" aria-label="링크 복사">
+        <span class="ic link-ic">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </span>
+        <span class="ic-label">링크 복사</span>
+      </button>
     </div>
     <p class="thanks serif">THANK YOU</p>
   </footer>
@@ -611,6 +637,22 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
    ============================================================ */
 const WEDDING_DATE = new Date('2026-10-31T12:00:00+09:00');
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfhcgHo3Z5i_Ykkbg2L8o-EYbJFCWl0nymu2X4vp2rvOBbL4YBv5QS7cDPRjFUZ8S-/exec';
+const KAKAO_MAP_KEY = ''; // ★ Kakao Developers에서 발급한 JavaScript 키 (sumniy.github.io 도메인 등록 필요)
+const VENUE = { name: '콘래드 서울', lat: 37.52508, lng: 126.92538 };
+
+/* ── 카카오맵 ── */
+if (KAKAO_MAP_KEY) {
+  const s = document.createElement('script');
+  s.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=' + KAKAO_MAP_KEY + '&autoload=false';
+  s.onload = () => kakao.maps.load(() => {
+    const pos = new kakao.maps.LatLng(VENUE.lat, VENUE.lng);
+    const map = new kakao.maps.Map(document.getElementById('map'), { center: pos, level: 4 });
+    new kakao.maps.Marker({ map, position: pos });
+  });
+  document.head.appendChild(s);
+} else {
+  document.getElementById('map').innerHTML = '<div class="map-fallback">카카오맵 키 등록 후 지도가 표시됩니다</div>';
+}
 
 /* ── 스크롤 페이드인 ── */
 const io = new IntersectionObserver((entries) => {
