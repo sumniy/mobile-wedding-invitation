@@ -480,7 +480,7 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
       <!-- 카카오맵 (JS 키 등록 시 실제 지도 표시) -->
       <div id="map"></div>
       <div class="map-links">
-        <a href="https://map.kakao.com/link/map/콘래드 서울,37.52508,126.92538" target="_blank" rel="noopener">카카오맵</a>
+        <a href="javascript:void(0)" onclick="openKakaoMap()">카카오맵</a>
         <a href="https://map.naver.com/p/search/콘래드 서울" target="_blank" rel="noopener">네이버지도</a>
       </div>
       <p class="venue-name">콘래드 서울 그랜드볼룸 3F</p>
@@ -638,6 +638,19 @@ const WEDDING_DATE = new Date('2026-10-31T12:00:00+09:00');
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfhcgHo3Z5i_Ykkbg2L8o-EYbJFCWl0nymu2X4vp2rvOBbL4YBv5QS7cDPRjFUZ8S-/exec';
 const KAKAO_MAP_KEY = 'ae223e3db7123680a81d6949ffcb2792'; // Kakao JavaScript 키 (sumniy.github.io 도메인 등록 필요)
 const VENUE = { name: '콘래드 서울', lat: 37.52508, lng: 126.92538 };
+
+/* ── 카카오맵 버튼: 앱은 네이티브 화면으로, 없으면 웹으로 ── */
+function openKakaoMap() {
+  const app = 'kakaomap://look?p=' + VENUE.lat + ',' + VENUE.lng;
+  const web = 'https://map.kakao.com/link/map/' + encodeURIComponent(VENUE.name) + ',' + VENUE.lat + ',' + VENUE.lng;
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    location.href = app;
+    // 앱이 안 열렸을 때만(화면이 그대로일 때만) 웹으로 폴백
+    setTimeout(() => { if (!document.hidden) location.href = web; }, 1500);
+  } else {
+    window.open(web, '_blank');
+  }
+}
 
 /* ── 카카오맵 ── */
 if (KAKAO_MAP_KEY) {
