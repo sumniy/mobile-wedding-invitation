@@ -760,18 +760,19 @@ function closeAttend() {
   document.body.style.overflow = '';
 }
 
-/* ── 일정(캘린더) 섹션 도달 시 참석 여부 모달 자동 오픈 (1회만) ── */
-const calSection = document.querySelector('.calendar');
-if (calSection && !attendShown()) {
+/* ── '소중한 분들을 초대합니다' 제목이 화면 위로 지나가면 참석 여부 모달 자동 오픈 (1회만) ── */
+const inviteTitle = document.querySelector('.invite-title');
+if (inviteTitle && !attendShown()) {
   const attendIo = new IntersectionObserver((entries) => {
     entries.forEach(en => {
-      if (en.isIntersecting) {
+      // 화면에서 벗어났고, 그 방향이 위쪽일 때 (스크롤해서 지나침)
+      if (!en.isIntersecting && en.boundingClientRect.top < 0) {
         attendIo.disconnect();
         if (!attendShown()) openAttend();
       }
     });
-  }, { threshold: 0.35 });
-  attendIo.observe(calSection);
+  }, { threshold: 0 });
+  attendIo.observe(inviteTitle);
 }
 
 /* ── 복사 + 토스트 ── */
