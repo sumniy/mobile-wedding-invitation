@@ -743,13 +743,35 @@ function cd(id, v) { document.getElementById(id).textContent = String(v).padStar
 tick(); setInterval(tick, 1000);
 
 /* ── 참석 여부 모달 ── */
+const ATTEND_SHOWN_KEY = 'attendModalShown';
+function attendShown() {
+  try { return !!localStorage.getItem(ATTEND_SHOWN_KEY); } catch (e) { return window.__attendShown; }
+}
+function markAttendShown() {
+  try { localStorage.setItem(ATTEND_SHOWN_KEY, '1'); } catch (e) { window.__attendShown = true; }
+}
 function openAttend() {
+  markAttendShown(); // 한 번 열리면(수동 포함) 자동 오픈은 다시 안 함
   document.getElementById('attend-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 function closeAttend() {
   document.getElementById('attend-modal').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+/* ── 일정(캘린더) 섹션 도달 시 참석 여부 모달 자동 오픈 (1회만) ── */
+const calSection = document.querySelector('.calendar');
+if (calSection && !attendShown()) {
+  const attendIo = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        attendIo.disconnect();
+        if (!attendShown()) openAttend();
+      }
+    });
+  }, { threshold: 0.35 });
+  attendIo.observe(calSection);
 }
 
 /* ── 복사 + 토스트 ── */
