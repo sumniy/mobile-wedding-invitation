@@ -481,7 +481,7 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
       <div id="map"></div>
       <div class="map-links">
         <a href="javascript:void(0)" onclick="openKakaoMap()">카카오맵</a>
-        <a href="https://map.naver.com/p/search/콘래드 서울" target="_blank" rel="noopener">네이버지도</a>
+        <a href="https://naver.me/57VZhxie" target="_blank" rel="noopener">네이버지도</a>
       </div>
       <p class="venue-name">콘래드 서울 그랜드볼룸 3F</p>
       <p class="venue-addr">서울 영등포구 국제금융로 10<br>신부대기실 6F</p>
@@ -637,12 +637,12 @@ footer .thanks { font-family: 'Noto Serif KR', serif; font-size: 14px; color: va
 const WEDDING_DATE = new Date('2026-10-31T12:00:00+09:00');
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfhcgHo3Z5i_Ykkbg2L8o-EYbJFCWl0nymu2X4vp2rvOBbL4YBv5QS7cDPRjFUZ8S-/exec';
 const KAKAO_MAP_KEY = 'ae223e3db7123680a81d6949ffcb2792'; // Kakao JavaScript 키 (sumniy.github.io 도메인 등록 필요)
-const VENUE = { name: '콘래드 서울', lat: 37.52508, lng: 126.92538 };
+const VENUE = { name: '콘래드 서울', lat: 37.52508, lng: 126.92538, kakaoPlaceId: '18206183' };
 
-/* ── 카카오맵 버튼: 앱은 네이티브 화면으로, 없으면 웹으로 ── */
+/* ── 카카오맵 버튼: 앱의 장소 페이지로, 없으면 웹 장소 페이지로 ── */
 function openKakaoMap() {
-  const app = 'kakaomap://look?p=' + VENUE.lat + ',' + VENUE.lng;
-  const web = 'https://map.kakao.com/link/map/' + encodeURIComponent(VENUE.name) + ',' + VENUE.lat + ',' + VENUE.lng;
+  const app = 'kakaomap://place?id=' + VENUE.kakaoPlaceId;
+  const web = 'https://place.map.kakao.com/' + VENUE.kakaoPlaceId;
   if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     location.href = app;
     // 앱이 안 열렸을 때만(화면이 그대로일 때만) 웹으로 폴백
