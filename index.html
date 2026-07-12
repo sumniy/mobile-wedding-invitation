@@ -91,6 +91,12 @@ section { padding: 84px 24px; }
 .fade { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
 .fade.show { opacity: 1; transform: none; }
 
+/* 텍스트 이미지 (손글씨 타이포) — 흰 배경이어도 multiply로 바탕색에 자연스럽게 녹음 */
+.txt-img {
+  display: block; width: 100%; height: auto;
+  mix-blend-mode: multiply;
+}
+
 /* 이미지 플레이스홀더 — 실제 사진으로 교체 시 <img>로 바꾸면 됨 */
 .ph {
   background: var(--bg-soft);
@@ -376,21 +382,14 @@ footer .thanks-script { font-family: var(--script); font-size: 36px; color: var(
   <section class="cover">
     <div class="ph">메인 사진 (3:4)</div>
     <div class="cover-text fade">
-      <p class="date-line">2026 . 10 . 31</p>
-      <h1 class="serif">이수민 <span class="and">and</span> 조주영</h1>
-      <p class="venue-line">토요일 낮 12시<br>콘래드 서울 그랜드볼룸 3F</p>
+      <img class="txt-img" src="images/cover-text.png" alt="이수민 · 조주영 — 2026.10.31 SAT 12:00 콘래드 서울 그랜드볼룸 3F">
     </div>
   </section>
 
   <!-- ═══ Save the Date ═══ -->
   <section class="std">
     <div class="fade">
-      <p class="script-accent">Save the Date</p>
-      <p class="big-date">10 . 31</p>
-      <div class="detail">
-        <p>2026년 10월 31일 토요일 낮 12시</p>
-        <p class="sub">콘래드 서울 그랜드볼룸 3F<br>서울 영등포구 국제금융로 10<br>신부대기실 6F</p>
-      </div>
+      <img class="txt-img" src="images/save-the-date.png" alt="SAVE THE DATE — 2026년 10월 31일 토요일 낮 12시, 콘래드 서울 그랜드볼룸홀 3F, 서울 영등포구 국제금융로 10 (신부대기실 6F)">
     </div>
   </section>
 
@@ -402,14 +401,9 @@ footer .thanks-script { font-family: var(--script); font-size: 36px; color: var(
 
     <!-- 초대 인사말 · 손글씨 ① -->
     <div class="block invite fade" style="padding-top: 72px;">
-      <h2 class="invite-title">소중한 분들을 초대합니다</h2>
-      <!-- 태블릿 손글씨 투명 PNG로 교체:
-           <img src="images/letter-invite.png" alt="초대 인사말" style="width:100%"> -->
-      <div class="ph handwriting">손글씨 초대 편지 (투명 PNG)</div>
-      <div class="parents">
-        <div class="prow"><span class="pparents">이동주 · 김순옥</span><span class="rel">의 아들</span><span class="pchild">수민</span></div>
-        <div class="prow"><span class="pparents">조희승 · 조예은</span><span class="rel">의 딸</span><span class="pchild">주영</span></div>
-      </div>
+      <img class="txt-img" src="images/invite-text.png" alt="소중한 분들을 초대합니다 — 이동주·김순옥의 아들 이수민, 조희승·조예은의 딸 조주영">
+      <!-- 태블릿 손글씨 편지 투명 PNG로 교체 -->
+      <div class="ph handwriting" style="margin-top: 32px; margin-bottom: 0;">손글씨 초대 편지 (투명 PNG)</div>
     </div>
 
     <div class="divider"></div>
@@ -419,15 +413,12 @@ footer .thanks-script { font-family: var(--script); font-size: 36px; color: var(
       <div class="pair">
         <div class="person">
           <div class="ph">신랑 사진</div>
-          <p class="role">GROOM</p>
-          <p class="pname serif">이수민</p>
         </div>
         <div class="person">
           <div class="ph">신부 사진</div>
-          <p class="role">BRIDE</p>
-          <p class="pname serif">조주영</p>
         </div>
       </div>
+      <img class="txt-img" src="images/couple-names.png" alt="GROOM 이수민 · BRIDE 조주영" style="margin-top: 20px;">
     </div>
 
     <div class="divider"></div>
