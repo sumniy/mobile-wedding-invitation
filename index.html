@@ -331,7 +331,14 @@ input:focus { border-color: var(--primary); }
   -webkit-appearance: none; margin: 0;
 }
 #rsvp-submit { width: 100%; margin-top: 8px; }
-#rsvp-submit:disabled { opacity: .5; }
+#rsvp-submit:disabled { opacity: .7; }
+.spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid rgba(251,248,242,.35); border-top-color: #FBF8F2;
+  border-radius: 50%; vertical-align: -2px; margin-right: 8px;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 .rsvp-privacy { margin-top: 14px; text-align: center; font-size: 11px; color: #B0A491; }
 #rsvp-done { display: none; text-align: center; padding: 24px 0 10px; }
 #rsvp-done .thanks { font-family: var(--latin); font-size: 28px; font-style: italic; color: #8C7C64; }
@@ -795,19 +802,16 @@ function closeAttend() {
   document.body.style.overflow = '';
 }
 
-/* ── '소중한 분들을 초대합니다' 제목이 화면 위로 지나가면 참석 여부 모달 자동 오픈 (1회만) ── */
+/* ── 'Invitation' 제목이 화면 세로 중앙선을 넘어 올라오면 참석 여부 모달 자동 오픈 (1회만) ── */
 const inviteTitle = document.querySelector('.invite-title');
 if (inviteTitle && !attendShown()) {
-  const attendIo = new IntersectionObserver((entries) => {
-    entries.forEach(en => {
-      // 화면에서 벗어났고, 그 방향이 위쪽일 때 (스크롤해서 지나침)
-      if (!en.isIntersecting && en.boundingClientRect.top < 0) {
-        attendIo.disconnect();
-        if (!attendShown()) openAttend();
-      }
-    });
-  }, { threshold: 0 });
-  attendIo.observe(inviteTitle);
+  const maybeOpenAttend = () => {
+    if (inviteTitle.getBoundingClientRect().top <= window.innerHeight / 2) {
+      window.removeEventListener('scroll', maybeOpenAttend);
+      if (!attendShown()) openAttend();
+    }
+  };
+  window.addEventListener('scroll', maybeOpenAttend, { passive: true });
 }
 
 /* ── 복사 + 토스트 ── */
@@ -829,7 +833,7 @@ form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('rsvp-submit');
   btn.disabled = true;
-  btn.textContent = '전송 중...';
+  btn.innerHTML = '<span class="spinner"></span>전송 중...';
   try {
     const res = await fetch(SCRIPT_URL, {
       method: 'POST',
