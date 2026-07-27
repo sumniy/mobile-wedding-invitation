@@ -138,20 +138,17 @@ section { padding: 66px 30px; }
   color: var(--heading); margin: 16px 0 30px;
 }
 .invite-msg { font-size: 14.5px; line-height: 2.25; color: var(--body); text-wrap: pretty; }
-/* 초대글 종이 카드 — 하단 찢긴 종이 효과 */
-.invite-paper-wrap { margin: 0 -30px; filter: drop-shadow(0 5px 7px rgba(120,100,70,.13)); }
+/* 초대글 종이 카드 — 실제 찢긴 종이 이미지 배경 */
+.invite-paper-wrap { margin: 0 -30px; }
 .invite-paper {
-  background: #FEFAF1;
-  padding: 64px 30px 58px;
-  clip-path: polygon(0 0, 100% 0,
-    100% calc(100% - 14px), 96% calc(100% - 6px), 91% calc(100% - 16px),
-    86% calc(100% - 4px), 81% calc(100% - 13px), 76% calc(100% - 7px),
-    71% calc(100% - 17px), 66% calc(100% - 5px), 61% calc(100% - 12px),
-    56% calc(100% - 8px), 51% calc(100% - 18px), 46% calc(100% - 6px),
-    41% calc(100% - 14px), 36% calc(100% - 9px), 31% calc(100% - 16px),
-    26% calc(100% - 5px), 21% calc(100% - 12px), 16% calc(100% - 8px),
-    11% calc(100% - 15px), 6% calc(100% - 6px), 3% calc(100% - 11px),
-    0 calc(100% - 16px));
+  /* 위쪽은 종이색 단색이 늘어나고, 하단은 찢김 이미지 스트립이 겹쳐져 자연스럽게 이어짐.
+     하단 패딩(%)은 스트립의 찢김 영역(폭의 약 22%)을 텍스트가 침범하지 않게 하는 값 */
+  background-color: #E7DBC9;
+  background-image: url('images/invite-tear.png');
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: 100% auto;
+  padding: 64px 30px 30%;
 }
 .parents-img { display: block; width: 100%; height: auto; }
 .invite-paper-wrap + .parents-img { margin-top: 40px; }
