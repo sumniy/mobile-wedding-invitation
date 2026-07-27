@@ -156,7 +156,8 @@ section { padding: 66px 30px; }
   background-size: 100% auto;
   padding: 64px 30px 30%;
 }
-.parents-img { display: block; width: 100%; height: auto; }
+/* 본문 폭보다 15% 크게 (양쪽 여백으로 살짝 확장, wrap 밖으로는 안 나감) */
+.parents-img { display: block; width: 115%; max-width: none; margin-left: -7.5%; height: auto; }
 .invite-paper-wrap + .parents-img { margin-top: 40px; }
 .parents-img + .parents-img { margin-top: 24px; }
 
@@ -404,7 +405,8 @@ footer .foot-sign {
       <p class="std-time">낮 12시</p>
       <div class="std-detail">
         콘래드 서울 그랜드볼룸 3F<br>
-        서울 영등포구 국제금융로 10 · 신부대기실 6F
+        신부대기실 6F<br>
+        (서울 영등포구 국제금융로 10)
       </div>
     </div>
   </section>
