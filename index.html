@@ -175,8 +175,12 @@ section { padding: 66px 30px; }
 .gallery-block { text-align: center; }
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .gallery-grid .ph { aspect-ratio: 1; cursor: pointer; font-size: 10px; }
+.gallery-grid img {
+  display: block; width: 100%; aspect-ratio: 1;
+  object-fit: cover; cursor: pointer;
+}
 .gallery-grid .hidden-item { display: none; }
-.gallery-grid.expanded .hidden-item { display: flex; }
+.gallery-grid.expanded .hidden-item { display: block; }
 .more-btn {
   margin-top: 18px; padding: 11px 26px;
   font-family: var(--batang); font-size: 12.5px; letter-spacing: .1em; color: #8C7C64;
@@ -191,11 +195,7 @@ section { padding: 66px 30px; }
   align-items: center; justify-content: center;
 }
 #lightbox.open { display: flex; }
-#lightbox .lb-content {
-  width: 86%; max-width: 400px; aspect-ratio: 1;
-  background: #3E362C; color: #B0A491;
-  display: flex; align-items: center; justify-content: center; font-size: 13px;
-}
+#lightbox img { max-width: 92%; max-height: 86vh; object-fit: contain; }
 #lightbox .lb-close {
   position: absolute; top: 20px; right: 24px;
   color: #F6F1E8; font-size: 26px; background: none; border: none; cursor: pointer;
@@ -469,21 +469,15 @@ footer .foot-sign {
       <p class="sec-label">Gallery</p>
       <p class="caption">우리의 순간들</p>
       <div class="gallery-grid" id="gallery">
-        <!-- 실제 사진으로 교체: <img src="images/g1.jpg" loading="lazy" onclick="openLightbox(0)"> -->
-        <div class="ph" onclick="openLightbox(1)">사진 1</div>
-        <div class="ph" onclick="openLightbox(2)">사진 2</div>
-        <div class="ph" onclick="openLightbox(3)">사진 3</div>
-        <div class="ph" onclick="openLightbox(4)">사진 4</div>
-        <div class="ph" onclick="openLightbox(5)">사진 5</div>
-        <div class="ph" onclick="openLightbox(6)">사진 6</div>
-        <div class="ph hidden-item" onclick="openLightbox(7)">사진 7</div>
-        <div class="ph hidden-item" onclick="openLightbox(8)">사진 8</div>
-        <div class="ph hidden-item" onclick="openLightbox(9)">사진 9</div>
-        <div class="ph hidden-item" onclick="openLightbox(10)">사진 10</div>
-        <div class="ph hidden-item" onclick="openLightbox(11)">사진 11</div>
-        <div class="ph hidden-item" onclick="openLightbox(12)">사진 12</div>
+        <!-- 사진 추가 시: <img src="images/gallery-06.jpg" loading="lazy" alt="" onclick="openLightbox(this)">
+             7번째부터는 class="hidden-item"를 붙이면 '사진 더보기' 버튼이 자동으로 나타남 -->
+        <img src="images/gallery-01.jpg" loading="lazy" alt="웨딩 사진 1" onclick="openLightbox(this)">
+        <img src="images/gallery-02.jpg" loading="lazy" alt="웨딩 사진 2" onclick="openLightbox(this)">
+        <img src="images/gallery-03.jpg" loading="lazy" alt="웨딩 사진 3" onclick="openLightbox(this)">
+        <img src="images/gallery-04.jpg" loading="lazy" alt="웨딩 사진 4" onclick="openLightbox(this)">
+        <img src="images/gallery-05.jpg" loading="lazy" alt="웨딩 사진 5" onclick="openLightbox(this)">
       </div>
-      <button class="more-btn" id="more-btn" onclick="toggleGallery()">사진 더보기</button>
+      <button class="more-btn" id="more-btn" onclick="toggleGallery()" hidden>사진 더보기</button>
     </div>
 
   </div>
@@ -492,7 +486,7 @@ footer .foot-sign {
   <!-- 라이트박스 -->
   <div id="lightbox" onclick="closeLightbox()">
     <button class="lb-close">✕</button>
-    <div class="lb-content" id="lb-content">사진 확대 보기</div>
+    <img id="lb-img" src="" alt="사진 확대 보기">
   </div>
 
   <!-- ═══ 캘린더 / D-day ═══ -->
@@ -746,7 +740,10 @@ if (onScrollFades.length) {
   revealOnScroll();
 }
 
-/* ── 갤러리 더보기 ── */
+/* ── 갤러리 더보기 (숨긴 사진이 있을 때만 버튼 표시) ── */
+if (document.querySelector('.gallery-grid .hidden-item')) {
+  document.getElementById('more-btn').hidden = false;
+}
 function toggleGallery() {
   const g = document.getElementById('gallery');
   const btn = document.getElementById('more-btn');
@@ -755,8 +752,8 @@ function toggleGallery() {
 }
 
 /* ── 라이트박스 ── */
-function openLightbox(n) {
-  document.getElementById('lb-content').textContent = '사진 ' + n + ' 확대 보기';
+function openLightbox(el) {
+  document.getElementById('lb-img').src = el.src;
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox() {
