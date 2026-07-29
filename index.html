@@ -144,19 +144,7 @@ section { padding: 66px 30px; }
   color: var(--heading); margin: 16px 0 30px;
 }
 .invite-msg { font-size: 14.5px; line-height: 2.25; color: var(--body); text-wrap: pretty; }
-/* 초대글 종이 카드 — 실제 찢긴 종이 이미지 배경 */
-.invite-paper-wrap { margin: 0 -30px; }
-.invite-paper {
-  /* 위쪽은 종이색 단색이 늘어나고, 하단은 찢김 이미지 스트립이 겹쳐져 자연스럽게 이어짐.
-     하단 패딩(%)은 스트립의 찢김 영역(폭의 약 22%)을 텍스트가 침범하지 않게 하는 값 */
-  background-color: #E7DBC9;
-  background-image: url('images/invite-tear.png');
-  background-repeat: no-repeat;
-  background-position: bottom center;
-  background-size: 100% auto;
-  padding: 64px 30px 30%;
-}
-/* 초대글 종이와 부모님 편지 사이 신랑·신부 소개 사진 (찢긴 가장자리가 이미지에 포함, 풀블리드) */
+/* 초대글과 부모님 편지 사이 신랑·신부 소개 사진 (찢긴 가장자리가 이미지에 포함, 풀블리드) */
 .invite-photo { display: block; width: calc(100% + 60px); margin: 44px -30px 0; height: auto; }
 /* 본문 폭보다 15% 크게 (양쪽 여백으로 살짝 확장, wrap 밖으로는 안 나감) */
 .parents-img { display: block; width: 115%; max-width: none; margin-left: -7.5%; height: auto; }
@@ -427,21 +415,17 @@ footer .foot-sign {
   <div class="story">
 
     <!-- 초대 인사말 -->
-    <div class="block invite fade" style="padding-top: 0;">
-      <div class="invite-paper-wrap">
-        <div class="invite-paper">
-          <p class="sec-label">Invitation</p>
-          <h2 class="invite-title">소중한 분들을 초대합니다</h2>
-          <p class="invite-msg">
-            서로가 마주 보며 다져온 사랑을<br>
-            이제 함께 한 곳을 바라보며<br>
-            걸어갈 수 있는 큰 사랑으로 키우고자 합니다.<br><br>
-            저희 두 사람이 사랑의 이름으로<br>
-            지켜나갈 수 있게 앞날을<br>
-            축복해 주시면 감사하겠습니다.
-          </p>
-        </div>
-      </div>
+    <div class="block invite fade" style="padding-top: 66px;">
+      <p class="sec-label">Invitation</p>
+      <h2 class="invite-title">소중한 분들을 초대합니다</h2>
+      <p class="invite-msg">
+        서로가 마주 보며 다져온 사랑을<br>
+        이제 함께 한 곳을 바라보며<br>
+        걸어갈 수 있는 큰 사랑으로 키우고자 합니다.<br><br>
+        저희 두 사람이 사랑의 이름으로<br>
+        지켜나갈 수 있게 앞날을<br>
+        축복해 주시면 감사하겠습니다.
+      </p>
       <img class="invite-photo" src="images/invite-photo.jpg" loading="lazy" alt="신랑 이수민이 신부 조주영의 사진을 찍어주는 모습">
       <img class="parents-img" src="images/parents-groom.jpg" loading="lazy" alt="이동주 · 김순옥의 아들 수민 — 신랑 부모님의 손글씨 편지">
       <img class="parents-img" src="images/parents-bride.jpg" loading="lazy" alt="조희승 · 조예은의 딸 주영 — 신부 부모님의 손글씨 편지">
