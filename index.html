@@ -173,6 +173,7 @@ section { padding: 66px 30px; }
   display: none; position: fixed; inset: 0; z-index: 100;
   background: rgba(60,50,38,.94);
   align-items: center; justify-content: center;
+  touch-action: none; /* 스와이프 중 배경 페이지 스크롤 방지 */
 }
 #lightbox.open { display: flex; }
 #lightbox img { max-width: 88%; max-height: 82vh; object-fit: contain; }
@@ -733,6 +734,7 @@ function openLightbox(el) {
   lbIndex = Math.max(0, galleryImgs.indexOf(el));
   updateLightbox();
   document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden'; // 배경 스크롤 잠금
 }
 function updateLightbox() {
   document.getElementById('lb-img').src = galleryImgs[lbIndex].src;
@@ -745,10 +747,13 @@ function lbStep(delta) {
 function closeLightbox() {
   if (lbSwiped) { lbSwiped = false; return; } // 스와이프 직후의 탭 판정으로 닫히는 것 방지
   document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = ''; // 배경 스크롤 잠금 해제
 }
 /* 좌우 스와이프로 이전/다음 사진 */
 const lbEl = document.getElementById('lightbox');
 let lbTouchX = null;
+// iOS 사파리 대비: 라이트박스 위 터치 이동이 배경을 끌지 않도록 차단
+lbEl.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 lbEl.addEventListener('touchstart', (e) => { lbTouchX = e.touches[0].clientX; }, { passive: true });
 lbEl.addEventListener('touchend', (e) => {
   if (lbTouchX === null) return;
