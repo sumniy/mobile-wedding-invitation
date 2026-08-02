@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -122,7 +122,37 @@ section { padding: 66px 30px; }
   height: 100vh; height: 100svh;
   background: var(--bg);
 }
+.cover-stage { position: relative; }
 .cover .cover-img { width: 100%; height: auto; }
+/* 표지에 인쇄된 'Our wedding' 글씨를 같은 사진의 무지 영역(색보정 완료)으로 가리는 패치.
+   그 위에 SVG 필기체가 획 드로잉 애니메이션으로 다시 그려짐 */
+.cover-script-patch {
+  position: absolute; left: 14.729%; top: 42.906%;
+  width: 69.767%; height: 11.926%;
+}
+.cover-script-svg {
+  position: absolute; left: 14.729%; top: 42.906%;
+  width: 69.767%; height: 11.926%;
+  overflow: visible;
+}
+.cover-script-svg .script-word {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 178px;
+  fill: #FFFDF8; fill-opacity: 0;
+  stroke: #FFFDF8; stroke-width: 1.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 900 900;
+  stroke-dashoffset: 900;
+  animation: cover-draw 3.4s ease-in-out .5s forwards,
+             cover-ink 1.1s ease 3.2s forwards;
+}
+@keyframes cover-draw { to { stroke-dashoffset: 0; } }
+@keyframes cover-ink { to { fill-opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .cover-script-svg .script-word {
+    animation: none; stroke-dashoffset: 0; fill-opacity: 1;
+  }
+}
 
 /* ── Save the Date ─────────────────── */
 /* 커버(100svh) 하단의 빈 크림 영역까지 끌어올려 찢김 라인 바로 아래에 배치.
@@ -393,7 +423,13 @@ footer .foot-sign {
 
   <!-- ═══ 커버 (표지 이미지) ═══ -->
   <section class="cover">
-    <img class="cover-img" src="images/cover.jpg" alt="YOU'RE INVITED TO Our wedding — 2026.10.31 SAT 12:00 PM · CONRAD SEOUL, GRAND BALLROOM">
+    <div class="cover-stage">
+      <img class="cover-img" src="images/cover.jpg" alt="YOU'RE INVITED TO Our wedding — 2026.10.31 SAT 12:00 PM · CONRAD SEOUL, GRAND BALLROOM">
+      <img class="cover-script-patch" src="images/cover-script-patch.jpg" alt="" aria-hidden="true">
+      <svg class="cover-script-svg" viewBox="0 0 900 348" aria-hidden="true">
+        <text class="script-word" x="450" y="172" text-anchor="middle">Our wedding</text>
+      </svg>
+    </div>
   </section>
 
   <!-- ═══ Save the Date ═══ -->
