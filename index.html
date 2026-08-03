@@ -87,11 +87,12 @@ section { padding: 66px 30px; }
   letter-spacing: .04em; margin: 14px 0 26px;
 }
 
-/* 스크롤 페이드인 */
-.fade { opacity: 0; transform: translateY(14px); transition: opacity .8s ease, transform .8s ease; }
-.fade.show { opacity: 1; transform: none; }
-/* 새로고침 시 이미 화면 안에 있던 영역은 애니메이션 없이 바로 표시 */
-.fade.instant { transition: none; }
+/* 스크롤 페이드인 —
+   기본은 '보이는 상태'로 두고, 화면 밖 요소만 JS가 .armed 로 숨긴다.
+   이렇게 해야 스크립트 실행 전 첫 페인트에서 깜빡임(빈 화면 → 툭 등장)이 없다. */
+.fade { transition: opacity .8s ease, transform .8s ease; }
+/* 숨길 때는 전환 없이 즉시(안 그러면 1 → 0 으로 사라지는 게 보임), 나타날 때만 페이드 */
+.fade.armed:not(.show) { opacity: 0; transform: translateY(14px); transition: none; }
 
 /* 이미지 플레이스홀더 — 실제 사진으로 교체 시 <img>로 바꾸면 됨 */
 .ph {
@@ -772,18 +773,12 @@ const io = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } });
 }, { threshold: 0.15 });
 document.querySelectorAll('.fade:not(.fade-onscroll)').forEach(el => {
-  // 로드 시점에 이미 보이는 위치면(새로고침·앵커 이동 등) 페이드 없이 즉시 노출
+  // 로드 시점에 이미 화면 안이면 그대로 노출(깜빡임·페이드 없음)
   const r = el.getBoundingClientRect();
-  if (r.top < window.innerHeight && r.bottom > 0) {
-    el.classList.add('instant', 'show');
-  } else {
-    io.observe(el);
-  }
+  if (r.top < window.innerHeight && r.bottom > 0) return;
+  el.classList.add('armed');   // 화면 밖 요소만 숨겨 두고 스크롤 시 페이드
+  io.observe(el);
 });
-// 첫 페인트 후 instant 해제 — 이후 등장하는 요소는 정상적으로 페이드
-requestAnimationFrame(() => requestAnimationFrame(() => {
-  document.querySelectorAll('.fade.instant').forEach(el => el.classList.remove('instant'));
-}));
 
 /* 커버 영역에 겹쳐 있는 요소(Save the Date)는 스크롤을 시작해야 나타남 */
 const onScrollFades = document.querySelectorAll('.fade-onscroll');
@@ -794,10 +789,11 @@ if (onScrollFades.length) {
       window.removeEventListener('scroll', revealOnScroll);
     }
   };
-  window.addEventListener('scroll', revealOnScroll, { passive: true });
-  // 이미 스크롤된 위치에서 로드됐다면 페이드 없이 즉시 노출
-  if (window.scrollY > 60) onScrollFades.forEach(el => el.classList.add('instant'));
-  revealOnScroll();
+  // 최상단에서 시작할 때만 숨겨 둔다 (이미 스크롤된 위치면 그대로 노출)
+  if (window.scrollY <= 60) {
+    onScrollFades.forEach(el => el.classList.add('armed'));
+    window.addEventListener('scroll', revealOnScroll, { passive: true });
+  }
 }
 
 /* ── 갤러리 더보기 (숨긴 사진이 있을 때만 버튼 표시) ── */
