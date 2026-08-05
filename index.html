@@ -14,7 +14,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -121,51 +121,25 @@ section { padding: 66px 30px; }
 /* 첫 화면에는 표지만 보이도록 뷰포트 높이에 맞춤.
    이미지는 상단 고정·원본 비율 유지, 남는 아래 공간은 동일한 크림 배경이 채움 */
 .cover {
+  position: relative;
   padding: 0; font-size: 0; overflow: hidden;
   height: 100vh; height: 100svh;
   background: var(--bg);
 }
-.cover-stage { position: relative; }
 .cover .cover-img { width: 100%; height: auto; }
-/* 표지에 인쇄된 'Our wedding' 글씨를 같은 사진의 무지 영역(색보정 완료)으로 가리는 패치.
-   그 위에 SVG 필기체가 획 드로잉 애니메이션으로 다시 그려짐 */
-.cover-script-patch {
-  position: absolute; left: 14.729%; top: 42.906%;
-  width: 69.767%; height: 11.926%;
-}
-.cover-script-svg {
-  position: absolute; left: 14.729%; top: 42.906%;
-  width: 69.767%; height: 11.926%;
-  overflow: visible;
-}
-.cover-script-svg .script-word {
-  font-family: 'Pinyon Script', cursive;
-  font-size: 178px;
-}
-/* 글자 하나씩 왼쪽 → 오른쪽으로 획이 그어지고, 곧바로 잉크가 차오름 */
-.cover-script-svg .script-word tspan {
-  fill: #FFFDF8; fill-opacity: 0;
-  stroke: #FFFDF8; stroke-width: 1.4;
-  stroke-linecap: round; stroke-linejoin: round;
-  stroke-dasharray: 260 260;
-  stroke-dashoffset: 260;
-  animation: cover-draw .42s ease-in-out both,
-             cover-ink .3s ease both;
-  animation-delay: calc(.45s + var(--i) * .21s),
-                   calc(.45s + var(--i) * .21s + .3s);
-}
-@keyframes cover-draw { to { stroke-dashoffset: 0; } }
-@keyframes cover-ink { to { fill-opacity: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  .cover-script-svg .script-word tspan {
-    animation: none; stroke-dashoffset: 0; fill-opacity: 1;
-  }
+/* 표지 전용 꽃잎 흩날림 캔버스 */
+#petal-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
 }
 
 /* ── Save the Date ─────────────────── */
 /* 커버(100svh) 하단의 빈 크림 영역까지 끌어올려 찢김 라인 바로 아래에 배치.
-   1.53 ≈ 표지 이미지에서 찢김 하단의 세로 위치(폭 대비 비율) */
+   1.53 ≈ 표지 이미지에서 찢김 하단의 세로 위치(폭 대비 비율).
+   position+z-index: 커버(positioned)와 겹치므로 위에 그려지도록 */
 .std {
+  position: relative; z-index: 1;
   text-align: center;
   margin-top: min(0px, calc(1.53 * min(100vw, 430px) + 2px - 100vh));
   margin-top: min(0px, calc(1.53 * min(100vw, 430px) + 2px - 100svh));
@@ -431,19 +405,14 @@ footer .foot-sign {
 
   <!-- ═══ 커버 (표지 이미지) ═══ -->
   <section class="cover">
-    <div class="cover-stage">
-      <img class="cover-img" src="images/cover.jpg" alt="YOU'RE INVITED TO Our wedding — 2026.10.31 SAT 12:00 PM · CONRAD SEOUL, GRAND BALLROOM">
-      <img class="cover-script-patch" src="images/cover-script-patch.jpg" alt="" aria-hidden="true">
-      <svg class="cover-script-svg" viewBox="0 0 900 348" aria-hidden="true">
-        <text class="script-word" x="450" y="172" text-anchor="middle"><tspan style="--i:0">O</tspan><tspan style="--i:1">u</tspan><tspan style="--i:2">r</tspan><tspan style="--i:3"> </tspan><tspan style="--i:3">w</tspan><tspan style="--i:4">e</tspan><tspan style="--i:5">d</tspan><tspan style="--i:6">d</tspan><tspan style="--i:7">i</tspan><tspan style="--i:8">n</tspan><tspan style="--i:9">g</tspan></text>
-      </svg>
-    </div>
+    <img class="cover-img" src="images/cover.jpg" alt="YOU'RE INVITED TO Our wedding — 2026.10.31 SAT 12:00 PM · CONRAD SEOUL, GRAND BALLROOM">
+    <canvas id="petal-canvas" aria-hidden="true"></canvas>
   </section>
 
   <!-- ═══ Save the Date ═══ -->
   <section class="std">
-    <!-- fade-onscroll: 첫 화면(커버) 영역에 걸쳐 있어, 스크롤 시작 후에만 페이드인 -->
-    <div class="fade fade-onscroll">
+    <!-- data-reveal="scroll": 첫 화면(커버)에 걸쳐 있어, 위치와 무관하게 스크롤 시작 시 노출 -->
+    <div class="fade" data-reveal="scroll">
       <p class="sec-label">Save the Date</p>
       <p class="std-date">2026년 10월 31일 토요일</p>
       <p class="std-time">낮 12시</p>
@@ -496,11 +465,10 @@ footer .foot-sign {
         <img src="images/gallery-06.jpg" data-full="images/full/gallery-06.jpg" loading="lazy" alt="웨딩 사진 6" onclick="openLightbox(this)">
         <img src="images/gallery-07.jpg" data-full="images/full/gallery-07.jpg" loading="lazy" alt="웨딩 사진 7" onclick="openLightbox(this)">
         <img src="images/gallery-08.jpg" data-full="images/full/gallery-08.jpg" loading="lazy" alt="웨딩 사진 8" onclick="openLightbox(this)">
-        <img src="images/gallery-09.jpg" data-full="images/full/gallery-09.jpg" loading="lazy" alt="웨딩 사진 9" onclick="openLightbox(this)">
         <img src="images/gallery-10.jpg" data-full="images/full/gallery-10.jpg" loading="lazy" alt="웨딩 사진 10" onclick="openLightbox(this)">
         <img src="images/gallery-11.jpg" data-full="images/full/gallery-11.jpg" loading="lazy" alt="웨딩 사진 11" onclick="openLightbox(this)">
         <img src="images/gallery-12.jpg" data-full="images/full/gallery-12.jpg" loading="lazy" alt="웨딩 사진 12" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-13.jpg" data-full="images/full/gallery-13.jpg" loading="lazy" alt="웨딩 사진 13" onclick="openLightbox(this)">
+        <img src="images/gallery-13.jpg" data-full="images/full/gallery-13.jpg" loading="lazy" alt="웨딩 사진 13" onclick="openLightbox(this)">
         <img class="hidden-item" src="images/gallery-14.jpg" data-full="images/full/gallery-14.jpg" loading="lazy" alt="웨딩 사진 14" onclick="openLightbox(this)">
         <img class="hidden-item" src="images/gallery-15.jpg" data-full="images/full/gallery-15.jpg" loading="lazy" alt="웨딩 사진 15" onclick="openLightbox(this)">
         <img class="hidden-item" src="images/gallery-16.jpg" data-full="images/full/gallery-16.jpg" loading="lazy" alt="웨딩 사진 16" onclick="openLightbox(this)">
@@ -768,33 +736,116 @@ if (KAKAO_MAP_KEY) {
   document.getElementById('map').innerHTML = '<div class="map-fallback">카카오맵 키 등록 후 지도가 표시됩니다</div>';
 }
 
-/* ── 스크롤 페이드인 ── */
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('show'); io.unobserve(e.target); } });
-}, { threshold: 0.15 });
-document.querySelectorAll('.fade:not(.fade-onscroll)').forEach(el => {
-  // 로드 시점에 이미 화면 안이면 그대로 노출(깜빡임·페이드 없음)
-  const r = el.getBoundingClientRect();
-  if (r.top < window.innerHeight && r.bottom > 0) return;
-  el.classList.add('armed');   // 화면 밖 요소만 숨겨 두고 스크롤 시 페이드
-  io.observe(el);
-});
-
-/* 커버 영역에 겹쳐 있는 요소(Save the Date)는 스크롤을 시작해야 나타남 */
-const onScrollFades = document.querySelectorAll('.fade-onscroll');
-if (onScrollFades.length) {
-  const revealOnScroll = () => {
-    if (window.scrollY > 60) {
-      onScrollFades.forEach(el => el.classList.add('show'));
-      window.removeEventListener('scroll', revealOnScroll);
+/* ── 스크롤 페이드인 공통 엔진 ──
+   모든 .fade 요소를 하나의 로직으로 처리한다.
+   · 노출 조건(ready)
+     - 기본: 요소가 뷰포트에 들어왔을 때
+     - data-reveal="scroll": 스크롤을 60px 이상 내렸을 때 (커버에 겹친 Save the Date용)
+   · 로드 시점에 이미 조건 충족 → 전환 없이 즉시 노출 (깜빡임 없음)
+   · 미충족 요소만 .armed로 숨기고, 스크롤/리사이즈 시 조건 충족되면 페이드인 */
+(function () {
+  const els = [...document.querySelectorAll('.fade')];
+  const ready = (el) => {
+    if (el.dataset.reveal === 'scroll') return window.scrollY > 60;
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.95 && r.bottom > 0;
+  };
+  let pending = [];
+  els.forEach(el => {
+    if (ready(el)) el.classList.add('show');   // 즉시 노출 (armed가 없어 전환 안 걸림)
+    else { el.classList.add('armed'); pending.push(el); }
+  });
+  if (!pending.length) return;
+  let raf = null;
+  const update = () => {
+    raf = null;
+    pending = pending.filter(el => {
+      if (!ready(el)) return true;
+      el.classList.add('show');                // armed 상태에서 show → 페이드인
+      return false;
+    });
+    if (!pending.length) {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
     }
   };
-  // 최상단에서 시작할 때만 숨겨 둔다 (이미 스크롤된 위치면 그대로 노출)
-  if (window.scrollY <= 60) {
-    onScrollFades.forEach(el => el.classList.add('armed'));
-    window.addEventListener('scroll', revealOnScroll, { passive: true });
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+})();
+
+/* ── 표지 꽃잎 흩날림 효과 ── */
+(function () {
+  const canvas = document.getElementById('petal-canvas');
+  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const ctx = canvas.getContext('2d');
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  let W = 0, H = 0, running = true;
+
+  function resize() {
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   }
-}
+  window.addEventListener('resize', resize);
+  resize();
+
+  const COUNT = 16;
+  const makePetal = (anywhere) => ({
+    x: Math.random() * W,
+    y: anywhere ? Math.random() * H : -16,
+    size: 4.5 + Math.random() * 5,           // 꽃잎 크기
+    speedY: 0.35 + Math.random() * 0.55,     // 낙하 속도
+    swayAmp: 14 + Math.random() * 26,        // 좌우 흔들림 폭
+    swayFreq: 0.6 + Math.random() * 0.9,
+    phase: Math.random() * Math.PI * 2,
+    rot: Math.random() * Math.PI * 2,
+    rotSpeed: (Math.random() - 0.5) * 0.03,
+    opacity: 0.4 + Math.random() * 0.4,
+    squish: 0.45 + Math.random() * 0.3,      // 세로 눌림(꽃잎 비율)
+    t: Math.random() * 100
+  });
+  const petals = Array.from({ length: COUNT }, () => makePetal(true));
+
+  function drawPetal(p) {
+    const sway = Math.sin(p.t * p.swayFreq + p.phase) * p.swayAmp;
+    ctx.save();
+    ctx.translate(p.x + sway, p.y);
+    ctx.rotate(p.rot + Math.sin(p.t * 0.7 + p.phase) * 0.4);
+    ctx.scale(1, p.squish);
+    ctx.globalAlpha = p.opacity;
+    ctx.fillStyle = '#FFFDF8';
+    ctx.beginPath();                                            // 꽃잎(물방울) 모양
+    ctx.moveTo(0, -p.size);
+    ctx.quadraticCurveTo(p.size * 0.9, -p.size * 0.2, 0, p.size);
+    ctx.quadraticCurveTo(-p.size * 0.9, -p.size * 0.2, 0, -p.size);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function frame() {
+    if (!running) return;
+    ctx.clearRect(0, 0, W, H);
+    for (let i = 0; i < petals.length; i++) {
+      const p = petals[i];
+      p.t += 0.016;
+      p.y += p.speedY;
+      if (p.y > H + 16) petals[i] = makePetal(false);
+      else drawPetal(p);
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
+  // 커버가 화면 밖이면 정지 (배터리 절약)
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const was = running;
+      running = e.isIntersecting;
+      if (running && !was) requestAnimationFrame(frame);
+    });
+  }).observe(canvas);
+})();
 
 /* ── 갤러리 더보기 (숨긴 사진이 있을 때만 버튼 표시) ── */
 if (document.querySelector('.gallery-grid .hidden-item')) {
