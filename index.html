@@ -965,8 +965,11 @@ function showToast(msg) {
 
 /* ── 참석 여부 제출 ── */
 const form = document.getElementById('rsvp-form');
+let rsvpSubmitting = false; // 전송 중 중복 제출 방지 (버튼 비활성화만으로는 Enter 등 폼 제출 경로를 못 막음)
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+  if (rsvpSubmitting) return;
+  rsvpSubmitting = true;
   const btn = document.getElementById('rsvp-submit');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>전송 중...';
@@ -981,6 +984,7 @@ form.addEventListener('submit', async (e) => {
     document.getElementById('rsvp-done').style.display = 'block';
   } catch (err) {
     alert('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
+    rsvpSubmitting = false; // 실패 시에만 재시도 허용
     btn.disabled = false;
     btn.textContent = '회신하기';
   }
