@@ -966,6 +966,26 @@ function showToast(msg) {
 /* ── 참석 여부 제출 ── */
 const form = document.getElementById('rsvp-form');
 let rsvpSubmitting = false; // 전송 중 중복 제출 방지 (버튼 비활성화만으로는 Enter 등 폼 제출 경로를 못 막음)
+
+/* fetch가 막히는 환경(일부 인앱 브라우저 등)용 폴백:
+   숨은 iframe으로 네이티브 폼 제출 — CORS 제약이 없어 어디서든 전송됨 */
+function rsvpFallbackSubmit() {
+  let sink = document.getElementById('rsvp-sink');
+  if (!sink) {
+    sink = document.createElement('iframe');
+    sink.id = 'rsvp-sink'; sink.name = 'rsvp-sink'; sink.hidden = true;
+    document.body.appendChild(sink);
+  }
+  form.action = SCRIPT_URL; form.method = 'POST'; form.target = 'rsvp-sink';
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = () => { if (!done) { done = true; resolve(); } };
+    sink.addEventListener('load', finish, { once: true });
+    setTimeout(finish, 4000);
+    form.submit(); // 네이티브 제출이라 submit 이벤트를 다시 타지 않음
+  });
+}
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (rsvpSubmitting) return;
@@ -973,20 +993,34 @@ form.addEventListener('submit', async (e) => {
   const btn = document.getElementById('rsvp-submit');
   btn.disabled = true;
   btn.innerHTML = '<span class="spinner"></span>전송 중...';
-  try {
-    const res = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      body: new URLSearchParams(new FormData(form))
-    });
-    const data = await res.json();
-    if (data.result !== 'success') throw new Error(data.message);
+  const showDone = () => {
     form.style.display = 'none';
     document.getElementById('rsvp-done').style.display = 'block';
+  };
+  try {
+    // Apps Script 콜드스타트가 길어질 수 있어 15초 제한
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 15000);
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(form)),
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    const data = await res.json();
+    if (data.result !== 'success') throw new Error(data.message);
+    showDone();
   } catch (err) {
-    alert('전송에 실패했습니다. 잠시 후 다시 시도해 주세요.');
-    rsvpSubmitting = false; // 실패 시에만 재시도 허용
-    btn.disabled = false;
-    btn.textContent = '회신하기';
+    // 오프라인이 확실하면 폴백 없이 재시도 안내
+    if (navigator.onLine === false) {
+      alert('네트워크 연결을 확인한 뒤 다시 시도해 주세요.');
+      rsvpSubmitting = false;
+      btn.disabled = false;
+      btn.textContent = '회신하기';
+      return;
+    }
+    await rsvpFallbackSubmit();
+    showDone();
   }
 });
 </script>
