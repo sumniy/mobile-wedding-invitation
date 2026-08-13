@@ -702,6 +702,18 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyfhcgHo3Z5i_Ykkbg2L
 const KAKAO_MAP_KEY = 'ae223e3db7123680a81d6949ffcb2792'; // Kakao JavaScript 키 (sumniy.github.io 도메인 등록 필요)
 const VENUE = { name: '콘래드 서울', lat: 37.525425, lng: 126.926620, kakaoPlaceId: '18206183' };
 
+/* ── Apps Script 웜업 ──
+   페이지 접속·모달 오픈 시 가벼운 GET을 미리 보내 콜드스타트를 깨워 둠.
+   응답은 읽을 필요 없어 no-cors, 2분 내 재웜업은 생략 */
+let lastWarmUp = 0;
+function warmUpRsvp() {
+  const now = Date.now();
+  if (now - lastWarmUp < 120000) return;
+  lastWarmUp = now;
+  fetch(SCRIPT_URL, { method: 'GET', mode: 'no-cors', cache: 'no-store' }).catch(() => {});
+}
+warmUpRsvp(); // 접속 즉시 1회
+
 /* ── 모바일 핀치 확대 방지 (iOS 사파리는 viewport 설정을 무시하므로 직접 차단) ── */
 ['gesturestart', 'gesturechange', 'gestureend'].forEach(t =>
   document.addEventListener(t, (e) => e.preventDefault())
@@ -930,6 +942,7 @@ function markAttendShown() {
 }
 function openAttend() {
   markAttendShown(); // 한 번 열리면(수동 포함) 자동 오픈은 다시 안 함
+  warmUpRsvp();      // 제출이 임박했으니 다시 한 번 깨워 둠
   document.getElementById('attend-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
