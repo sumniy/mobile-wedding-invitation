@@ -171,9 +171,13 @@ ADMIN_HTML = """<!DOCTYPE html>
   }
   #drop.hover { background: #F1EADD; border-color: #8C7C64; }
   #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-  .card { position: relative; background: #fff; border: 1px solid #E0D6C4; border-radius: 8px; overflow: hidden; }
-  .card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
-  .card .no { position: absolute; top: 6px; left: 6px; background: rgba(74,65,57,.85); color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; }
+  .card { position: relative; background: #fff; border: 1px solid #E0D6C4; border-radius: 8px; overflow: hidden; cursor: grab; }
+  .card.dragging { opacity: .35; }
+  .card.ins-b { box-shadow: -4px 0 0 0 #8C7C64; }
+  .card.ins-a { box-shadow: 4px 0 0 0 #8C7C64; }
+  .card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; pointer-events: none; }
+  .card .no { position: absolute; top: 6px; left: 6px; background: rgba(74,65,57,.85); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 10px; cursor: pointer; }
+  .card .no:hover { background: #8C7C64; }
   .card .bar { display: flex; }
   .card .bar button { flex: 1; padding: 8px 0; border: 0; background: #FBF8F2; cursor: pointer; font-size: 13px; color: #6B5C48; }
   .card .bar button:hover { background: #F1EADD; }
@@ -182,6 +186,15 @@ ADMIN_HTML = """<!DOCTYPE html>
   #right .cap { text-align: center; font-size: 12px; color: #8C7C64; padding: 8px; }
   #frame { flex: 1; border: 0; width: 375px; margin: 0 11px 11px; background: #fff; box-shadow: 0 2px 14px rgba(0,0,0,.12); }
   @media (max-width: 900px) { #right { display: none; } }
+  /* 확대 뷰어 */
+  #viewer { display: none; position: fixed; inset: 0; z-index: 50; background: rgba(40,34,28,.94); flex-direction: column; align-items: center; justify-content: center; }
+  #viewer.open { display: flex; }
+  #viewer img { max-width: 92%; max-height: 78vh; object-fit: contain; box-shadow: 0 8px 40px rgba(0,0,0,.5); }
+  #viewer .vbar { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+  #viewer .vbar button { padding: 10px 18px; border: 0; border-radius: 6px; background: #FBF8F2; color: #4A4139; font-size: 14px; cursor: pointer; }
+  #viewer .vbar .vdel { background: #B0533D; color: #fff; }
+  #viewer #vcount { color: #F5F0E6; font-size: 14px; min-width: 70px; text-align: center; }
+  #viewer .vhint { margin-top: 10px; color: rgba(245,240,230,.6); font-size: 12px; }
 </style>
 </head>
 <body>
@@ -193,7 +206,8 @@ ADMIN_HTML = """<!DOCTYPE html>
 </header>
 <main>
   <div id="left">
-    <div id="drop">여기로 사진을 끌어다 놓거나 클릭해서 선택하세요 (jpg·png·heic)</div>
+    <div id="drop">여기로 사진을 끌어다 놓거나 클릭해서 선택하세요 (jpg·png·heic)<br>
+      <small>순서 변경: 사진을 끌어서 원하는 자리에 놓기 · 번호를 누르면 원하는 위치로 바로 이동</small></div>
     <input type="file" id="file" accept=".jpg,.jpeg,.png,.heic" multiple hidden>
     <div id="grid"></div>
   </div>
@@ -202,11 +216,31 @@ ADMIN_HTML = """<!DOCTYPE html>
     <iframe id="frame" src="/"></iframe>
   </div>
 </main>
+<div id="viewer">
+  <img id="vimg" alt="">
+  <div class="vbar">
+    <button onclick="viewerNav(-1)">◀ 이전</button>
+    <span id="vcount"></span>
+    <button onclick="viewerNav(1)">다음 ▶</button>
+    <button class="vdel" onclick="viewerDel()">이 사진 삭제</button>
+    <button onclick="closeViewer()">닫기</button>
+  </div>
+  <div class="vhint">사진을 클릭하면 원본 크기로 볼 수 있어요 · 키보드 ← → 이동, ESC 닫기</div>
+</div>
 <script>
 let photos = [];
+let busy = false;
+let dragIdx = null;
+let dropTarget = null; // { idx, before }
+let justDragged = false;
+let viewIdx = null;
 const $ = (id) => document.getElementById(id);
 
 function setStatus(msg) { $('status').textContent = msg || ''; }
+
+function clearInsertMarks() {
+  document.querySelectorAll('.card.ins-b, .card.ins-a').forEach(c => c.classList.remove('ins-b', 'ins-a'));
+}
 
 async function refresh(reloadFrame) {
   const r = await fetch('/api/list');
@@ -217,27 +251,85 @@ async function refresh(reloadFrame) {
   photos.forEach((name, i) => {
     const card = document.createElement('div');
     card.className = 'card';
+    card.draggable = true;
     card.innerHTML =
-      '<img src="/images/' + name + '?v=' + Date.now() + '" loading="lazy">' +
-      '<span class="no">' + (i + 1) + '</span>' +
+      '<img src="/images/' + name + '?v=' + Date.now() + '" loading="lazy" draggable="false">' +
+      '<span class="no" title="눌러서 원하는 위치로 이동">' + (i + 1) + '</span>' +
       '<div class="bar">' +
-        '<button onclick="move(' + i + ',-1)" ' + (i === 0 ? 'disabled' : '') + '>◀</button>' +
-        '<button class="del" onclick="del(' + i + ')">삭제</button>' +
-        '<button onclick="move(' + i + ',1)" ' + (i === photos.length - 1 ? 'disabled' : '') + '>▶</button>' +
+        '<button ' + (i === 0 ? 'disabled' : '') + '>◀</button>' +
+        '<button class="del">삭제</button>' +
+        '<button ' + (i === photos.length - 1 ? 'disabled' : '') + '>▶</button>' +
       '</div>';
+    const [prev, del_, next] = card.querySelectorAll('.bar button');
+    prev.onclick = () => move(i, -1);
+    next.onclick = () => move(i, 1);
+    del_.onclick = () => del(i);
+    card.querySelector('.no').onclick = () => jump(i);
+
+    // 드래그로 순서 변경
+    card.addEventListener('dragstart', (e) => {
+      dragIdx = i;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', String(i)); // 파이어폭스 호환
+    });
+    card.addEventListener('dragend', () => {
+      card.classList.remove('dragging');
+      clearInsertMarks();
+      dragIdx = null; dropTarget = null;
+      justDragged = true;
+      setTimeout(() => { justDragged = false; }, 80);
+    });
+    // 카드(사진 영역) 클릭 → 확대 뷰어
+    card.addEventListener('click', (e) => {
+      if (justDragged) return;
+      if (e.target.closest('.bar') || e.target.closest('.no')) return;
+      openViewer(i);
+    });
+    card.addEventListener('dragover', (e) => {
+      if (dragIdx === null || dragIdx === i) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const rect = card.getBoundingClientRect();
+      const before = (e.clientX - rect.left) < rect.width / 2;
+      if (!dropTarget || dropTarget.idx !== i || dropTarget.before !== before) {
+        clearInsertMarks();
+        card.classList.add(before ? 'ins-b' : 'ins-a');
+        dropTarget = { idx: i, before };
+      }
+    });
+    card.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      if (dragIdx === null || !dropTarget) return;
+      const from = dragIdx;
+      let insertAt = dropTarget.idx + (dropTarget.before ? 0 : 1);
+      clearInsertMarks();
+      if (insertAt === from || insertAt === from + 1) return; // 제자리
+      const names = photos.slice();
+      const [item] = names.splice(from, 1);
+      if (from < insertAt) insertAt--;
+      names.splice(insertAt, 0, item);
+      await api('/api/order', { names }, '순서 변경 중...');
+    });
     grid.appendChild(card);
   });
   if (reloadFrame) $('frame').src = '/?t=' + Date.now();
 }
 
 async function api(path, body, busyMsg) {
+  if (busy) return false;
+  busy = true;
   setStatus(busyMsg);
-  const r = await fetch(path, { method: 'POST', body: JSON.stringify(body || {}) });
-  const data = await r.json();
-  if (!data.ok) { alert('실패: ' + (data.log || '알 수 없는 오류')); setStatus('오류'); }
-  else setStatus('완료');
-  await refresh(true);
-  return data.ok;
+  try {
+    const r = await fetch(path, { method: 'POST', body: JSON.stringify(body || {}) });
+    const data = await r.json();
+    if (!data.ok) { alert('실패: ' + (data.log || '알 수 없는 오류')); setStatus('오류'); }
+    else setStatus('완료');
+    await refresh(true);
+    return data.ok;
+  } finally {
+    busy = false;
+  }
 }
 
 async function move(i, dir) {
@@ -247,12 +339,67 @@ async function move(i, dir) {
   await api('/api/order', { names }, '순서 변경 중...');
 }
 
+async function jump(i) {
+  const v = prompt('몇 번째 위치로 이동할까요? (1~' + photos.length + ')', String(i + 1));
+  if (v === null) return;
+  const pos = parseInt(v, 10);
+  if (!pos || pos < 1 || pos > photos.length) { alert('1~' + photos.length + ' 사이 숫자를 입력하세요.'); return; }
+  if (pos - 1 === i) return;
+  const names = photos.slice();
+  const [item] = names.splice(i, 1);
+  names.splice(pos - 1, 0, item);
+  await api('/api/order', { names }, pos + '번째로 이동 중...');
+}
+
 async function del(i) {
   if (!confirm((i + 1) + '번 사진을 뺄까요? (원본 파일이 삭제됩니다)')) return;
   await api('/api/delete', { name: photos[i] }, '삭제 중...');
 }
 
+// ── 확대 뷰어 (원본 화질) ──
+function openViewer(i) {
+  viewIdx = i;
+  renderViewer();
+  $('viewer').classList.add('open');
+}
+function renderViewer() {
+  if (viewIdx === null || !photos.length) return;
+  $('vimg').src = '/images/full/' + photos[viewIdx] + '?v=' + Date.now();
+  $('vcount').textContent = (viewIdx + 1) + ' / ' + photos.length;
+}
+function closeViewer() {
+  $('viewer').classList.remove('open');
+  viewIdx = null;
+}
+function viewerNav(d) {
+  if (viewIdx === null) return;
+  viewIdx = (viewIdx + d + photos.length) % photos.length;
+  renderViewer();
+}
+async function viewerDel() {
+  if (viewIdx === null) return;
+  const i = viewIdx;
+  if (!confirm((i + 1) + '번 사진을 뺄까요? (원본 파일이 삭제됩니다)')) return;
+  const ok = await api('/api/delete', { name: photos[i] }, '삭제 중...');
+  if (ok && photos.length) { viewIdx = Math.min(i, photos.length - 1); renderViewer(); }
+  else closeViewer();
+}
+$('viewer').addEventListener('click', (e) => { if (e.target.id === 'viewer') closeViewer(); });
+document.addEventListener('keydown', (e) => {
+  if (!$('viewer').classList.contains('open')) return;
+  if (e.key === 'Escape') closeViewer();
+  else if (e.key === 'ArrowLeft') viewerNav(-1);
+  else if (e.key === 'ArrowRight') viewerNav(1);
+});
+
+// 페이지 밖 드롭으로 브라우저가 이미지를 열어버리는 것 방지
+document.addEventListener('dragover', (e) => e.preventDefault());
+document.addEventListener('drop', (e) => e.preventDefault());
+
 async function uploadFiles(files) {
+  if (busy) { alert('이전 작업이 끝난 뒤 다시 시도하세요.'); return; }
+  busy = true;
+  try {
   for (const f of files) {
     setStatus(f.name + ' 추가 중...');
     const b64 = await new Promise((res) => {
@@ -266,6 +413,9 @@ async function uploadFiles(files) {
   }
   setStatus('완료');
   await refresh(true);
+  } finally {
+    busy = false;
+  }
 }
 
 async function deploy() {
