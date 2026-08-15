@@ -455,8 +455,10 @@ footer .foot-sign {
       <p class="sec-label">Gallery</p>
       <p class="caption">우리의 순간들</p>
       <div class="gallery-grid" id="gallery">
-        <!-- 처음 12장만 노출, 13번째부터 hidden-item → '사진 더보기'로 펼침.
-             src는 그리드용 저용량 썸네일(480px), data-full은 라이트박스용 원본(1080px) -->
+        <!-- 이 목록은 ./update-gallery.sh 가 images/full/ 폴더 기준으로 자동 생성합니다.
+             사진 추가/삭제/순서 변경은 images/full/ 에서 파일을 관리한 뒤 스크립트를 실행하세요.
+             (파일명 오름차순 정렬, 처음 12장 노출, 이후 '사진 더보기') -->
+        <!-- GALLERY:START -->
         <img src="images/gallery-01.jpg" data-full="images/full/gallery-01.jpg" loading="lazy" alt="웨딩 사진 1" onclick="openLightbox(this)">
         <img src="images/gallery-02.jpg" data-full="images/full/gallery-02.jpg" loading="lazy" alt="웨딩 사진 2" onclick="openLightbox(this)">
         <img src="images/gallery-03.jpg" data-full="images/full/gallery-03.jpg" loading="lazy" alt="웨딩 사진 3" onclick="openLightbox(this)">
@@ -465,29 +467,30 @@ footer .foot-sign {
         <img src="images/gallery-06.jpg" data-full="images/full/gallery-06.jpg" loading="lazy" alt="웨딩 사진 6" onclick="openLightbox(this)">
         <img src="images/gallery-07.jpg" data-full="images/full/gallery-07.jpg" loading="lazy" alt="웨딩 사진 7" onclick="openLightbox(this)">
         <img src="images/gallery-08.jpg" data-full="images/full/gallery-08.jpg" loading="lazy" alt="웨딩 사진 8" onclick="openLightbox(this)">
-        <img src="images/gallery-10.jpg" data-full="images/full/gallery-10.jpg" loading="lazy" alt="웨딩 사진 10" onclick="openLightbox(this)">
-        <img src="images/gallery-11.jpg" data-full="images/full/gallery-11.jpg" loading="lazy" alt="웨딩 사진 11" onclick="openLightbox(this)">
-        <img src="images/gallery-12.jpg" data-full="images/full/gallery-12.jpg" loading="lazy" alt="웨딩 사진 12" onclick="openLightbox(this)">
-        <img src="images/gallery-13.jpg" data-full="images/full/gallery-13.jpg" loading="lazy" alt="웨딩 사진 13" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-14.jpg" data-full="images/full/gallery-14.jpg" loading="lazy" alt="웨딩 사진 14" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-15.jpg" data-full="images/full/gallery-15.jpg" loading="lazy" alt="웨딩 사진 15" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-16.jpg" data-full="images/full/gallery-16.jpg" loading="lazy" alt="웨딩 사진 16" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-17.jpg" data-full="images/full/gallery-17.jpg" loading="lazy" alt="웨딩 사진 17" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-18.jpg" data-full="images/full/gallery-18.jpg" loading="lazy" alt="웨딩 사진 18" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-19.jpg" data-full="images/full/gallery-19.jpg" loading="lazy" alt="웨딩 사진 19" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-20.jpg" data-full="images/full/gallery-20.jpg" loading="lazy" alt="웨딩 사진 20" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-21.jpg" data-full="images/full/gallery-21.jpg" loading="lazy" alt="웨딩 사진 21" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-22.jpg" data-full="images/full/gallery-22.jpg" loading="lazy" alt="웨딩 사진 22" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-23.jpg" data-full="images/full/gallery-23.jpg" loading="lazy" alt="웨딩 사진 23" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-24.jpg" data-full="images/full/gallery-24.jpg" loading="lazy" alt="웨딩 사진 24" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-25.jpg" data-full="images/full/gallery-25.jpg" loading="lazy" alt="웨딩 사진 25" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-26.jpg" data-full="images/full/gallery-26.jpg" loading="lazy" alt="웨딩 사진 26" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-27.jpg" data-full="images/full/gallery-27.jpg" loading="lazy" alt="웨딩 사진 27" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-28.jpg" data-full="images/full/gallery-28.jpg" loading="lazy" alt="웨딩 사진 28" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-29.jpg" data-full="images/full/gallery-29.jpg" loading="lazy" alt="웨딩 사진 29" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-30.jpg" data-full="images/full/gallery-30.jpg" loading="lazy" alt="웨딩 사진 30" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-31.jpg" data-full="images/full/gallery-31.jpg" loading="lazy" alt="웨딩 사진 31" onclick="openLightbox(this)">
-        <img class="hidden-item" src="images/gallery-32.jpg" data-full="images/full/gallery-32.jpg" loading="lazy" alt="웨딩 사진 32" onclick="openLightbox(this)">
+        <img src="images/gallery-10.jpg" data-full="images/full/gallery-10.jpg" loading="lazy" alt="웨딩 사진 9" onclick="openLightbox(this)">
+        <img src="images/gallery-11.jpg" data-full="images/full/gallery-11.jpg" loading="lazy" alt="웨딩 사진 10" onclick="openLightbox(this)">
+        <img src="images/gallery-12.jpg" data-full="images/full/gallery-12.jpg" loading="lazy" alt="웨딩 사진 11" onclick="openLightbox(this)">
+        <img src="images/gallery-13.jpg" data-full="images/full/gallery-13.jpg" loading="lazy" alt="웨딩 사진 12" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-14.jpg" data-full="images/full/gallery-14.jpg" loading="lazy" alt="웨딩 사진 13" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-15.jpg" data-full="images/full/gallery-15.jpg" loading="lazy" alt="웨딩 사진 14" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-16.jpg" data-full="images/full/gallery-16.jpg" loading="lazy" alt="웨딩 사진 15" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-17.jpg" data-full="images/full/gallery-17.jpg" loading="lazy" alt="웨딩 사진 16" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-18.jpg" data-full="images/full/gallery-18.jpg" loading="lazy" alt="웨딩 사진 17" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-19.jpg" data-full="images/full/gallery-19.jpg" loading="lazy" alt="웨딩 사진 18" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-20.jpg" data-full="images/full/gallery-20.jpg" loading="lazy" alt="웨딩 사진 19" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-21.jpg" data-full="images/full/gallery-21.jpg" loading="lazy" alt="웨딩 사진 20" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-22.jpg" data-full="images/full/gallery-22.jpg" loading="lazy" alt="웨딩 사진 21" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-23.jpg" data-full="images/full/gallery-23.jpg" loading="lazy" alt="웨딩 사진 22" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-24.jpg" data-full="images/full/gallery-24.jpg" loading="lazy" alt="웨딩 사진 23" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-25.jpg" data-full="images/full/gallery-25.jpg" loading="lazy" alt="웨딩 사진 24" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-26.jpg" data-full="images/full/gallery-26.jpg" loading="lazy" alt="웨딩 사진 25" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-27.jpg" data-full="images/full/gallery-27.jpg" loading="lazy" alt="웨딩 사진 26" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-28.jpg" data-full="images/full/gallery-28.jpg" loading="lazy" alt="웨딩 사진 27" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-29.jpg" data-full="images/full/gallery-29.jpg" loading="lazy" alt="웨딩 사진 28" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-30.jpg" data-full="images/full/gallery-30.jpg" loading="lazy" alt="웨딩 사진 29" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-31.jpg" data-full="images/full/gallery-31.jpg" loading="lazy" alt="웨딩 사진 30" onclick="openLightbox(this)">
+        <img class="hidden-item" src="images/gallery-32.jpg" data-full="images/full/gallery-32.jpg" loading="lazy" alt="웨딩 사진 31" onclick="openLightbox(this)">
+        <!-- GALLERY:END -->
       </div>
       <button class="more-btn" id="more-btn" onclick="toggleGallery()" hidden>사진 더보기</button>
     </div>
