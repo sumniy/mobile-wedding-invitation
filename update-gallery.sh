@@ -5,11 +5,13 @@
 # 사용법:
 #   1. images/full/ 폴더에서 사진(jpg)을 추가/삭제/이름변경
 #      - 정렬은 파일명 오름차순 → 순서를 바꾸려면 파일명 숫자를 조정
-#   2. ./update-gallery.sh 실행
+#   2. ./update-gallery.sh 실행 — 아래를 한 번에 처리
 #      - images/ 에 480px 썸네일 자동 생성/삭제
 #      - index.html 의 갤러리 목록 자동 재생성 (처음 12장 노출)
-#   3. 확인 후 커밋·푸시:
-#      git add -A images index.html && git commit -m "갤러리 업데이트" && git push
+#      - 커밋 & 푸시 & 배포 완료 확인까지 자동
+#
+#   배포 없이 파일만 갱신하려면:  ./update-gallery.sh --no-deploy
+#   주의: index.html에 다른 수정사항이 있으면 함께 커밋됩니다.
 # ============================================================
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -71,6 +73,34 @@ open('index.html', 'w', encoding='utf-8').write(html)
 print(f'완료: 사진 {len(files)}장 반영 (처음 {min(visible, len(files))}장 노출, 나머지 {max(0, len(files)-visible)}장은 더보기)')
 PYEOF
 
+# ── 4) 커밋 & 푸시 & 배포 확인 ──
+if [ "${1:-}" = "--no-deploy" ]; then
+  echo ""
+  echo "(--no-deploy) 파일만 갱신했습니다. 배포하려면 다시 실행하거나 직접 git push 하세요."
+  exit 0
+fi
+
+git add index.html images
+if git diff --cached --quiet; then
+  echo ""
+  echo "변경사항이 없어 배포를 생략합니다."
+  exit 0
+fi
+
+git commit -m "갤러리 업데이트"
+git push origin main
 echo ""
-echo "다음 단계: 로컬에서 확인 후 아래 명령으로 배포하세요."
-echo "  git add -A images index.html && git commit -m \"갤러리 업데이트\" && git push"
+echo "GitHub Pages 배포 대기 중 (보통 30초~2분)..."
+
+LIVE_URL="https://sumniy.github.io/mobile-wedding-invitation/"
+local_sig=$(grep -o 'data-full="images/full/[^"]*"' index.html | md5 -q)
+for i in $(seq 1 9); do
+  sleep 20
+  live_sig=$(curl -sf "$LIVE_URL" | grep -o 'data-full="images/full/[^"]*"' | md5 -q || true)
+  if [ "$live_sig" = "$local_sig" ]; then
+    echo "배포 완료! 확인: $LIVE_URL"
+    exit 0
+  fi
+  echo "  아직 반영 전... ($i/9)"
+done
+echo "3분 내 반영 확인에 실패했습니다. 잠시 후 직접 확인해 보세요: $LIVE_URL"
