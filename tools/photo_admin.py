@@ -175,7 +175,7 @@ ADMIN_HTML = """<!DOCTYPE html>
   .card.dragging { opacity: .35; }
   .card.ins-b { box-shadow: -4px 0 0 0 #8C7C64; }
   .card.ins-a { box-shadow: 4px 0 0 0 #8C7C64; }
-  .card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; pointer-events: none; }
+  .card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center 22%; pointer-events: none; }
   .card .no { position: absolute; top: 6px; left: 6px; background: rgba(74,65,57,.85); color: #fff; font-size: 11px; padding: 2px 8px; border-radius: 10px; cursor: pointer; }
   .card .no:hover { background: #8C7C64; }
   .card .bar { display: flex; }
