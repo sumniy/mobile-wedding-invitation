@@ -166,13 +166,13 @@ section { padding: 66px 30px; }
 /* ── 신랑 & 신부 소개 (프로필) ─────────
    위·아래가 찢어진 종이 밴드 형태. 배경은 살짝 밝은 종이톤(--bg-soft)이라
    찢긴 단면이 바탕 크림과 미묘하게 구분되고, 그림자로 입체감을 줌 */
+/* 찢김 단면은 디자인 시안에서 추출한 실제 이미지(tear-top/bottom.png).
+   바깥쪽 가장자리는 알파 페이드로 바탕 크림에 자연스럽게 녹아듦 */
 .profile-band { margin: 8px -30px 0; width: calc(100% + 60px); }
-.profile-band .tear { display: block; width: 100%; height: 14px; }
-.profile-band .tear .edge { fill: var(--bg-soft); }
-.profile-band .tear .fiber { fill: #EDE1C9; } /* 찢긴 단면의 종이 두께(속지) */
-.profile-band .tear-top { filter: drop-shadow(0 -1px 1px rgba(90,74,54,.08)); margin-bottom: -1px; }
-.profile-band .tear-bottom { filter: drop-shadow(0 1px 1px rgba(90,74,54,.10)); margin-top: -1px; }
-.profile-inner { background: var(--bg-soft); padding: 46px 28px 40px; }
+.profile-band .tear { display: block; width: 100%; height: auto; }
+.profile-band .tear-top { margin-bottom: -1px; }
+.profile-band .tear-bottom { margin-top: -1px; }
+.profile-inner { background: var(--bg); padding: 30px 28px 26px; }
 .profile-pair { display: flex; gap: 22px; }
 .profile-person { flex: 1; text-align: center; }
 /* 사진 자리 — 실제 사진으로 교체 시:
@@ -476,10 +476,7 @@ footer .foot-sign {
 
     <!-- 신랑 & 신부 소개 (위·아래 찢어진 종이 밴드) -->
     <div class="profile-band fade">
-      <svg class="tear tear-top" viewBox="0 0 430 14" preserveAspectRatio="none" aria-hidden="true">
-        <path class="fiber" transform="translate(0,-1.4)" d="M0 7 L9 6 L16 8 L26 5 L33 6 L40 9 L52 7 L58 4 L66 6 L77 8 L85 5 L91 7 L102 6 L109 10 L117 7 L128 5 L135 8 L146 6 L153 3 L161 6 L172 7 L179 5 L189 8 L196 6 L207 9 L215 6 L222 4 L233 7 L240 5 L251 8 L259 6 L266 10 L277 6 L284 4 L294 7 L301 5 L312 8 L320 6 L327 3 L338 6 L345 8 L356 5 L363 7 L374 6 L381 9 L392 6 L399 4 L410 7 L417 5 L424 8 L430 6 L430 14 L0 14 Z"/>
-        <path class="edge" d="M0 7 L9 6 L16 8 L26 5 L33 6 L40 9 L52 7 L58 4 L66 6 L77 8 L85 5 L91 7 L102 6 L109 10 L117 7 L128 5 L135 8 L146 6 L153 3 L161 6 L172 7 L179 5 L189 8 L196 6 L207 9 L215 6 L222 4 L233 7 L240 5 L251 8 L259 6 L266 10 L277 6 L284 4 L294 7 L301 5 L312 8 L320 6 L327 3 L338 6 L345 8 L356 5 L363 7 L374 6 L381 9 L392 6 L399 4 L410 7 L417 5 L424 8 L430 6 L430 14 L0 14 Z"/>
-      </svg>
+      <img class="tear tear-top" src="images/tear-top.png" alt="" aria-hidden="true">
       <div class="profile-inner">
         <div class="profile-pair">
           <div class="profile-person">
@@ -498,10 +495,7 @@ footer .foot-sign {
           </div>
         </div>
       </div>
-      <svg class="tear tear-bottom" viewBox="0 0 430 14" preserveAspectRatio="none" aria-hidden="true">
-        <path class="fiber" transform="translate(0,1.4)" d="M0 0 L430 0 L430 7 L423 8 L414 6 L404 9 L396 7 L387 10 L377 7 L369 5 L360 8 L349 6 L342 9 L331 7 L323 11 L314 8 L305 6 L296 9 L287 7 L277 4 L268 7 L258 8 L249 6 L240 9 L231 7 L221 10 L212 7 L204 5 L194 8 L186 6 L176 9 L167 7 L159 11 L149 7 L141 5 L131 8 L123 6 L113 9 L105 7 L97 4 L87 7 L79 9 L69 6 L61 8 L51 7 L43 10 L33 7 L25 5 L15 8 L8 6 L0 9 Z"/>
-        <path class="edge" d="M0 0 L430 0 L430 7 L423 8 L414 6 L404 9 L396 7 L387 10 L377 7 L369 5 L360 8 L349 6 L342 9 L331 7 L323 11 L314 8 L305 6 L296 9 L287 7 L277 4 L268 7 L258 8 L249 6 L240 9 L231 7 L221 10 L212 7 L204 5 L194 8 L186 6 L176 9 L167 7 L159 11 L149 7 L141 5 L131 8 L123 6 L113 9 L105 7 L97 4 L87 7 L79 9 L69 6 L61 8 L51 7 L43 10 L33 7 L25 5 L15 8 L8 6 L0 9 Z"/>
-      </svg>
+      <img class="tear tear-bottom" src="images/tear-bottom.png" alt="" aria-hidden="true">
     </div>
 
     <!-- 갤러리 -->
