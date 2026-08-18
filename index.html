@@ -163,32 +163,10 @@ section { padding: 66px 30px; }
 .invite-photo + .parents-img { margin-top: 44px; }
 .parents-img + .parents-img { margin-top: 24px; }
 
-/* ── 신랑 & 신부 소개 (프로필) ─────────
-   위·아래가 찢어진 종이 밴드 형태. 배경은 살짝 밝은 종이톤(--bg-soft)이라
-   찢긴 단면이 바탕 크림과 미묘하게 구분되고, 그림자로 입체감을 줌 */
-/* 찢김 단면은 디자인 시안에서 추출한 실제 이미지(tear-top/bottom.png).
-   바깥쪽 가장자리는 알파 페이드로 바탕 크림에 자연스럽게 녹아듦 */
-.profile-band { margin: 46px -30px 40px; width: calc(100% + 60px); }
-.profile-band .tear { display: block; width: 100%; height: auto; }
-.profile-band .tear-top { margin-bottom: -1px; }
-.profile-band .tear-bottom { margin-top: -1px; }
-.profile-inner { background: var(--bg); padding: 44px 28px 40px; }
-.profile-pair { display: flex; gap: 22px; }
-.profile-person { flex: 1; text-align: center; }
-/* 사진 자리 — 실제 사진으로 교체 시:
-   <div class="profile-photo"> → <img class="profile-photo" src="images/profile-groom.jpg" alt=""> */
-.profile-photo {
-  display: block; width: 82%; aspect-ratio: 1; margin: 0 auto;
-  border-radius: 50%; background: #E6DCC8; object-fit: cover;
-  /* 배경과 동떨어져 보이지 않게 살짝 띄우는 그림자 */
-  box-shadow: 0 8px 20px rgba(90, 74, 54, .16), 0 2px 5px rgba(90, 74, 54, .10);
-}
-.profile-role { margin-top: 22px; font-size: 14px; letter-spacing: .3em; text-indent: .3em; color: var(--muted-2); }
-.profile-name { margin-top: 8px; font-size: 16.5px; letter-spacing: .28em; text-indent: .28em; color: var(--heading); }
-.profile-tags {
-  margin-top: 26px; font-size: 13.5px; line-height: 2.15;
-  letter-spacing: .1em; color: #5C5344;
-}
+/* ── 신랑 & 신부 소개 ─────────────────
+   디자인 시안 이미지 한 장(찢긴 종이 밴드·프로필 사진·이름·태그 포함)을
+   풀블리드로 사용. 이미지 배경이 --bg(#F9F0DE)와 동일해 경계 없이 이어짐 */
+.profile-band { display: block; width: calc(100% + 60px); margin: 46px -30px 40px; height: auto; }
 
 /* ── 갤러리 ────────────────────────── */
 .gallery-block { text-align: center; }
@@ -476,27 +454,9 @@ footer .foot-sign {
       <img class="parents-img" src="images/parents-bride.jpg" loading="lazy" alt="조희승 · 조예은의 딸 주영 — 신부 부모님의 손글씨 편지">
     </div>
 
-    <!-- 신랑 & 신부 소개 (위·아래 찢어진 종이 밴드) -->
-    <div class="profile-band fade">
-      <img class="tear tear-top" src="images/tear-top.png" alt="" aria-hidden="true">
-      <div class="profile-inner">
-        <div class="profile-pair">
-          <div class="profile-person">
-            <img class="profile-photo" src="images/profile-groom.jpg" alt="신랑 이수민">
-            <p class="profile-role">신 랑</p>
-            <p class="profile-name">이 수 민</p>
-            <p class="profile-tags">#ISFP<br>#울산소년<br>#개발자</p>
-          </div>
-          <div class="profile-person">
-            <img class="profile-photo" src="images/profile-bride.jpg" alt="신부 조주영">
-            <p class="profile-role">신 부</p>
-            <p class="profile-name">조 주 영</p>
-            <p class="profile-tags">#ENFJ<br>#거제야호<br>#드라마세트디자이너</p>
-          </div>
-        </div>
-      </div>
-      <img class="tear tear-bottom" src="images/tear-bottom.png" alt="" aria-hidden="true">
-    </div>
+    <!-- 신랑 & 신부 소개 (디자인 시안 이미지 — 찢긴 종이 밴드 포함) -->
+    <img class="profile-band fade" src="images/profile-band.jpg" loading="lazy"
+         alt="신랑 이수민 — #ISFP #930311 #울산소년 #개발자 · 신부 조주영 — #ENFJ #971207 #거제야호 #드라마_세트디자이너">
 
     <!-- 갤러리 -->
     <div class="block gallery-block fade" style="padding-bottom: 66px;">
