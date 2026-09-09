@@ -63,6 +63,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *args):
         pass
 
+    def end_headers(self):
+        # 미리보기가 예전 화면을 붙잡지 않도록 캐시를 끈다.
+        # 포트가 8765로 고정이라, 헤더가 없으면 브라우저가 지난 실행 때 받아둔
+        # 사본을 서버에 물어보지도 않고 재사용한다(git pull 후에도 옛 화면).
+        self.send_header('Cache-Control', 'no-store, max-age=0')
+        super().end_headers()
+
     def _json(self, obj, code=200):
         body = json.dumps(obj, ensure_ascii=False).encode('utf-8')
         self.send_response(code)
@@ -213,7 +220,7 @@ ADMIN_HTML = """<!DOCTYPE html>
   </div>
   <div id="right">
     <div class="cap">실시간 미리보기 (변경 시 자동 새로고침)</div>
-    <iframe id="frame" src="/"></iframe>
+    <iframe id="frame" src="about:blank"></iframe>
   </div>
 </main>
 <div id="viewer">
@@ -443,7 +450,7 @@ drop.ondrop = (e) => {
   uploadFiles([...e.dataTransfer.files].filter(f => /\\.(jpe?g|png|heic)$/i.test(f.name)));
 };
 
-refresh(false);
+refresh(true);
 </script>
 </body>
 </html>
