@@ -358,7 +358,12 @@ input:focus { border-color: var(--primary); }
 
 /* ── 마음 전하실 곳 ────────────────── */
 .accounts { text-align: center; }
-.acc-list { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
+/* 화환 사양 안내 — 계좌 목록보다 시선이 덜 가도록 톤을 낮춘 안내체 */
+.gift-note {
+  margin-top: 22px; font-size: 13px; line-height: 1.95;
+  letter-spacing: .02em; color: var(--muted-2);
+}
+.acc-list { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
 .acc-group { border: 1px solid var(--box-border); background: var(--bg-soft); }
 .accounts summary {
   padding: 15px 18px; font-size: 13.5px; color: var(--heading); cursor: pointer; list-style: none;
@@ -593,6 +598,10 @@ footer .foot-sign {
     <div class="fade">
       <p class="sec-label">Gift</p>
       <h2 class="sec-title">마음 전하실 곳</h2>
+
+      <!-- 화환 사양 안내 — 축하 표현을 고민하는 지점에서 읽히도록 계좌 목록 '앞'에 둔다.
+           거절로만 읽히지 않게 '마음은 받는다'는 문장을 함께 붙였다. -->
+      <p class="gift-note">화환은 정중히 사양하며,<br>축하의 마음만 감사히 받겠습니다.</p>
 
       <div class="acc-list">
         <details class="acc-group">
