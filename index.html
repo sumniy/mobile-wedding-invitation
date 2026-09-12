@@ -358,11 +358,15 @@ input:focus { border-color: var(--primary); }
 
 /* ── 마음 전하실 곳 ────────────────── */
 .accounts { text-align: center; }
-/* 화환 사양 안내 — 계좌 목록보다 시선이 덜 가도록 톤을 낮춘 안내체 */
+/* 화환 사양 안내 — 놓치면 안 되는 정보라 배경 톤을 달리해 눈에 띄게 한다.
+   계좌 아코디언(밝은 --bg-soft + 테두리)과 헷갈려 탭하지 않도록,
+   푸터와 같은 --bg-deep 에 테두리 없는 형태로 둔다. */
 .gift-note {
-  margin-top: 22px; font-size: 13px; line-height: 1.95;
-  letter-spacing: .02em; color: var(--muted-2);
+  margin: 0; padding: 20px 22px;
+  background: var(--bg-deep); letter-spacing: .02em;
 }
+.gift-note .lead { display: block; font-size: 15px; line-height: 1.7; color: var(--heading); }
+.gift-note .sub  { display: block; margin-top: 7px; font-size: 13px; line-height: 1.7; color: var(--muted-2); }
 .acc-list { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
 .acc-group { border: 1px solid var(--box-border); background: var(--bg-soft); }
 .accounts summary {
@@ -601,7 +605,10 @@ footer .foot-sign {
 
       <!-- 화환 사양 안내 — 축하 표현을 고민하는 지점에서 읽히도록 계좌 목록 '앞'에 둔다.
            거절로만 읽히지 않게 '마음은 받는다'는 문장을 함께 붙였다. -->
-      <p class="gift-note">화환은 정중히 사양하며,<br>축하의 마음만 감사히 받겠습니다.</p>
+      <p class="gift-note">
+        <span class="lead">화환은 정중히 사양합니다.</span>
+        <span class="sub">축하의 마음만 감사히 받겠습니다.</span>
+      </p>
 
       <div class="acc-list">
         <details class="acc-group">
