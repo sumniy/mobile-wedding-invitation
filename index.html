@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script>document.documentElement.classList.add('js');</script>
 <title>이수민 ♥ 조주영, 결혼합니다</title>
 
 <!-- 카톡/SNS 공유 미리보기 (OG 태그) -->
@@ -87,12 +88,13 @@ section { padding: 66px 30px; }
   letter-spacing: .04em; margin: 14px 0 26px;
 }
 
-/* 스크롤 페이드인 —
-   기본은 '보이는 상태'로 두고, 화면 밖 요소만 JS가 .armed 로 숨긴다.
-   이렇게 해야 스크립트 실행 전 첫 페인트에서 깜빡임(빈 화면 → 툭 등장)이 없다. */
-.fade { transition: opacity .8s ease, transform .8s ease; }
-/* 숨길 때는 전환 없이 즉시(안 그러면 1 → 0 으로 사라지는 게 보임), 나타날 때만 페이드 */
-.fade.armed:not(.show) { opacity: 0; transform: translateY(14px); transition: none; }
+/* JS 사용 시 첫 페인트부터 숨김. JS가 없으면 본문을 그대로 표시한다. */
+.fade { transition: opacity .4s ease, transform .4s ease; }
+.js .fade:not(.show) { opacity: 0; transform: translateY(14px); }
+.fade.reveal-initial { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .fade { transition: none; transform: none !important; }
+}
 
 /* 이미지 플레이스홀더 — 실제 사진으로 교체 시 <img>로 바꾸면 됨 */
 .ph {
@@ -118,15 +120,15 @@ section { padding: 66px 30px; }
 .btn-primary:hover { background: var(--primary-hover); }
 
 /* ── 커버 (표지 이미지) ─────────────── */
-/* 첫 화면에는 표지만 보이도록 뷰포트 높이에 맞춤.
-   이미지는 상단 고정·원본 비율 유지, 남는 아래 공간은 동일한 크림 배경이 채움 */
+/* 표지와 날짜 안내를 순서대로 배치해 긴 화면에서도 빈 공간이나 본문 가림이 생기지 않게 한다.
+   1.53은 표지 사진의 찢긴 가장자리 위치를 폭에 대한 비율로 나타낸 값이다. */
 .cover {
   position: relative;
   padding: 0; font-size: 0; overflow: hidden;
-  height: 100vh; height: 100svh;
+  aspect-ratio: 100 / 153;
   background: var(--bg);
 }
-.cover .cover-img { width: 100%; height: auto; }
+.cover .cover-img { display: block; width: 100%; height: auto; }
 /* 표지 전용 꽃잎 흩날림 캔버스 */
 #petal-canvas {
   position: absolute; inset: 0;
@@ -135,14 +137,9 @@ section { padding: 66px 30px; }
 }
 
 /* ── Save the Date ─────────────────── */
-/* 커버(100svh) 하단의 빈 크림 영역까지 끌어올려 찢김 라인 바로 아래에 배치.
-   1.53 ≈ 표지 이미지에서 찢김 하단의 세로 위치(폭 대비 비율).
-   position+z-index: 커버(positioned)와 겹치므로 위에 그려지도록 */
+/* 표지 바로 다음에 배치해 화면 높이에 관계없이 본문과 겹치지 않는다. */
 .std {
-  position: relative; z-index: 1;
   text-align: center;
-  margin-top: min(0px, calc(1.53 * min(100vw, 430px) + 2px - 100vh));
-  margin-top: min(0px, calc(1.53 * min(100vw, 430px) + 2px - 100svh));
 }
 .std .std-date { margin: 14px 0 4px; font-size: 18px; color: var(--heading); }
 .std .std-time { font-size: 13px; color: var(--muted); }
@@ -423,6 +420,7 @@ footer .foot-sign {
 </head>
 <body>
 <div class="wrap">
+  <div class="hero">
 
   <!-- ═══ 커버 (표지 이미지) ═══ -->
   <section class="cover">
@@ -432,7 +430,7 @@ footer .foot-sign {
 
   <!-- ═══ Save the Date ═══ -->
   <section class="std">
-    <!-- data-reveal="scroll": 첫 화면(커버)에 걸쳐 있어, 위치와 무관하게 스크롤 시작 시 노출 -->
+    <!-- 첫 화면에서는 숨기고 스크롤을 시작하면 표시 -->
     <div class="fade" data-reveal="scroll">
       <p class="sec-label">Save the Date</p>
       <p class="std-date">2026년 10월 31일 토요일</p>
@@ -444,6 +442,8 @@ footer .foot-sign {
       </div>
     </div>
   </section>
+
+  </div>
 
   <!-- ═══════════════════════════════════════════
        이야기 흐름 구간 — 인사말부터 편지까지
@@ -797,20 +797,20 @@ if (KAKAO_MAP_KEY) {
    모든 .fade 요소를 하나의 로직으로 처리한다.
    · 노출 조건(ready)
      - 기본: 요소가 뷰포트에 들어왔을 때
-     - data-reveal="scroll": 스크롤을 60px 이상 내렸을 때 (커버에 겹친 Save the Date용)
-   · 로드 시점에 이미 조건 충족 → 전환 없이 즉시 노출 (깜빡임 없음)
-   · 미충족 요소만 .armed로 숨기고, 스크롤/리사이즈 시 조건 충족되면 페이드인 */
+     - data-reveal="scroll": 첫 스크롤부터 노출 (Save the Date용)
+   · 로드 시점에 이미 조건 충족 → 전환 없이 즉시 노출
+   · 나머지는 CSS가 처음부터 숨기고, 조건 충족 시 한 번만 페이드인 */
 (function () {
   const els = [...document.querySelectorAll('.fade')];
   const ready = (el) => {
-    if (el.dataset.reveal === 'scroll') return window.scrollY > 60;
+    if (el.dataset.reveal === 'scroll') return window.scrollY > 0;
     const r = el.getBoundingClientRect();
     return r.top < window.innerHeight * 0.95 && r.bottom > 0;
   };
   let pending = [];
   els.forEach(el => {
-    if (ready(el)) el.classList.add('show');   // 즉시 노출 (armed가 없어 전환 안 걸림)
-    else { el.classList.add('armed'); pending.push(el); }
+    if (ready(el)) el.classList.add('show', 'reveal-initial');
+    else pending.push(el);
   });
   if (!pending.length) return;
   let raf = null;
@@ -818,17 +818,22 @@ if (KAKAO_MAP_KEY) {
     raf = null;
     pending = pending.filter(el => {
       if (!ready(el)) return true;
-      el.classList.add('show');                // armed 상태에서 show → 페이드인
+      el.classList.add('show');
       return false;
     });
     if (!pending.length) {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
+      window.removeEventListener('pageshow', onScroll);
+      window.removeEventListener('load', onScroll);
     }
   };
   const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
+  window.addEventListener('pageshow', onScroll);
+  window.addEventListener('load', onScroll);
+  document.fonts.ready.then(onScroll);
 })();
 
 /* ── 표지 꽃잎 흩날림 효과 ── */
